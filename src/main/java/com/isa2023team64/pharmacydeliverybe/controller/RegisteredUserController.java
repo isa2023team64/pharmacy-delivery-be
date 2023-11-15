@@ -61,7 +61,7 @@ public class RegisteredUserController {
         @ApiResponse(responseCode = "404", description = "Registered user not found.", content = @Content)
     })
     @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<RegisteredUserResponseDTO> getRegisteredUserById(@PathVariable Integer id) {
+    public ResponseEntity<RegisteredUserResponseDTO> getRegisteredUserById(@PathVariable int id) {
         RegisteredUser registeredUser = registeredUserService.findById(id);
 
         if (registeredUser == null) {
@@ -71,22 +71,51 @@ public class RegisteredUserController {
         return new ResponseEntity<>(new RegisteredUserResponseDTO(registeredUser), HttpStatus.OK);
     }
 
+    @Operation(summary = "Get registered user by email", description = "Gets registered user by email", method = "GET")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "Registered user fetched successfully.",
+                    content = @Content(mediaType = "application/json",
+                    schema = @Schema(implementation = RegisteredUser.class))),
+        @ApiResponse(responseCode = "404", description = "Registered user not found.", content = @Content)
+    })
+    @GetMapping(value = "/by-email/{email}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<RegisteredUserResponseDTO> getRegisteredUserByEmail(@PathVariable String email) {
+        RegisteredUser registeredUser = registeredUserService.findByEmail(email);
+
+        if (registeredUser == null) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
+        return new ResponseEntity<>(new RegisteredUserResponseDTO(registeredUser), HttpStatus.OK);
+    }
+
     @Operation(summary = "Register new user", description = "Registers new user", method = "POST")
-	@ApiResponses(value = {
-			@ApiResponse(responseCode = "201", description = "Created",
-					     content = { @Content(mediaType = "application/json", schema = @Schema(implementation = RegisteredUser.class)) })
-	})
-	@PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "201", description = "Created",
+                    content = { @Content(mediaType = "application/json", schema = @Schema(implementation = RegisteredUser.class)) }),
+        @ApiResponse(responseCode = "400", description = "Bad Request - Email already in use", content = @Content)
+    })
+    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<RegisteredUserResponseDTO> registerUser(@RequestBody RegisteredUserRequestDTO registeredUserRequestDTO) {
-        RegisteredUser registeredUser = new RegisteredUser();
 
-        registeredUser.setUsername(registeredUserRequestDTO.getUsername());
-        registeredUser.setEmail(registeredUserRequestDTO.getEmail());
-        registeredUser.setPassword(registeredUserRequestDTO.getPassword());
-        registeredUser.setFirstName(registeredUserRequestDTO.getFirstName());
-        registeredUser.setLastName(registeredUserRequestDTO.getLastName());
+        if (!isEmailUnique(registeredUserRequestDTO.getEmail())) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
 
-        registeredUser = registeredUserService.register(registeredUser);
+        RegisteredUser registeredUser=registeredUserService.saveRegisteredUser(registeredUserRequestDTO);
+
         return new ResponseEntity<>(new RegisteredUserResponseDTO(registeredUser), HttpStatus.CREATED);
     }
+
+    private boolean isEmailUnique(String email) {
+        List<RegisteredUser> registeredUsers = registeredUserService.findAll();
+
+        for (RegisteredUser user : registeredUsers) {
+            if (user.getEmail().equals(email)) {
+                return false;
+            }
+        }
+        return true;
+    }
+
 }

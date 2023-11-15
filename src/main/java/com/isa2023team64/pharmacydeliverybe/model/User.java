@@ -13,50 +13,75 @@ import jakarta.validation.constraints.NotEmpty;
 @Inheritance(strategy = InheritanceType.JOINED)
 public abstract class User extends GenericEntity {
     
-    @Column(unique = true, nullable = false)
-    @NotEmpty
-    private String username;
-
-    @Column(unique = true, nullable = false)
+    @Column(name = "email", unique = true, nullable = false)
     @Email
     private String email;
 
-    @Column(nullable = false)
+    @Column(name = "password",nullable = false)
     @NotEmpty
     private String password;
+
+    @Column(name = "first_name")
+    @NotEmpty
+    private String firstName;
+
+    @Column(name = "last_name")
+    @NotEmpty
+    private String lastName;
+
+    @Column(name = "active")
+    private boolean active;
 
     public User() {
         super();
     }
 
-    public User(Integer id, String username, String email, String password) {
+    public User(Integer id, @Email String email, @NotEmpty String password, @NotEmpty String firstName, @NotEmpty String lastName, boolean active) {
         super(id);
-        this.username = username;
         this.email = email;
         this.password = password;
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.active = active;
     }
 
     public String getEmail() {
         return email;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
     public String getPassword() {
         return password;
     }
 
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public boolean isActive() {
+        return active;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
     }
 }

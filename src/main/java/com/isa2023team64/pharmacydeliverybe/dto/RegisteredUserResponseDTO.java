@@ -10,11 +10,11 @@ public class RegisteredUserResponseDTO extends RegisteredUserRequestDTO {
     }
 
     public RegisteredUserResponseDTO(RegisteredUser registeredUser) {
-        this(registeredUser.getId(), registeredUser.getUsername(), registeredUser.getEmail(), registeredUser.getPassword(), registeredUser.getFirstName(), registeredUser.getLastName());
+        this(registeredUser.getId(), registeredUser.getEmail(), registeredUser.getPassword(), registeredUser.getFirstName(), registeredUser.getLastName(),registeredUser.isActive());
     }
 
-    public RegisteredUserResponseDTO(Integer id, String username, String email, String password, String firstName, String lastName) {
-        super(username, email, password, firstName, lastName);
+    public RegisteredUserResponseDTO(Integer id, String email, String password, String firstName, String lastName, Boolean active) {
+        super(email, password, firstName, lastName);
         this.id = id;
     }
 
