@@ -6,13 +6,10 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.isa2023team64.pharmacydeliverybe.dto.RegisteredUserRequestDTO;
 import com.isa2023team64.pharmacydeliverybe.dto.RegisteredUserResponseDTO;
 import com.isa2023team64.pharmacydeliverybe.model.RegisteredUser;
 import com.isa2023team64.pharmacydeliverybe.service.RegisteredUserService;
@@ -88,35 +85,6 @@ public class RegisteredUserController {
         }
 
         return new ResponseEntity<>(new RegisteredUserResponseDTO(registeredUser), HttpStatus.OK);
-    }
-
-    @Operation(summary = "Register new user", description = "Registers new user", method = "POST")
-    @ApiResponses(value = {
-        @ApiResponse(responseCode = "201", description = "Created",
-                    content = { @Content(mediaType = "application/json", schema = @Schema(implementation = RegisteredUser.class)) }),
-        @ApiResponse(responseCode = "400", description = "Bad Request - Email already in use", content = @Content)
-    })
-    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<RegisteredUserResponseDTO> registerUser(@RequestBody RegisteredUserRequestDTO registeredUserRequestDTO) {
-
-        if (!isEmailUnique(registeredUserRequestDTO.getEmail())) {
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        }
-
-        RegisteredUser registeredUser=registeredUserService.saveRegisteredUser(registeredUserRequestDTO);
-
-        return new ResponseEntity<>(new RegisteredUserResponseDTO(registeredUser), HttpStatus.CREATED);
-    }
-
-    private boolean isEmailUnique(String email) {
-        List<RegisteredUser> registeredUsers = registeredUserService.findAll();
-
-        for (RegisteredUser user : registeredUsers) {
-            if (user.getEmail().equals(email)) {
-                return false;
-            }
-        }
-        return true;
     }
 
     @Operation(summary = "Activate registered user by ID", description = "Activates a registered user by ID", method = "PUT")

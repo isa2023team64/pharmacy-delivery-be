@@ -1,5 +1,7 @@
 package com.isa2023team64.pharmacydeliverybe.model;
 
+//import java.security.Timestamp;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Inheritance;
@@ -31,6 +33,9 @@ public abstract class User extends GenericEntity {
 
     @Column(name = "active")
     private boolean active;
+
+    //@Column(name = "last_password_reset_date")
+    //private Timestamp lastPasswordResetDate;
 
     public User() {
         super();
