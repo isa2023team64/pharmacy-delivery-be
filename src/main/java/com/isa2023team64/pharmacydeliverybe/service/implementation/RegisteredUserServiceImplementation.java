@@ -48,5 +48,17 @@ public class RegisteredUserServiceImplementation implements RegisteredUserServic
     public List<RegisteredUser> findAll() {
         return registeredUserRepository.findAll();
     }
+
+    @Override
+    public RegisteredUser activateRegisteredUser(int id) {
+        RegisteredUser u = registeredUserRepository.findById(id);
+
+        if (u != null) {
+            u.setActive(true);            
+            return registeredUserRepository.save(u);
+        }
+        
+        return null;
+    }
     
 }

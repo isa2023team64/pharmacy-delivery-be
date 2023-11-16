@@ -15,5 +15,7 @@ public interface RegisteredUserService {
     public List<RegisteredUser> findAll();
 
     public RegisteredUser saveRegisteredUser(RegisteredUserRequestDTO registeredUserRequestDTO);
+
+    public RegisteredUser activateRegisteredUser(int id);
     
 }
