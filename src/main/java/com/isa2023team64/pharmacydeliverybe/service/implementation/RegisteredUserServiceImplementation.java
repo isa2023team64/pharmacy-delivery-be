@@ -36,7 +36,7 @@ public class RegisteredUserServiceImplementation implements RegisteredUserServic
 
     @Override
     public RegisteredUser findById(int id) {
-        return registeredUserRepository.getById(id);
+        return registeredUserRepository.findById(id);
     }
 
     @Override

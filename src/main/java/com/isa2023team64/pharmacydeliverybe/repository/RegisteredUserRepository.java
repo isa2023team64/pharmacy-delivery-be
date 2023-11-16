@@ -8,8 +8,6 @@ public interface RegisteredUserRepository extends JpaRepository<RegisteredUser, 
 
     RegisteredUser findByEmail(String email);
 
-    RegisteredUser getById(int id);
-
-    //RegisteredUser save(RegisteredUser u);
+    RegisteredUser findById(int id);
     
 }
