@@ -21,7 +21,7 @@ public abstract class User extends GenericEntity {
     @Email
     private String email;
 
-    @Column(name = "password",nullable = false)
+    @Column(name = "password",nullable = false) 
     @NotEmpty
     private String password;
 
@@ -56,9 +56,9 @@ public abstract class User extends GenericEntity {
     @NotEmpty
     private String workplace;
 
-    @Column(name = "company")
+    @Column(name = "company_name")
     @NotEmpty
-    private String company;
+    private String companyName;
 
     public User() {
         super();
@@ -67,7 +67,7 @@ public abstract class User extends GenericEntity {
     public User(Integer id, @Email String email, @NotEmpty String password, @NotEmpty String firstName, @NotEmpty String lastName, boolean active,
             @NotEmpty String city, @NotEmpty String country, @NotEmpty @Pattern (regexp = "\\+\\d{12}", message = "Phone number must start with '+' and be followed by 12 digits") 
             String phoneNumber,
-            @NotEmpty String workplace, @NotEmpty String company) {
+            @NotEmpty String workplace, @NotEmpty String companyName) {
         super(id);
         this.email = email;
         this.password = password;
@@ -79,7 +79,7 @@ public abstract class User extends GenericEntity {
         this.country = country;
         this.phoneNumber = phoneNumber;
         this.workplace = workplace;
-        this.company = company;
+        this.companyName = companyName;
     }
 
     public String getEmail() {
@@ -165,10 +165,10 @@ public abstract class User extends GenericEntity {
     }
 
     public String getCompany() {
-        return company;
+        return companyName;
     }
 
-    public void setCompany(String company) {
-        this.company = company;
+    public void setCompany(String companyName) {
+        this.companyName = companyName;
     }
 }
