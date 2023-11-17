@@ -4,9 +4,11 @@ public class CompanySearchFilterDTO {
     private String name;
     private String country;
     private String city;
-    private double minRating;
-    private double maxRating;
+    private String minRating;
+    private String maxRating;
     private String sortCriteria;
+    private int page;
+    private int pageSize;
 
     public CompanySearchFilterDTO() {
         super();
@@ -36,19 +38,19 @@ public class CompanySearchFilterDTO {
         this.city = city;
     }
 
-    public double getMinRating() {
+    public String getMinRating() {
         return minRating;
     }
 
-    public void setMinRating(double minRating) {
+    public void setMinRating(String minRating) {
         this.minRating = minRating;
     }
 
-    public double getMaxRating() {
+    public String getMaxRating() {
         return maxRating;
     }
 
-    public void setMaxRating(double maxRating) {
+    public void setMaxRating(String maxRating) {
         this.maxRating = maxRating;
     }
 
@@ -58,5 +60,21 @@ public class CompanySearchFilterDTO {
 
     public void setSortCriteria(String sortCriteria) {
         this.sortCriteria = sortCriteria;
+    }
+
+    public int getPage() {
+        return page;
+    }
+
+    public void setPage(int page) {
+        this.page = page;
+    }
+
+    public int getPageSize() {
+        return pageSize;
+    }
+
+    public void setPageSize(int pageSize) {
+        this.pageSize = pageSize;
     }
 }

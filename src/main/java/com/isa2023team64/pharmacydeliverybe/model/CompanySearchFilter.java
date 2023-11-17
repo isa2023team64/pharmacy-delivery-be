@@ -8,13 +8,25 @@ public class CompanySearchFilter {
     private double maxRating;
     private String sortCriteria;
 
-    public CompanySearchFilter(String name, String country, String city, double minRating, double maxRating) {
+    public CompanySearchFilter(String name, String country, String city, String minRating, String maxRating) {
         super();
-        this.name = name;
-        this.country = country;
-        this.city = city;
-        this.minRating = minRating;
-        this.maxRating = maxRating;
+        this.name = name != null ? name : "";
+        this.country = country != null ? country : "";
+        this.city = city != null ? city : "";
+
+        try {
+            this.minRating = Double.parseDouble(minRating);
+            this.minRating = this.minRating < 0 ? 0 : this.minRating;
+        } catch (Exception e) {
+            this.minRating = 0;
+        }
+
+        try {
+            this.maxRating = Double.parseDouble(maxRating);
+            this.maxRating = this.maxRating < 0 ? 0 : this.maxRating;
+        } catch (Exception e) {
+            this.maxRating = 5;
+        }
     }
 
     public String getName() {
