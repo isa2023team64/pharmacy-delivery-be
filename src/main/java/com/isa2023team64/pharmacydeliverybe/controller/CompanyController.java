@@ -1,6 +1,7 @@
 package com.isa2023team64.pharmacydeliverybe.controller;
 
 
+import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -16,6 +17,10 @@ import com.isa2023team64.pharmacydeliverybe.dto.CompanyRequestDTO;
 import com.isa2023team64.pharmacydeliverybe.dto.CompanyResponseDTO;
 import com.isa2023team64.pharmacydeliverybe.model.Company;
 import com.isa2023team64.pharmacydeliverybe.service.CompanyService;
+
+import com.isa2023team64.pharmacydeliverybe.dto.MockCompanyAdministratorRequestDTO;
+import com.isa2023team64.pharmacydeliverybe.service.MockCompanyAdministratorService;
+import com.isa2023team64.pharmacydeliverybe.model.MockCompanyAdministrator;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
@@ -35,7 +40,10 @@ import java.time.LocalTime;
 public class CompanyController {
 
     @Autowired
-    private CompanyService companyService;
+    private CompanyService companyService;  
+
+    @Autowired
+    private MockCompanyAdministratorService mockCompanyAdministratorService;
 
     @Operation(summary = "Get all companies", description = "Gets all companies.", method = "GET")
     @ApiResponses(value = {
@@ -110,6 +118,58 @@ public class CompanyController {
         company.setAverageRating(companyRequestDTO.getAverageRating());
 
         company = companyService.register(company);
+
+        List<MockCompanyAdministratorRequestDTO> mockCompanyAdministratorDTOs = companyRequestDTO.getCompanyAdministrators();
+
+        if(mockCompanyAdministratorDTOs != null){
+            List<MockCompanyAdministrator> mockCompanyAdministrators = new ArrayList<>();
+
+            for(MockCompanyAdministratorRequestDTO mockCompanyAdministratorDTO : mockCompanyAdministratorDTOs){
+                MockCompanyAdministrator mockCompanyAdministrator = new MockCompanyAdministrator();
+                mockCompanyAdministrator.setUsername(mockCompanyAdministratorDTO.getUsername());
+                mockCompanyAdministrator.setEmail(mockCompanyAdministratorDTO.getEmail());
+                mockCompanyAdministrator.setPassword(mockCompanyAdministratorDTO.getPassword());
+                
+                mockCompanyAdministrator.setCompany(company);
+
+                mockCompanyAdministrators.add(mockCompanyAdministrator);
+
+                mockCompanyAdministratorService.register(mockCompanyAdministrator);
+            }
+            company.setCompanyAdministrators(mockCompanyAdministrators);
+        }
+
+        company = companyService.register(company);
+
+        return new ResponseEntity<>(new CompanyResponseDTO(company), HttpStatus.CREATED);
+    }
+
+
+    @Operation(summary = "Register new company administrator in company", description = "Registers new company administrator in company", method = "POST")
+	@ApiResponses(value = {
+			@ApiResponse(responseCode = "201", description = "Created",
+					     content = { @Content(mediaType = "application/json", schema = @Schema(implementation = Company.class)) })
+	})
+    @PostMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<CompanyResponseDTO> registerCompanyAdministrator(@PathVariable Integer id, @RequestBody MockCompanyAdministratorRequestDTO mockCompanyAdministratorRequestDTO) {
+        
+        Company company = companyService.findById(id);
+
+        List<MockCompanyAdministrator> mockCompanyAdministrators = company.getCompanyAdministrators();
+
+        MockCompanyAdministrator mockCompanyAdministrator = new MockCompanyAdministrator();
+
+        mockCompanyAdministrator.setUsername(mockCompanyAdministratorRequestDTO.getUsername());
+        mockCompanyAdministrator.setEmail(mockCompanyAdministratorRequestDTO.getEmail());
+        mockCompanyAdministrator.setPassword(mockCompanyAdministratorRequestDTO.getPassword());
+        mockCompanyAdministrator.setCompany(company);
+
+        mockCompanyAdministrators.add(mockCompanyAdministrator);        
+        mockCompanyAdministratorService.register(mockCompanyAdministrator);
+        
+        company.setCompanyAdministrators(mockCompanyAdministrators);
+        companyService.register(company);
+
         return new ResponseEntity<>(new CompanyResponseDTO(company), HttpStatus.CREATED);
     }
 
