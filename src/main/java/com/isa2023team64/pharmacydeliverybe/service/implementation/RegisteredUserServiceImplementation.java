@@ -1,5 +1,7 @@
 package com.isa2023team64.pharmacydeliverybe.service.implementation;
 
+import java.sql.Timestamp;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,6 +32,12 @@ public class RegisteredUserServiceImplementation implements RegisteredUserServic
 		u.setFirstName(user.getFirstName());
 		u.setLastName(user.getLastName());
 		u.setActive(false);
+        u.setCity(user.getCity());
+        u.setCountry(user.getCountry());
+        u.setPhoneNumber(user.getPhoneNumber());
+        u.setLastPasswordResetDate(new Timestamp(new Date().getTime()));
+        u.setWorkplace(user.getWorkplace());
+        u.setCompany(user.getCompany());
 		
 		return registeredUserRepository.save(u);
     }
