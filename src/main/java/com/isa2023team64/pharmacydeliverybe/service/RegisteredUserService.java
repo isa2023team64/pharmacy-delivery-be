@@ -1,21 +1,29 @@
 package com.isa2023team64.pharmacydeliverybe.service;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.isa2023team64.pharmacydeliverybe.model.RegisteredUser;
+import com.isa2023team64.pharmacydeliverybe.repository.RegisteredUserRepository;
+
 import java.util.List;
 
+@Service
+public class RegisteredUserService {
 
-import com.isa2023team64.pharmacydeliverybe.dto.RegisteredUserRequestDTO;
-import com.isa2023team64.pharmacydeliverybe.model.RegisteredUser;
+    @Autowired
+    private RegisteredUserRepository registeredUserRepository;
 
-public interface RegisteredUserService {
+    public RegisteredUser findById(Integer id) {
+        return registeredUserRepository.findById(id).orElse(null);
+    }
 
-    public RegisteredUser findByEmail(String email);
+    public List<RegisteredUser> findAll() {
+        return registeredUserRepository.findAll();
+    }
 
-    public RegisteredUser findById(int id);
-
-    public List<RegisteredUser> findAll();
-
-    public RegisteredUser saveRegisteredUser(RegisteredUserRequestDTO registeredUserRequestDTO);
-
-    public RegisteredUser activateRegisteredUser(int id);
-    
+    // TODO: proveriti da li su username i email jedinstveni
+    public RegisteredUser register(RegisteredUser registeredUser) {
+        return registeredUserRepository.save(registeredUser);
+    }
 }
