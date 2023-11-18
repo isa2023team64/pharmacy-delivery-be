@@ -22,22 +22,22 @@ public class Company extends GenericEntity{
     @NotEmpty
     private String name;
 
-    @Column(unique = true, nullable = false)
+    @Column(nullable = false)
     @NotEmpty
     private String address;
 
-    @Column(unique = true, nullable = false)
+    @Column(nullable = false)
     @NotEmpty
     private String city;
 
-    @Column(unique = true, nullable = false)
+    @Column(nullable = false)
     @NotEmpty
     private String country;
 
-    @Column(unique = true, nullable = false)
+    @Column(nullable = false)
     private LocalTime openingTime;
 
-    @Column(unique = true, nullable = false)
+    @Column(nullable = false)
     private LocalTime closingTime;
 
     @Column(nullable = false)

@@ -109,14 +109,12 @@ public class CompanyController {
 
         int openingHours = Integer.parseInt(openingTimeComponents[0]);
         int openingMinutes = Integer.parseInt(openingTimeComponents[1]);
-        int openingSeconds = Integer.parseInt(openingTimeComponents[2]);
         
         int closingHours = Integer.parseInt(closingTimeComponents[0]);
         int closingMinutes = Integer.parseInt(closingTimeComponents[1]);
-        int closingSeconds = Integer.parseInt(closingTimeComponents[2]);
 
-        LocalTime openingTime = LocalTime.of(openingHours, openingMinutes, openingSeconds, 0);
-        LocalTime closingTime = LocalTime.of(closingHours, closingMinutes, closingSeconds, 0);
+        LocalTime openingTime = LocalTime.of(openingHours, openingMinutes, 0, 0);
+        LocalTime closingTime = LocalTime.of(closingHours, closingMinutes, 0, 0);
 
         company.setName(companyRequestDTO.getName());
         company.setAddress(companyRequestDTO.getAddress());
