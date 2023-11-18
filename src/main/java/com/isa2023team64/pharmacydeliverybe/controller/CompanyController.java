@@ -6,19 +6,24 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.isa2023team64.pharmacydeliverybe.dto.CompanyNoAdminDTO;
 import com.isa2023team64.pharmacydeliverybe.dto.CompanyRequestDTO;
 import com.isa2023team64.pharmacydeliverybe.dto.CompanyResponseDTO;
+import com.isa2023team64.pharmacydeliverybe.dto.CompanySearchFilterDTO;
 import com.isa2023team64.pharmacydeliverybe.model.Company;
+import com.isa2023team64.pharmacydeliverybe.service.CompanySearchService;
 import com.isa2023team64.pharmacydeliverybe.service.CompanyService;
 
 import com.isa2023team64.pharmacydeliverybe.dto.MockCompanyAdministratorRequestDTO;
 import com.isa2023team64.pharmacydeliverybe.service.MockCompanyAdministratorService;
+import com.isa2023team64.pharmacydeliverybe.util.PagedResult;
 import com.isa2023team64.pharmacydeliverybe.model.MockCompanyAdministrator;
 
 import io.swagger.v3.oas.annotations.Operation;
@@ -39,7 +44,10 @@ import java.time.LocalTime;
 public class CompanyController {
 
     @Autowired
-    private CompanyService companyService;  
+    private CompanyService companyService;
+
+    @Autowired
+    private CompanySearchService searchService;
 
     @Autowired
     private MockCompanyAdministratorService mockCompanyAdministratorService;
@@ -184,4 +192,16 @@ public class CompanyController {
         return new ResponseEntity<>(new CompanyResponseDTO(company), HttpStatus.CREATED);
     }
 
+    @Operation(summary = "Search, filter and sort all companies.", description = "Search, filter and sort all companies.", method = "GET")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Companies searched fetched successfully.",
+                    content = @Content(mediaType = "application/json",
+                    schema = @Schema(implementation = PagedResult.class, subTypes = {CompanyNoAdminDTO.class})))
+    })
+    @GetMapping(value = "/search", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<PagedResult<CompanyNoAdminDTO>> search(@ModelAttribute CompanySearchFilterDTO filter) {
+        PagedResult<CompanyNoAdminDTO> companies = searchService.search(filter);
+
+        return new ResponseEntity<>(companies, HttpStatus.OK);
+    }
 }
