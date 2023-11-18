@@ -158,5 +158,13 @@ public class Company extends GenericEntity{
             companyAdministrators.forEach(companyAdministrator -> companyAdministrator.setCompanyEntity(this));
         }
     }
+    
+    public List<Equipment> getEquipment() {
+        return equipment;
+    }
+
+    public void setEquipment(List<Equipment> equipment) {
+        this.equipment = equipment;
+    }
 
 }

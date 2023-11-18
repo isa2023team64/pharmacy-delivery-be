@@ -31,12 +31,6 @@ public class EquipmentServiceImplementation implements EquipmentService {
     }
     
     @Override
-    public List<Equipment> findByCompanyId(Integer companyId) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'findByCompanyId'");
-    }
-    
-    @Override
     public Equipment update(Equipment equipment) {
         return equipmentRepository.save(equipment);
     }

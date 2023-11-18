@@ -19,3 +19,8 @@ INSERT INTO public.equipment(
 	name, description)
 	VALUES ('Injekcija', 'Za vakcinisanje'),
 		   ('Stetoskop', 'Za slusanje srca');
+
+INSERT INTO public.company_uses_equipment(
+	company_id, equipment_id)
+	VALUES (1, 1),
+		   (1, 2);

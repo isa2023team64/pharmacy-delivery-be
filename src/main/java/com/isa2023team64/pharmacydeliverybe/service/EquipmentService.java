@@ -12,7 +12,5 @@ public interface EquipmentService {
 
     public Equipment save(Equipment equipment);
 
-    public List<Equipment> findByCompanyId(Integer companyId);
-
     public Equipment update(Equipment equipment);
 }
