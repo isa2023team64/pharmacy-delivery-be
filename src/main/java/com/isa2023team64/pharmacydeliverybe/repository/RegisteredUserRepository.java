@@ -9,5 +9,4 @@ public interface RegisteredUserRepository extends JpaRepository<RegisteredUser, 
     RegisteredUser findByEmail(String email);
 
     RegisteredUser findById(int id);
-
 }
