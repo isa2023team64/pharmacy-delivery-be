@@ -22,8 +22,11 @@ public class CompanyAdministratorService {
         return companyAdministratorRepository.findAll();
     }
 
-    // TODO:
     public CompanyAdministrator register(CompanyAdministrator companyAdministrator) {
+        return companyAdministratorRepository.save(companyAdministrator);
+    }
+
+    public CompanyAdministrator update(CompanyAdministrator companyAdministrator) {
         return companyAdministratorRepository.save(companyAdministrator);
     }
 }

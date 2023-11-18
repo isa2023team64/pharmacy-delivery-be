@@ -11,13 +11,11 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.OneToMany;
-import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotEmpty;
 
 
 
 @Entity
-@Table(name="app_company")
 public class Company extends GenericEntity{
  
     @Column(unique = true, nullable = false)

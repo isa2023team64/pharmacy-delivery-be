@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -73,8 +74,8 @@ public class CompanyAdministratorController {
 
     @Operation(summary = "Register new company administrator", description = "Registers new company administrator", method = "POST")
 	@ApiResponses(value = {
-			@ApiResponse(responseCode = "201", description = "Created",
-					     content = { @Content(mediaType = "application/json", schema = @Schema(implementation = CompanyAdministrator.class)) })
+		@ApiResponse(responseCode = "201", description = "Created",
+				     content = { @Content(mediaType = "application/json", schema = @Schema(implementation = CompanyAdministrator.class)) })
 	})
 	@PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<CompanyAdministratorResponseDTO> registerCompanyAdministrator(@RequestBody CompanyAdministratorRequestDTO companyAdministratorRequestDTO) {
@@ -90,7 +91,33 @@ public class CompanyAdministratorController {
         companyAdministrator.setWorkplace(companyAdministratorRequestDTO.getWorkplace());
         companyAdministrator.setCompanyName(companyAdministratorRequestDTO.getCompanyName());
 
+        companyAdministrator = CompanyAdministratorService.register(companyAdministrator);
+        return new ResponseEntity<>(new CompanyAdministratorResponseDTO(companyAdministrator), HttpStatus.CREATED);
+    }
 
+    @Operation(summary = "Update company administrator profile", description = "Update company administrator profile", method = "PUT")
+	@ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "OK",
+                     content = { @Content(mediaType = "application/json", schema = @Schema(implementation = CompanyAdministrator.class)) }),
+        @ApiResponse(responseCode = "404", description = "Company administrator not found.", content = @Content)
+	})
+	@PutMapping(value = "/{id}",consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<CompanyAdministratorResponseDTO> updateCompanyAdministratorProfile(@PathVariable Integer id, @RequestBody CompanyAdministratorRequestDTO companyAdministratorRequestDTO) {
+        CompanyAdministrator companyAdministrator = CompanyAdministratorService.findById(id);
+
+        if (companyAdministrator == null) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
+        companyAdministrator.setEmail(companyAdministratorRequestDTO.getEmail());
+        companyAdministrator.setPassword(companyAdministratorRequestDTO.getPassword());
+        companyAdministrator.setFirstName(companyAdministratorRequestDTO.getFirstName());
+        companyAdministrator.setLastName(companyAdministratorRequestDTO.getLastName());
+        companyAdministrator.setCity(companyAdministratorRequestDTO.getCity());
+        companyAdministrator.setCountry(companyAdministratorRequestDTO.getCountry());
+        companyAdministrator.setPhoneNumber(companyAdministratorRequestDTO.getPhoneNumber());
+        companyAdministrator.setWorkplace(companyAdministratorRequestDTO.getWorkplace());
+        companyAdministrator.setCompanyName(companyAdministratorRequestDTO.getCompanyName());
 
         companyAdministrator = CompanyAdministratorService.register(companyAdministrator);
         return new ResponseEntity<>(new CompanyAdministratorResponseDTO(companyAdministrator), HttpStatus.CREATED);
