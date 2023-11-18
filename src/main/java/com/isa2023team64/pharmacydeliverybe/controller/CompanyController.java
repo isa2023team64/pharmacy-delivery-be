@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -20,11 +21,13 @@ import com.isa2023team64.pharmacydeliverybe.dto.CompanySearchFilterDTO;
 import com.isa2023team64.pharmacydeliverybe.model.Company;
 import com.isa2023team64.pharmacydeliverybe.service.CompanySearchService;
 import com.isa2023team64.pharmacydeliverybe.service.CompanyService;
-
-import com.isa2023team64.pharmacydeliverybe.dto.MockCompanyAdministratorRequestDTO;
-import com.isa2023team64.pharmacydeliverybe.service.MockCompanyAdministratorService;
 import com.isa2023team64.pharmacydeliverybe.util.PagedResult;
-import com.isa2023team64.pharmacydeliverybe.model.MockCompanyAdministrator;
+import com.isa2023team64.pharmacydeliverybe.util.WorkingHours;
+import com.isa2023team64.pharmacydeliverybe.dto.CompanyAdministratorRequestDTO;
+import com.isa2023team64.pharmacydeliverybe.dto.CompanyInfoRequestDTO;
+import com.isa2023team64.pharmacydeliverybe.dto.CompanyInfoResponseDTO;
+import com.isa2023team64.pharmacydeliverybe.service.CompanyAdministratorService;
+import com.isa2023team64.pharmacydeliverybe.model.CompanyAdministrator;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
@@ -50,13 +53,13 @@ public class CompanyController {
     private CompanySearchService searchService;
 
     @Autowired
-    private MockCompanyAdministratorService mockCompanyAdministratorService;
+    private CompanyAdministratorService companyAdministratorService;
 
     @Operation(summary = "Get all companies", description = "Gets all companies.", method = "GET")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "All companies fetched successfully.",
-                    content = @Content(mediaType = "application/json",
-                    array = @ArraySchema(schema = @Schema(implementation = Company.class))))
+        @ApiResponse(responseCode = "200", description = "All companies fetched successfully.",
+                     content = @Content(mediaType = "application/json",
+                     array = @ArraySchema(schema = @Schema(implementation = Company.class))))
     })
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<List<CompanyResponseDTO>> getAll() {
@@ -120,36 +123,35 @@ public class CompanyController {
         company.setOpeningTime(openingTime);
         company.setClosingTime(closingTime);
         company.setDescription(companyRequestDTO.getDescription());
-        company.setAverageRating(companyRequestDTO.getAverageRating());
+        company.setAverageRating(0);
 
         company = companyService.register(company);
 
-        List<MockCompanyAdministratorRequestDTO> mockCompanyAdministratorDTOs = companyRequestDTO.getCompanyAdministrators();
+        List<CompanyAdministratorRequestDTO> companyAdministratorDTOs = companyRequestDTO.getCompanyAdministrators();
 
-        if(mockCompanyAdministratorDTOs != null){
-            List<MockCompanyAdministrator> mockCompanyAdministrators = new ArrayList<>();
+        if(companyAdministratorDTOs != null){
+            List<CompanyAdministrator> companyAdministrators = new ArrayList<>();
 
-            for(MockCompanyAdministratorRequestDTO mockCompanyAdministratorDTO : mockCompanyAdministratorDTOs){
-                MockCompanyAdministrator mockCompanyAdministrator = new MockCompanyAdministrator();
+            for(CompanyAdministratorRequestDTO companyAdministratorDTO : companyAdministratorDTOs){
+                CompanyAdministrator companyAdministrator = new CompanyAdministrator();
 
-                mockCompanyAdministrator.setEmail(mockCompanyAdministratorDTO.getEmail());
-                mockCompanyAdministrator.setPassword(mockCompanyAdministratorDTO.getPassword());
-                mockCompanyAdministrator.setFirstName(mockCompanyAdministratorDTO.getFirstName());
-                mockCompanyAdministrator.setLastName(mockCompanyAdministratorDTO.getLastName());
-                mockCompanyAdministrator.setCity(mockCompanyAdministratorDTO.getCity());
-                mockCompanyAdministrator.setCountry(mockCompanyAdministratorDTO.getCountry());
-                mockCompanyAdministrator.setPhoneNumber(mockCompanyAdministratorDTO.getPhoneNumber());
-                mockCompanyAdministrator.setWorkplace(mockCompanyAdministratorDTO.getWorkplace());
-                mockCompanyAdministrator.setCompany(mockCompanyAdministratorDTO.getCompanyName());
+                companyAdministrator.setEmail(companyAdministratorDTO.getEmail());
+                companyAdministrator.setPassword(companyAdministratorDTO.getPassword());
+                companyAdministrator.setFirstName(companyAdministratorDTO.getFirstName());
+                companyAdministrator.setLastName(companyAdministratorDTO.getLastName());
+                companyAdministrator.setCity(companyAdministratorDTO.getCity());
+                companyAdministrator.setCountry(companyAdministratorDTO.getCountry());
+                companyAdministrator.setPhoneNumber(companyAdministratorDTO.getPhoneNumber());
+                companyAdministrator.setWorkplace(companyAdministratorDTO.getWorkplace());
+                companyAdministrator.setCompanyName(companyAdministratorDTO.getCompanyName());
 
-
-                mockCompanyAdministrator.setCompanyEntity(company);
+                companyAdministrator.setCompanyEntity(company);
                 
-                mockCompanyAdministrators.add(mockCompanyAdministrator);
+                companyAdministrators.add(companyAdministrator);
 
-                mockCompanyAdministratorService.register(mockCompanyAdministrator);
+                companyAdministratorService.register(companyAdministrator);
             }
-            company.setCompanyAdministrators(mockCompanyAdministrators);
+            company.setCompanyAdministrators(companyAdministrators);
         }
 
         company = companyService.register(company);
@@ -164,31 +166,58 @@ public class CompanyController {
 					     content = { @Content(mediaType = "application/json", schema = @Schema(implementation = Company.class)) })
 	})
     @PostMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<CompanyResponseDTO> registerCompanyAdministrator(@PathVariable Integer id, @RequestBody MockCompanyAdministratorRequestDTO mockCompanyAdministratorRequestDTO) {
+    public ResponseEntity<CompanyResponseDTO> registerCompanyAdministrator(@PathVariable Integer id, @RequestBody CompanyAdministratorRequestDTO companyAdministratorRequestDTO) {
         
         Company company = companyService.findById(id);
 
-        List<MockCompanyAdministrator> mockCompanyAdministrators = company.getCompanyAdministrators();
+        List<CompanyAdministrator> companyAdministrators = company.getCompanyAdministrators();
 
-        MockCompanyAdministrator mockCompanyAdministrator = new MockCompanyAdministrator();
+        CompanyAdministrator companyAdministrator = new CompanyAdministrator();
 
-        mockCompanyAdministrator.setEmail(mockCompanyAdministratorRequestDTO.getEmail());
-        mockCompanyAdministrator.setPassword(mockCompanyAdministratorRequestDTO.getPassword());
-        mockCompanyAdministrator.setFirstName(mockCompanyAdministratorRequestDTO.getFirstName());
-        mockCompanyAdministrator.setLastName(mockCompanyAdministratorRequestDTO.getLastName());
-        mockCompanyAdministrator.setCity(mockCompanyAdministratorRequestDTO.getCity());
-        mockCompanyAdministrator.setCountry(mockCompanyAdministratorRequestDTO.getCountry());
-        mockCompanyAdministrator.setPhoneNumber(mockCompanyAdministratorRequestDTO.getPhoneNumber());
-        mockCompanyAdministrator.setWorkplace(mockCompanyAdministratorRequestDTO.getWorkplace());
-        mockCompanyAdministrator.setCompany(mockCompanyAdministratorRequestDTO.getCompanyName());
+        companyAdministrator.setEmail(companyAdministratorRequestDTO.getEmail());
+        companyAdministrator.setPassword(companyAdministratorRequestDTO.getPassword());
+        companyAdministrator.setFirstName(companyAdministratorRequestDTO.getFirstName());
+        companyAdministrator.setLastName(companyAdministratorRequestDTO.getLastName());
+        companyAdministrator.setCity(companyAdministratorRequestDTO.getCity());
+        companyAdministrator.setCountry(companyAdministratorRequestDTO.getCountry());
+        companyAdministrator.setPhoneNumber(companyAdministratorRequestDTO.getPhoneNumber());
+        companyAdministrator.setWorkplace(companyAdministratorRequestDTO.getWorkplace());
+        companyAdministrator.setCompanyName(companyAdministratorRequestDTO.getCompanyName());
 
-        mockCompanyAdministrators.add(mockCompanyAdministrator);        
-        mockCompanyAdministratorService.register(mockCompanyAdministrator);
+        companyAdministrators.add(companyAdministrator);        
+        companyAdministratorService.register(companyAdministrator);
         
-        company.setCompanyAdministrators(mockCompanyAdministrators);
+        company.setCompanyAdministrators(companyAdministrators);
         companyService.register(company);
 
         return new ResponseEntity<>(new CompanyResponseDTO(company), HttpStatus.CREATED);
+    }
+
+    @Operation(summary = "Update company info", description = "Update company info", method = "PUT")
+	@ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "OK",
+                     content = { @Content(mediaType = "application/json", schema = @Schema(implementation = Company.class)) }),
+        @ApiResponse(responseCode = "404", description = "Company not found.", content = @Content)
+	})
+	@PutMapping(value = "/{id}",consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<CompanyInfoResponseDTO> updateCompanyInfo(@PathVariable Integer id, @RequestBody CompanyInfoRequestDTO companyRequestDTO) {
+        Company company = companyService.findById(id);
+
+        if (company == null) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
+        company.setName(companyRequestDTO.getName());
+        company.setAddress(companyRequestDTO.getAddress());
+        company.setCity(companyRequestDTO.getCity());
+        company.setCountry(companyRequestDTO.getCountry());
+        company.setOpeningTime(WorkingHours.parseTime(companyRequestDTO.getOpeningTime()));
+        company.setClosingTime(WorkingHours.parseTime(companyRequestDTO.getClosingTime()));
+        company.setDescription(companyRequestDTO.getDescription());
+
+        company = companyService.register(company);
+
+        return new ResponseEntity<>(new CompanyInfoResponseDTO(company), HttpStatus.CREATED);
     }
 
     @Operation(summary = "Search, filter and sort all companies.", description = "Search, filter and sort all companies.", method = "GET")
