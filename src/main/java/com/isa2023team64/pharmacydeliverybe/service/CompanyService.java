@@ -29,4 +29,8 @@ public class CompanyService {
     public Company update(Company company) {
         return companyRepository.save(company);
     }
+
+    public Company findOneWithEquipment(Integer companyId) {
+        return companyRepository.findOneWithEquipment(companyId);
+    }
 }

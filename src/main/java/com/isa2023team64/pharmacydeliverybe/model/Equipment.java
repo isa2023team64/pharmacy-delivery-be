@@ -62,6 +62,7 @@ public class Equipment extends GenericEntity {
         this.description = description;
     }
 
+
     public String getType(){
         return type;
     }
@@ -76,6 +77,14 @@ public class Equipment extends GenericEntity {
 
     public void setAverageRating(double averageRating){
         this.averageRating = averageRating;
+
+    public List<Company> getCompanies() {
+        return companies;
+    }
+
+    public void setCompanies(List<Company> companies) {
+        this.companies = companies;
+
     }
 
 }
