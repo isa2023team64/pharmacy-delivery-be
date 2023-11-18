@@ -27,8 +27,8 @@ public class WorkingHours {
         return of(parseTime(openingTimeFormatted), parseTime(closingTimeFormatted));
     }
 
-    private String formatTime(LocalTime time) {
-        return time.getHour() + ":" + time.getMinute() + ":"+time.getSecond();
+    public static String formatTime(LocalTime time) {
+        return time.getHour() + ":" + time.getMinute() + ":" + time.getSecond();
     }
 
     public String getOpeningTimeFormatted() {

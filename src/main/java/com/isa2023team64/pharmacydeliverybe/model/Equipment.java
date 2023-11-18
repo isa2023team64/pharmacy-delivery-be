@@ -1,0 +1,55 @@
+package com.isa2023team64.pharmacydeliverybe.model;
+
+import java.util.List;
+
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
+
+@Entity
+public class Equipment extends GenericEntity {
+    
+    @Column(unique = true, nullable = false)
+    @NotEmpty
+    private String name;
+
+    @Column
+    @NotNull
+    private String description;
+
+	@ManyToMany( cascade = {CascadeType.PERSIST,CascadeType.MERGE,CascadeType.DETACH})
+	@JoinTable(name = "company_uses_equipment", joinColumns = @JoinColumn(name = "equipment_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "company_id", referencedColumnName = "id"))
+    private List<Company> companies;
+
+    public Equipment() {
+        super();
+    }
+
+    public Equipment(Integer id, String name, String description) {
+        super(id);
+        this.name = name;
+        this.description = description;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+}
