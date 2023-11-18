@@ -53,7 +53,7 @@ public class Company extends GenericEntity{
     private List<CompanyAdministrator> companyAdministrators;
     
     @ManyToMany( cascade = {CascadeType.PERSIST,CascadeType.MERGE,CascadeType.DETACH})
-	@JoinTable(name = "company_uses_equipment", joinColumns = @JoinColumn(name = "equipment_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "company_id", referencedColumnName = "id"))
+	@JoinTable(name = "company_uses_equipment", joinColumns = @JoinColumn(name = "company_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "equipment_id", referencedColumnName = "id"))
     private List<Equipment> equipment;
 
 
