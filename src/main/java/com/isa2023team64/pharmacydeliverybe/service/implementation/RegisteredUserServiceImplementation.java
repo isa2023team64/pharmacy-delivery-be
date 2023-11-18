@@ -37,7 +37,7 @@ public class RegisteredUserServiceImplementation implements RegisteredUserServic
         u.setPhoneNumber(user.getPhoneNumber());
         u.setLastPasswordResetDate(new Timestamp(new Date().getTime()));
         u.setWorkplace(user.getWorkplace());
-        u.setCompany(user.getCompany());
+        u.setCompanyName(user.getCompanyName());
 		
 		return registeredUserRepository.save(u);
     }

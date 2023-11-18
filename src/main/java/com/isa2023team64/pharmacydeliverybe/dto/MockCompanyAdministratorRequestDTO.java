@@ -19,7 +19,7 @@ public class MockCompanyAdministratorRequestDTO {
 
 
     public MockCompanyAdministratorRequestDTO(MockCompanyAdministrator companyAdministrator){
-        this(companyAdministrator.getEmail(), companyAdministrator.getPassword(), companyAdministrator.getFirstName(), companyAdministrator.getLastName(),companyAdministrator.getCity(),companyAdministrator.getCountry(),companyAdministrator.getPhoneNumber(),companyAdministrator.getWorkplace(),companyAdministrator.getCompany());
+        this(companyAdministrator.getEmail(), companyAdministrator.getPassword(), companyAdministrator.getFirstName(), companyAdministrator.getLastName(),companyAdministrator.getCity(),companyAdministrator.getCountry(),companyAdministrator.getPhoneNumber(),companyAdministrator.getWorkplace(),companyAdministrator.getCompanyName());
     }
 
     public MockCompanyAdministratorRequestDTO(String email, String password, String firstName, String lastName, String city, String country,String phoneNumber, String workplace, String companyName) {

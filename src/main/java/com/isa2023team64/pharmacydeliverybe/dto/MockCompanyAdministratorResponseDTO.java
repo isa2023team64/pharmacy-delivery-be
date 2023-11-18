@@ -15,7 +15,7 @@ public class MockCompanyAdministratorResponseDTO extends MockCompanyAdministrato
     public MockCompanyAdministratorResponseDTO(MockCompanyAdministrator companyAdministrator){
         this(companyAdministrator.getId(), companyAdministrator.getEmail(), companyAdministrator.getPassword(), companyAdministrator.getFirstName(), 
         companyAdministrator.getLastName(),companyAdministrator.isActive(),companyAdministrator.getLastPasswordResetDate(),companyAdministrator.getCity(),
-        companyAdministrator.getCountry(),companyAdministrator.getPhoneNumber(),companyAdministrator.getWorkplace(),companyAdministrator.getCompany());
+        companyAdministrator.getCountry(),companyAdministrator.getPhoneNumber(),companyAdministrator.getWorkplace(),companyAdministrator.getCompanyName());
     }
 
     public MockCompanyAdministratorResponseDTO(Integer id, String email, String password, String firstName, String lastName, 
