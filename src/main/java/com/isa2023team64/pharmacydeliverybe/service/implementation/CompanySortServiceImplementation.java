@@ -14,6 +14,7 @@ import com.isa2023team64.pharmacydeliverybe.service.CompanySortService;
 @Service
 public class CompanySortServiceImplementation implements CompanySortService {
 
+    @Override
     public List<Company> sort(List<Company> companies, String criteria) {
         criteria = criteria != null ? criteria : "";
         switch (criteria) {

@@ -9,9 +9,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.isa2023team64.pharmacydeliverybe.dto.RegisteredUserRequestDTO;
+import com.isa2023team64.pharmacydeliverybe.dto.RegisteredUserUpdateDTO;
 import com.isa2023team64.pharmacydeliverybe.model.RegisteredUser;
 import com.isa2023team64.pharmacydeliverybe.repository.RegisteredUserRepository;
 import com.isa2023team64.pharmacydeliverybe.service.RegisteredUserService;
+
+import jakarta.persistence.EntityNotFoundException;
 
 @Service
 public class RegisteredUserServiceImplementation implements RegisteredUserService {
@@ -67,6 +70,30 @@ public class RegisteredUserServiceImplementation implements RegisteredUserServic
         }
         
         return null;
+    }
+
+    @Override
+    public RegisteredUser update(int id, RegisteredUserUpdateDTO updatedUser) {
+        RegisteredUser user = registeredUserRepository.findById(id);
+        if(user == null) {
+            throw new EntityNotFoundException("User not found.");
+        }
+
+        if(!updatedUser.getPassword().equals(updatedUser.getPasswordConfirmation())) {
+            throw new IllegalArgumentException("Password and confirmation don't match.");
+        }
+        user.setPassword(updatedUser.getPassword());
+        user.setLastPasswordResetDate(new Timestamp(new Date().getTime()));
+        user.setFirstName(updatedUser.getFirstName());
+        user.setLastName(updatedUser.getLastName());
+        user.setCity(updatedUser.getCity());
+        user.setCountry(updatedUser.getCountry());
+        user.setPhoneNumber(updatedUser.getPhoneNumber());
+        user.setWorkplace(updatedUser.getWorkplace());
+        user.setCompanyName(updatedUser.getCompanyName());
+        registeredUserRepository.save(user);
+
+        return user;
     }
     
 }
