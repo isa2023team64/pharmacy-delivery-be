@@ -66,8 +66,8 @@ public class EquipmentController {
     })
     @GetMapping(value = "/search", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<PagedResult<EquipmentRequestDTO>> search(@ModelAttribute EquipmentSearchFilterDTO filter) {
-        PagedResult<EquipmentRequestDTO> companies = searchService.search(filter);
+        PagedResult<EquipmentRequestDTO> equipment = searchService.search(filter);
 
-        return new ResponseEntity<>(companies, HttpStatus.OK);
+        return new ResponseEntity<>(equipment, HttpStatus.OK);
     }
 }
