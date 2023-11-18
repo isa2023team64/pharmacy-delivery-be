@@ -21,7 +21,8 @@ import com.isa2023team64.pharmacydeliverybe.dto.CompanySearchFilterDTO;
 import com.isa2023team64.pharmacydeliverybe.model.Company;
 import com.isa2023team64.pharmacydeliverybe.service.CompanySearchService;
 import com.isa2023team64.pharmacydeliverybe.service.CompanyService;
-
+import com.isa2023team64.pharmacydeliverybe.util.PagedResult;
+import com.isa2023team64.pharmacydeliverybe.util.WorkingHours;
 import com.isa2023team64.pharmacydeliverybe.dto.CompanyAdministratorRequestDTO;
 import com.isa2023team64.pharmacydeliverybe.dto.CompanyInfoRequestDTO;
 import com.isa2023team64.pharmacydeliverybe.dto.CompanyInfoResponseDTO;
@@ -208,29 +209,12 @@ public class CompanyController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 
-        String openingTimeDTO = companyRequestDTO.getOpeningTime();
-        String closingTimeDTO = companyRequestDTO.getClosingTime();
-
-        String[]openingTimeComponents = openingTimeDTO.split(":");
-        String[]closingTimeComponents = closingTimeDTO.split(":");
-
-        int openingHours = Integer.parseInt(openingTimeComponents[0]);
-        int openingMinutes = Integer.parseInt(openingTimeComponents[1]);
-        int openingSeconds = Integer.parseInt(openingTimeComponents[2]);
-        
-        int closingHours = Integer.parseInt(closingTimeComponents[0]);
-        int closingMinutes = Integer.parseInt(closingTimeComponents[1]);
-        int closingSeconds = Integer.parseInt(closingTimeComponents[2]);
-
-        LocalTime openingTime = LocalTime.of(openingHours, openingMinutes, openingSeconds, 0);
-        LocalTime closingTime = LocalTime.of(closingHours, closingMinutes, closingSeconds, 0);
-
         company.setName(companyRequestDTO.getName());
         company.setAddress(companyRequestDTO.getAddress());
         company.setCity(companyRequestDTO.getCity());
         company.setCountry(companyRequestDTO.getCountry());
-        company.setOpeningTime(openingTime);
-        company.setClosingTime(closingTime);
+        company.setOpeningTime(WorkingHours.parseTime(companyRequestDTO.getOpeningTime()));
+        company.setClosingTime(WorkingHours.parseTime(companyRequestDTO.getClosingTime()));
         company.setDescription(companyRequestDTO.getDescription());
 
         company = companyService.register(company);
