@@ -11,14 +11,14 @@ public class RegisteredUserRequestDTO {
     private String country;
     private String phoneNumber;
     private String workplace;
-    private String company;
+    private String companyName;
 
     public RegisteredUserRequestDTO() {
         super();
     }
 
     public RegisteredUserRequestDTO(RegisteredUser registeredUser) {
-        this(registeredUser.getEmail(), registeredUser.getPassword(), registeredUser.getFirstName(), registeredUser.getLastName(),registeredUser.getCity(),registeredUser.getCountry(),registeredUser.getPhoneNumber(),registeredUser.getWorkplace(),registeredUser.getCompany());
+        this(registeredUser.getEmail(), registeredUser.getPassword(), registeredUser.getFirstName(), registeredUser.getLastName(),registeredUser.getCity(),registeredUser.getCountry(),registeredUser.getPhoneNumber(),registeredUser.getWorkplace(),registeredUser.getCompanyName());
     }
 
     public RegisteredUserRequestDTO(String email, String password, String firstName, String lastName, String city, String country,String phoneNumber, String workplace, String company) {
@@ -30,7 +30,7 @@ public class RegisteredUserRequestDTO {
         this.country = country;
         this.phoneNumber = phoneNumber;
         this.workplace = workplace;
-        this.company = company;
+        this.companyName = company;
     }
 
     public String getEmail() {
@@ -96,11 +96,11 @@ public class RegisteredUserRequestDTO {
         this.workplace = workplace;
     }
 
-    public String getCompany() {
-        return company;
+    public String getCompanyName() {
+        return companyName;
     }
 
-    public void setCompany(String company) {
-        this.company = company;
+    public void setCompanyName(String company) {
+        this.companyName = company;
     }
 }

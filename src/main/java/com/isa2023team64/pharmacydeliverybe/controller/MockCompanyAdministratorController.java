@@ -88,7 +88,7 @@ public class MockCompanyAdministratorController {
         mockCompanyAdministrator.setCountry(mockCompanyAdministratorRequestDTO.getCountry());
         mockCompanyAdministrator.setPhoneNumber(mockCompanyAdministratorRequestDTO.getPhoneNumber());
         mockCompanyAdministrator.setWorkplace(mockCompanyAdministratorRequestDTO.getWorkplace());
-        mockCompanyAdministrator.setCompany(mockCompanyAdministratorRequestDTO.getCompany());
+        mockCompanyAdministrator.setCompanyName(mockCompanyAdministratorRequestDTO.getCompanyName());
 
 
 

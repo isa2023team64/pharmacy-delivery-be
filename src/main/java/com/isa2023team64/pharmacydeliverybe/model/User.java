@@ -164,11 +164,11 @@ public abstract class User extends GenericEntity {
         this.workplace = workplace;
     }
 
-    public String getCompany() {
+    public String getCompanyName() {
         return companyName;
     }
 
-    public void setCompany(String companyName) {
+    public void setCompanyName(String companyName) {
         this.companyName = companyName;
     }
 }

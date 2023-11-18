@@ -142,7 +142,7 @@ public class CompanyController {
                 mockCompanyAdministrator.setCountry(mockCompanyAdministratorDTO.getCountry());
                 mockCompanyAdministrator.setPhoneNumber(mockCompanyAdministratorDTO.getPhoneNumber());
                 mockCompanyAdministrator.setWorkplace(mockCompanyAdministratorDTO.getWorkplace());
-                mockCompanyAdministrator.setCompany(mockCompanyAdministratorDTO.getCompany());
+                mockCompanyAdministrator.setCompanyName(mockCompanyAdministratorDTO.getCompanyName());
 
                 mockCompanyAdministrator.setCompanyEntity(company);
                 
@@ -181,7 +181,7 @@ public class CompanyController {
         mockCompanyAdministrator.setCountry(mockCompanyAdministratorRequestDTO.getCountry());
         mockCompanyAdministrator.setPhoneNumber(mockCompanyAdministratorRequestDTO.getPhoneNumber());
         mockCompanyAdministrator.setWorkplace(mockCompanyAdministratorRequestDTO.getWorkplace());
-        mockCompanyAdministrator.setCompany(mockCompanyAdministratorRequestDTO.getCompany());
+        mockCompanyAdministrator.setCompanyName(mockCompanyAdministratorRequestDTO.getCompanyName());
 
         mockCompanyAdministrators.add(mockCompanyAdministrator);        
         mockCompanyAdministratorService.register(mockCompanyAdministrator);

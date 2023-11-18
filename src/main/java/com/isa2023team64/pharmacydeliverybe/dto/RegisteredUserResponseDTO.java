@@ -14,7 +14,7 @@ public class RegisteredUserResponseDTO extends RegisteredUserRequestDTO {
     }
 
     public RegisteredUserResponseDTO(RegisteredUser registeredUser) {
-        this(registeredUser.getId(), registeredUser.getEmail(), registeredUser.getPassword(), registeredUser.getFirstName(), registeredUser.getLastName(),registeredUser.isActive(),registeredUser.getLastPasswordResetDate(),registeredUser.getCity(),registeredUser.getCountry(),registeredUser.getPhoneNumber(),registeredUser.getWorkplace(),registeredUser.getCompany());
+        this(registeredUser.getId(), registeredUser.getEmail(), registeredUser.getPassword(), registeredUser.getFirstName(), registeredUser.getLastName(),registeredUser.isActive(),registeredUser.getLastPasswordResetDate(),registeredUser.getCity(),registeredUser.getCountry(),registeredUser.getPhoneNumber(),registeredUser.getWorkplace(),registeredUser.getCompanyName());
     }
 
     public RegisteredUserResponseDTO(Integer id, String email, String password, String firstName, String lastName, Boolean active, Timestamp lastPasswordResetDate, String city, String country,String phoneNumber, String workplace, String company) {
