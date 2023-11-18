@@ -18,9 +18,12 @@ import com.isa2023team64.pharmacydeliverybe.dto.CompanyNoAdminDTO;
 import com.isa2023team64.pharmacydeliverybe.dto.CompanyRequestDTO;
 import com.isa2023team64.pharmacydeliverybe.dto.CompanyResponseDTO;
 import com.isa2023team64.pharmacydeliverybe.dto.CompanySearchFilterDTO;
+import com.isa2023team64.pharmacydeliverybe.dto.EquipmentRequestDTO;
 import com.isa2023team64.pharmacydeliverybe.dto.EquipmentResponseDTO;
+import com.isa2023team64.pharmacydeliverybe.dto.EquipmentSearchFilterDTO;
 import com.isa2023team64.pharmacydeliverybe.model.Company;
 import com.isa2023team64.pharmacydeliverybe.service.CompanySearchService;
+import com.isa2023team64.pharmacydeliverybe.service.EquipmentSearchService;
 import com.isa2023team64.pharmacydeliverybe.service.CompanyService;
 import com.isa2023team64.pharmacydeliverybe.util.PagedResult;
 import com.isa2023team64.pharmacydeliverybe.util.WorkingHours;
@@ -41,6 +44,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 import java.time.LocalTime;
 
 @Tag(name = "Company controller", description = "Company API")
@@ -53,6 +57,9 @@ public class CompanyController {
 
     @Autowired
     private CompanySearchService searchService;
+
+    @Autowired
+    private EquipmentSearchService equipmentSearchService;
 
     @Autowired
     private CompanyAdministratorService companyAdministratorService;
@@ -249,5 +256,25 @@ public class CompanyController {
         }
 
         return new ResponseEntity<>(equipmentResponseDTOs, HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/search-by-equipment-filter", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<PagedResult<CompanyNoAdminDTO>> searchCompanyByEquipment(@ModelAttribute EquipmentSearchFilterDTO filter) {
+
+        List<Equipment> equipment = equipmentSearchService.searchEntities(filter);
+
+        List<Integer> equipmentIds = equipment.stream().map(Equipment::getId).collect(Collectors.toList());
+
+        PagedResult<CompanyNoAdminDTO> companyPage = companyService.findCompaniesByEquipmentIds(equipmentIds, filter);
+
+        return new ResponseEntity<>(companyPage, HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/by-equipment/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<PagedResult<CompanyNoAdminDTO>> searchCompanyByEquipment(@PathVariable Integer id, @ModelAttribute CompanySearchFilterDTO filter) {
+
+        PagedResult<CompanyNoAdminDTO> companyPage = companyService.findCompaniesByEquipmentId(id, filter);
+
+        return new ResponseEntity<>(companyPage, HttpStatus.OK);
     }
 }

@@ -54,4 +54,16 @@ public class EquipmentSearchServiceImplementation implements EquipmentSearchServ
 
         return equipmentPage;
     }
+
+    public List<Equipment> searchEntities(EquipmentSearchFilterDTO filter){
+        List<Equipment> equipments = equipmentRepository.findAll();
+
+        EquipmentSearchFilter searchFilter = new EquipmentSearchFilter(
+            filter.getName(), filter.getDescription(), filter.getType(), filter.getMinRating(), filter.getMaxRating());
+    
+        equipments = filterService.filter(equipments, searchFilter);
+        equipments = sortService.sort(equipments, filter.getSortCriteria());
+
+        return equipments;
+    }
 }

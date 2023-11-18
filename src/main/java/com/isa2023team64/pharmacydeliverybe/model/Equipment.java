@@ -77,7 +77,8 @@ public class Equipment extends GenericEntity {
 
     public void setAverageRating(double averageRating){
         this.averageRating = averageRating;
-
+    }
+    
     public List<Company> getCompanies() {
         return companies;
     }
