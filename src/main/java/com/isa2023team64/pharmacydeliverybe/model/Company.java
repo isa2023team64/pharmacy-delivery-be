@@ -49,7 +49,7 @@ public class Company extends GenericEntity{
     private double averageRating;
 
     @OneToMany(mappedBy = "company", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    private List<MockCompanyAdministrator> companyAdministrators;
+    private List<CompanyAdministrator> companyAdministrators;
 
 
     public Company(){
@@ -62,10 +62,10 @@ public class Company extends GenericEntity{
         this.address = address;
         this.description = description;
         this.averageRating = averageRating;
-        this.companyAdministrators = new ArrayList<MockCompanyAdministrator>();
+        this.companyAdministrators = new ArrayList<CompanyAdministrator>();
     }   
 
-    public Company(Integer id, String name, String address, String description, double averageRating, List<MockCompanyAdministrator> companyAdministrators) {
+    public Company(Integer id, String name, String address, String description, double averageRating, List<CompanyAdministrator> companyAdministrators) {
         super(id);
         this.name = name;
         this.address = address;
@@ -143,11 +143,11 @@ public class Company extends GenericEntity{
         this.averageRating = averageRating;
     }
 
-    public List<MockCompanyAdministrator> getCompanyAdministrators() {
+    public List<CompanyAdministrator> getCompanyAdministrators() {
         return companyAdministrators;
     }
 
-    public void setCompanyAdministrators(List<MockCompanyAdministrator> companyAdministrators) {
+    public void setCompanyAdministrators(List<CompanyAdministrator> companyAdministrators) {
         this.companyAdministrators = companyAdministrators;
         if(companyAdministrators != null) {
             companyAdministrators.forEach(companyAdministrator -> companyAdministrator.setCompanyEntity(this));
