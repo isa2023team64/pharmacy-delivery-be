@@ -52,4 +52,12 @@ public class Equipment extends GenericEntity {
         this.description = description;
     }
 
+    public List<Company> getCompanies() {
+        return companies;
+    }
+
+    public void setCompanies(List<Company> companies) {
+        this.companies = companies;
+    }
+
 }

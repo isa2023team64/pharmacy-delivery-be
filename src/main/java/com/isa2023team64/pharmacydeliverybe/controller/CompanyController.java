@@ -18,6 +18,7 @@ import com.isa2023team64.pharmacydeliverybe.dto.CompanyNoAdminDTO;
 import com.isa2023team64.pharmacydeliverybe.dto.CompanyRequestDTO;
 import com.isa2023team64.pharmacydeliverybe.dto.CompanyResponseDTO;
 import com.isa2023team64.pharmacydeliverybe.dto.CompanySearchFilterDTO;
+import com.isa2023team64.pharmacydeliverybe.dto.EquipmentResponseDTO;
 import com.isa2023team64.pharmacydeliverybe.model.Company;
 import com.isa2023team64.pharmacydeliverybe.service.CompanySearchService;
 import com.isa2023team64.pharmacydeliverybe.service.CompanyService;
@@ -28,6 +29,7 @@ import com.isa2023team64.pharmacydeliverybe.dto.CompanyInfoRequestDTO;
 import com.isa2023team64.pharmacydeliverybe.dto.CompanyInfoResponseDTO;
 import com.isa2023team64.pharmacydeliverybe.service.CompanyAdministratorService;
 import com.isa2023team64.pharmacydeliverybe.model.CompanyAdministrator;
+import com.isa2023team64.pharmacydeliverybe.model.Equipment;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
@@ -231,5 +233,21 @@ public class CompanyController {
         PagedResult<CompanyNoAdminDTO> companies = searchService.search(filter);
 
         return new ResponseEntity<>(companies, HttpStatus.OK);
+    }
+
+
+    @GetMapping(value = "/{companyId}/equipment", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<List<EquipmentResponseDTO>> getCompanyEquipment(@PathVariable Integer companyId) {
+
+        Company company = companyService.findOneWithEquipment(companyId);
+
+        List<Equipment> equipment = company.getEquipment();
+        List<EquipmentResponseDTO> equipmentResponseDTOs = new ArrayList<>();
+
+        for (Equipment e : equipment) {
+            equipmentResponseDTOs.add(new EquipmentResponseDTO(e));
+        }
+
+        return new ResponseEntity<>(equipmentResponseDTOs, HttpStatus.OK);
     }
 }
