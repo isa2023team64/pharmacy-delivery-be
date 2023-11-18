@@ -1,7 +1,6 @@
 package com.isa2023team64.pharmacydeliverybe.controller;
 
 
-import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -126,12 +125,19 @@ public class CompanyController {
 
             for(MockCompanyAdministratorRequestDTO mockCompanyAdministratorDTO : mockCompanyAdministratorDTOs){
                 MockCompanyAdministrator mockCompanyAdministrator = new MockCompanyAdministrator();
-                mockCompanyAdministrator.setUsername(mockCompanyAdministratorDTO.getUsername());
+
                 mockCompanyAdministrator.setEmail(mockCompanyAdministratorDTO.getEmail());
                 mockCompanyAdministrator.setPassword(mockCompanyAdministratorDTO.getPassword());
-                
-                mockCompanyAdministrator.setCompany(company);
+                mockCompanyAdministrator.setFirstName(mockCompanyAdministratorDTO.getFirstName());
+                mockCompanyAdministrator.setLastName(mockCompanyAdministratorDTO.getLastName());
+                mockCompanyAdministrator.setCity(mockCompanyAdministratorDTO.getCity());
+                mockCompanyAdministrator.setCountry(mockCompanyAdministratorDTO.getCountry());
+                mockCompanyAdministrator.setPhoneNumber(mockCompanyAdministratorDTO.getPhoneNumber());
+                mockCompanyAdministrator.setWorkplace(mockCompanyAdministratorDTO.getWorkplace());
+                mockCompanyAdministrator.setCompany(mockCompanyAdministratorDTO.getCompany());
 
+                mockCompanyAdministrator.setCompanyEntity(company);
+                
                 mockCompanyAdministrators.add(mockCompanyAdministrator);
 
                 mockCompanyAdministratorService.register(mockCompanyAdministrator);
@@ -159,10 +165,15 @@ public class CompanyController {
 
         MockCompanyAdministrator mockCompanyAdministrator = new MockCompanyAdministrator();
 
-        mockCompanyAdministrator.setUsername(mockCompanyAdministratorRequestDTO.getUsername());
         mockCompanyAdministrator.setEmail(mockCompanyAdministratorRequestDTO.getEmail());
         mockCompanyAdministrator.setPassword(mockCompanyAdministratorRequestDTO.getPassword());
-        mockCompanyAdministrator.setCompany(company);
+        mockCompanyAdministrator.setFirstName(mockCompanyAdministratorRequestDTO.getFirstName());
+        mockCompanyAdministrator.setLastName(mockCompanyAdministratorRequestDTO.getLastName());
+        mockCompanyAdministrator.setCity(mockCompanyAdministratorRequestDTO.getCity());
+        mockCompanyAdministrator.setCountry(mockCompanyAdministratorRequestDTO.getCountry());
+        mockCompanyAdministrator.setPhoneNumber(mockCompanyAdministratorRequestDTO.getPhoneNumber());
+        mockCompanyAdministrator.setWorkplace(mockCompanyAdministratorRequestDTO.getWorkplace());
+        mockCompanyAdministrator.setCompany(mockCompanyAdministratorRequestDTO.getCompany());
 
         mockCompanyAdministrators.add(mockCompanyAdministrator);        
         mockCompanyAdministratorService.register(mockCompanyAdministrator);
