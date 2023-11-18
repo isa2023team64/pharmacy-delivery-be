@@ -8,12 +8,17 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.isa2023team64.pharmacydeliverybe.dto.EquipmentRequestDTO;
 import com.isa2023team64.pharmacydeliverybe.dto.EquipmentResponseDTO;
+import com.isa2023team64.pharmacydeliverybe.dto.EquipmentSearchFilterDTO;
 import com.isa2023team64.pharmacydeliverybe.model.Equipment;
+import com.isa2023team64.pharmacydeliverybe.service.EquipmentSearchService;
 import com.isa2023team64.pharmacydeliverybe.service.EquipmentService;
+import com.isa2023team64.pharmacydeliverybe.util.PagedResult;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
@@ -31,6 +36,9 @@ public class EquipmentController {
     @Autowired
     private EquipmentService equipmentService;
 
+        @Autowired
+    private EquipmentSearchService searchService;
+
     @Operation(summary = "Get all equipment", description = "Gets all equipment.", method = "GET")
     @ApiResponses(value = {
         @ApiResponse(responseCode = "200", description = "All equipment fetched successfully.",
@@ -47,5 +55,19 @@ public class EquipmentController {
         }
 
         return new ResponseEntity<>(equipmentDTOs, HttpStatus.OK);
+    }
+
+
+    @Operation(summary = "Search, filter and sort all equipment.", description = "Search, filter and sort all equipment.", method = "GET")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Eqipment searched fetched successfully.",
+                    content = @Content(mediaType = "application/json",
+                    schema = @Schema(implementation = PagedResult.class, subTypes = {EquipmentRequestDTO.class})))
+    })
+    @GetMapping(value = "/search", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<PagedResult<EquipmentRequestDTO>> search(@ModelAttribute EquipmentSearchFilterDTO filter) {
+        PagedResult<EquipmentRequestDTO> companies = searchService.search(filter);
+
+        return new ResponseEntity<>(companies, HttpStatus.OK);
     }
 }
