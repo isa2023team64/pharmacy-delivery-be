@@ -18,7 +18,7 @@ INSERT INTO public.company_administrator(
 INSERT INTO public.equipment(name, description, type, average_rating)
 	VALUES 
 	('Injekcija', 'Za vakcinisanje', 'TypeA', 4.5),
-	('Stetoskop', 'Za slusanje srca', 'TypeB', 3.8);
+	('Stetoskop', 'Za slusanje srca', 'TypeB', 3.8),
   ('Toplomer', 'Za merenje temperature', 'TypeC', 2.9);
 
 INSERT INTO company_uses_equipment(
