@@ -80,9 +80,16 @@ public class MockCompanyAdministratorController {
     public ResponseEntity<MockCompanyAdministratorResponseDTO> registerMockCompanyAdministrator(@RequestBody MockCompanyAdministratorRequestDTO mockCompanyAdministratorRequestDTO) {
         MockCompanyAdministrator mockCompanyAdministrator = new MockCompanyAdministrator();
 
-        mockCompanyAdministrator.setUsername(mockCompanyAdministratorRequestDTO.getUsername());
-        mockCompanyAdministrator.setPassword(mockCompanyAdministratorRequestDTO.getPassword());
         mockCompanyAdministrator.setEmail(mockCompanyAdministratorRequestDTO.getEmail());
+        mockCompanyAdministrator.setPassword(mockCompanyAdministratorRequestDTO.getPassword());
+        mockCompanyAdministrator.setFirstName(mockCompanyAdministratorRequestDTO.getFirstName());
+        mockCompanyAdministrator.setLastName(mockCompanyAdministratorRequestDTO.getLastName());
+        mockCompanyAdministrator.setCity(mockCompanyAdministratorRequestDTO.getCity());
+        mockCompanyAdministrator.setCountry(mockCompanyAdministratorRequestDTO.getCountry());
+        mockCompanyAdministrator.setPhoneNumber(mockCompanyAdministratorRequestDTO.getPhoneNumber());
+        mockCompanyAdministrator.setWorkplace(mockCompanyAdministratorRequestDTO.getWorkplace());
+        mockCompanyAdministrator.setCompany(mockCompanyAdministratorRequestDTO.getCompany());
+
 
 
         mockCompanyAdministrator = mockCompanyAdministratorService.register(mockCompanyAdministrator);

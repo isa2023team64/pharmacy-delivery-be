@@ -6,7 +6,6 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -86,25 +85,4 @@ public class RegisteredUserController {
 
         return new ResponseEntity<>(new RegisteredUserResponseDTO(registeredUser), HttpStatus.OK);
     }
-
-    @Operation(summary = "Activate registered user by ID", description = "Activates a registered user by ID", method = "PUT")
-    @ApiResponses(value = {
-        @ApiResponse(responseCode = "200", description = "Registered user activated successfully.",
-                    content = @Content(mediaType = "application/json",
-                    schema = @Schema(implementation = RegisteredUserResponseDTO.class))),
-        @ApiResponse(responseCode = "404", description = "Registered user not found.", content = @Content),
-        @ApiResponse(responseCode = "500", description = "Internal server error.", content = @Content)
-    })
-    @PutMapping(value = "/activate/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<RegisteredUserResponseDTO> activateRegisteredUserById(@PathVariable int id) {
-        RegisteredUser activatedUser = registeredUserService.activateRegisteredUser(id);
-
-        if (activatedUser == null) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-
-        return new ResponseEntity<>(new RegisteredUserResponseDTO(activatedUser), HttpStatus.OK);
-    }
-
-
 }

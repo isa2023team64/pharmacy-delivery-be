@@ -10,8 +10,6 @@ import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
-import jakarta.persistence.Inheritance;
-import jakarta.persistence.InheritanceType;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotEmpty;
@@ -20,7 +18,6 @@ import jakarta.validation.constraints.NotEmpty;
 
 @Entity
 @Table(name="app_company")
-@Inheritance(strategy = InheritanceType.JOINED)
 public class Company extends GenericEntity{
  
     @Column(unique = true, nullable = false)
@@ -76,7 +73,7 @@ public class Company extends GenericEntity{
         this.averageRating = averageRating;
         this.companyAdministrators = companyAdministrators;
         if (companyAdministrators != null) {
-            companyAdministrators.forEach(companyAdministrator -> companyAdministrator.setCompany(this));
+            companyAdministrators.forEach(companyAdministrator -> companyAdministrator.setCompanyEntity(this));
         }
     }
 
@@ -153,7 +150,7 @@ public class Company extends GenericEntity{
     public void setCompanyAdministrators(List<MockCompanyAdministrator> companyAdministrators) {
         this.companyAdministrators = companyAdministrators;
         if(companyAdministrators != null) {
-            companyAdministrators.forEach(companyAdministrator -> companyAdministrator.setCompany(this));
+            companyAdministrators.forEach(companyAdministrator -> companyAdministrator.setCompanyEntity(this));
         }
     }
 
