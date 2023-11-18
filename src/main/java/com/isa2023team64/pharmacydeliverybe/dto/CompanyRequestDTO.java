@@ -13,7 +13,6 @@ public class CompanyRequestDTO {
     private String city;
     private String country;
     private String description;
-    private double averageRating;
 
     private String openingTime;
     private String closingTime;
@@ -26,12 +25,11 @@ public class CompanyRequestDTO {
 
     public CompanyRequestDTO(Company company){
         this(company.getName(), company.getAddress(), company.getCity(), company.getCountry(), company.getOpeningTime(),
-        company.getClosingTime(), company.getDescription(), company.getAverageRating(), 
-        company.getCompanyAdministrators());
+        company.getClosingTime(), company.getDescription(), company.getCompanyAdministrators());
     }
 
     public CompanyRequestDTO(String name, String address, String city, String country, LocalTime openingTime, LocalTime closingTime,
-    String description, double averageRating, List<CompanyAdministrator> companyAdministrators) {
+    String description, List<CompanyAdministrator> companyAdministrators) {
         this.name = name;
         this.address = address;
         this.city = city;
@@ -39,7 +37,6 @@ public class CompanyRequestDTO {
         this.openingTime = openingTime.getHour()+":"+openingTime.getMinute()+":"+openingTime.getSecond();
         this.closingTime = closingTime.getHour()+":"+closingTime.getMinute()+":"+openingTime.getSecond();
         this.description = description;
-        this.averageRating = averageRating;
         if (companyAdministrators != null) {
             this.companyAdministrators = companyAdministrators
                     .stream()
@@ -102,14 +99,6 @@ public class CompanyRequestDTO {
 
     public void setDescription(String description) {
         this.description = description;
-    }
-
-    public double getAverageRating() {
-        return averageRating;
-    }
-
-    public void setAverageRating(double averageRating) {
-        this.averageRating = averageRating;
     }
 
     public List<CompanyAdministratorRequestDTO> getCompanyAdministrators() {

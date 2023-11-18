@@ -22,8 +22,11 @@ public class CompanyService {
         return companyRepository.findAll();
     }
 
-    // TODO: proveriti da li je name jedinstven
     public Company register(Company company) {
+        return companyRepository.save(company);
+    }
+
+    public Company update(Company company) {
         return companyRepository.save(company);
     }
 }

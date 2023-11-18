@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -18,6 +19,8 @@ import com.isa2023team64.pharmacydeliverybe.model.Company;
 import com.isa2023team64.pharmacydeliverybe.service.CompanyService;
 
 import com.isa2023team64.pharmacydeliverybe.dto.CompanyAdministratorRequestDTO;
+import com.isa2023team64.pharmacydeliverybe.dto.CompanyInfoRequestDTO;
+import com.isa2023team64.pharmacydeliverybe.dto.CompanyInfoResponseDTO;
 import com.isa2023team64.pharmacydeliverybe.service.CompanyAdministratorService;
 import com.isa2023team64.pharmacydeliverybe.model.CompanyAdministrator;
 
@@ -46,9 +49,9 @@ public class CompanyController {
 
     @Operation(summary = "Get all companies", description = "Gets all companies.", method = "GET")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "All companies fetched successfully.",
-                    content = @Content(mediaType = "application/json",
-                    array = @ArraySchema(schema = @Schema(implementation = Company.class))))
+        @ApiResponse(responseCode = "200", description = "All companies fetched successfully.",
+                     content = @Content(mediaType = "application/json",
+                     array = @ArraySchema(schema = @Schema(implementation = Company.class))))
     })
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<List<CompanyResponseDTO>> getAll() {
@@ -114,7 +117,7 @@ public class CompanyController {
         company.setOpeningTime(openingTime);
         company.setClosingTime(closingTime);
         company.setDescription(companyRequestDTO.getDescription());
-        company.setAverageRating(companyRequestDTO.getAverageRating());
+        company.setAverageRating(0);
 
         company = companyService.register(company);
 
@@ -184,4 +187,47 @@ public class CompanyController {
         return new ResponseEntity<>(new CompanyResponseDTO(company), HttpStatus.CREATED);
     }
 
+    @Operation(summary = "Update company info", description = "Update company info", method = "PUT")
+	@ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "OK",
+                     content = { @Content(mediaType = "application/json", schema = @Schema(implementation = Company.class)) }),
+        @ApiResponse(responseCode = "404", description = "Company not found.", content = @Content)
+	})
+	@PutMapping(value = "/{id}",consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<CompanyInfoResponseDTO> updateCompanyInfo(@PathVariable Integer id, @RequestBody CompanyInfoRequestDTO companyRequestDTO) {
+        Company company = companyService.findById(id);
+
+        if (company == null) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
+        String openingTimeDTO = companyRequestDTO.getOpeningTime();
+        String closingTimeDTO = companyRequestDTO.getClosingTime();
+
+        String[]openingTimeComponents = openingTimeDTO.split(":");
+        String[]closingTimeComponents = closingTimeDTO.split(":");
+
+        int openingHours = Integer.parseInt(openingTimeComponents[0]);
+        int openingMinutes = Integer.parseInt(openingTimeComponents[1]);
+        int openingSeconds = Integer.parseInt(openingTimeComponents[2]);
+        
+        int closingHours = Integer.parseInt(closingTimeComponents[0]);
+        int closingMinutes = Integer.parseInt(closingTimeComponents[1]);
+        int closingSeconds = Integer.parseInt(closingTimeComponents[2]);
+
+        LocalTime openingTime = LocalTime.of(openingHours, openingMinutes, openingSeconds, 0);
+        LocalTime closingTime = LocalTime.of(closingHours, closingMinutes, closingSeconds, 0);
+
+        company.setName(companyRequestDTO.getName());
+        company.setAddress(companyRequestDTO.getAddress());
+        company.setCity(companyRequestDTO.getCity());
+        company.setCountry(companyRequestDTO.getCountry());
+        company.setOpeningTime(openingTime);
+        company.setClosingTime(closingTime);
+        company.setDescription(companyRequestDTO.getDescription());
+
+        company = companyService.register(company);
+
+        return new ResponseEntity<>(new CompanyInfoResponseDTO(company), HttpStatus.CREATED);
+    }
 }

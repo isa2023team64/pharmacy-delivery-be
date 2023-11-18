@@ -8,6 +8,7 @@ import com.isa2023team64.pharmacydeliverybe.model.CompanyAdministrator;
 
 public class CompanyResponseDTO extends CompanyRequestDTO{
     private Integer id;
+    private double averageRating;
 
     public CompanyResponseDTO(){
         super();
@@ -21,8 +22,9 @@ public class CompanyResponseDTO extends CompanyRequestDTO{
 
     public CompanyResponseDTO(Integer id, String name, String address, String city, String country, LocalTime openingTime, LocalTime closingTime,
     String description, double averageRating, List<CompanyAdministrator> companyAdministrators) {
-        super(name ,address, city, country, openingTime, closingTime, description, averageRating, companyAdministrators);
+        super(name ,address, city, country, openingTime, closingTime, description, companyAdministrators);
         this.id = id;
+        this.averageRating = averageRating;
     }
 
     public Integer getId() {
@@ -31,5 +33,13 @@ public class CompanyResponseDTO extends CompanyRequestDTO{
 
     public void setId(Integer id) {
         this.id = id;
+    }
+
+    public double getAverageRating() {
+        return averageRating;
+    }
+
+    public void setAverageRating(double averageRating) {
+        this.averageRating = averageRating;
     }
 }
