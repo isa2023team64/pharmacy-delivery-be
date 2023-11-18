@@ -10,11 +10,11 @@ public class EquipmentResponseDTO extends EquipmentRequestDTO {
     }
 
     public EquipmentResponseDTO(Equipment equipment) {
-        this(equipment.getId(), equipment.getName(), equipment.getDescription());
+        this(equipment.getId(), equipment.getName(), equipment.getDescription(), equipment.getType(), equipment.getAverageRating());
     }
 
-    public EquipmentResponseDTO(Integer id, String name, String description) {
-        super(name, description);
+    public EquipmentResponseDTO(Integer id, String name, String description, String type, double averageRating) {
+        super(name, description, type, averageRating);
         this.id = id;
     }
 

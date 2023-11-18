@@ -5,9 +5,12 @@ public class EquipmentSearchFilterDTO {
     private String name;
     private String type;
     private String description;
-    private double minRating;
-    private double maxRating;
+    private String minRating;
+    private String maxRating;
     private String sortCriteria;
+    private int page;
+    private int pageSize;
+
 
     public EquipmentSearchFilterDTO(){
         super();
@@ -26,11 +29,11 @@ public class EquipmentSearchFilterDTO {
         return description;
     }
 
-    public double getMinRating() {
+    public String getMinRating() {
         return minRating;
     }
 
-    public double getMaxRating() {
+    public String getMaxRating() {
         return maxRating;
     }
 
@@ -51,11 +54,11 @@ public class EquipmentSearchFilterDTO {
         this.description = description;
     }
 
-    public void setMinRating(double minRating) {
+    public void setMinRating(String minRating) {
         this.minRating = minRating;
     }
 
-    public void setMaxRating(double maxRating) {
+    public void setMaxRating(String maxRating) {
         this.maxRating = maxRating;
     }
 
@@ -63,5 +66,20 @@ public class EquipmentSearchFilterDTO {
         this.sortCriteria = sortCriteria;
     }
 
+    public int getPage() {
+        return page;
+    }
+
+    public void setPage(int page) {
+        this.page = page;
+    }
+
+    public int getPageSize() {
+        return pageSize;
+    }
+
+    public void setPageSize(int pageSize) {
+        this.pageSize = pageSize;
+    }
 
 }

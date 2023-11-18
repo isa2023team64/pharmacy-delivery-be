@@ -22,6 +22,14 @@ public class Equipment extends GenericEntity {
     @NotNull
     private String description;
 
+    @Column
+    @NotNull
+    private String type;
+
+    @Column
+    @NotNull
+    private double averageRating;
+
 	@ManyToMany( cascade = {CascadeType.PERSIST,CascadeType.MERGE,CascadeType.DETACH})
 	@JoinTable(name = "company_uses_equipment", joinColumns = @JoinColumn(name = "equipment_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "company_id", referencedColumnName = "id"))
     private List<Company> companies;
@@ -30,10 +38,12 @@ public class Equipment extends GenericEntity {
         super();
     }
 
-    public Equipment(Integer id, String name, String description) {
+    public Equipment(Integer id, String name, String description, String type, double averageRating) {
         super(id);
         this.name = name;
         this.description = description;
+        this.type = type;
+        this.averageRating = averageRating;
     }
 
     public String getName() {
@@ -52,12 +62,29 @@ public class Equipment extends GenericEntity {
         this.description = description;
     }
 
+
+    public String getType(){
+        return type;
+    }
+    
+    public void setType(String type){
+        this.type = type;
+    }
+
+    public double getAverageRating(){
+        return averageRating;
+    }
+
+    public void setAverageRating(double averageRating){
+        this.averageRating = averageRating;
+
     public List<Company> getCompanies() {
         return companies;
     }
 
     public void setCompanies(List<Company> companies) {
         this.companies = companies;
+
     }
 
 }

@@ -1,7 +1,7 @@
 package com.isa2023team64.pharmacydeliverybe.model;
 
 public class EquipmentSearchFilter {
-    
+
     private String name;
     private String type;
     private String description;
@@ -9,15 +9,25 @@ public class EquipmentSearchFilter {
     private double maxRating;
     private String sortCriteria;
 
-    public EquipmentSearchFilter(String name, String type, String description, double minRating, double maxRating,
-    String sortCriteria){
+    public EquipmentSearchFilter(String name, String description, String type, String minRating, String maxRating) {
         super();
-        this.name = name;
-        this.type = type;
-        this.description = description;
-        this.minRating = minRating;
-        this.maxRating = maxRating;
-        this.sortCriteria = sortCriteria;
+        this.name = name != null ? name : "";
+        this.type = type != null ? type : "";
+        this.description = description != null ? description : "";
+
+        try {
+            this.minRating = Double.parseDouble(minRating);
+            this.minRating = this.minRating < 0 ? 0 : this.minRating;
+        } catch (Exception e) {
+            this.minRating = 0;
+        }
+
+        try {
+            this.maxRating = Double.parseDouble(maxRating);
+            this.maxRating = this.maxRating < 0 ? 0 : this.maxRating;
+        } catch (Exception e) {
+            this.maxRating = 5;
+        }
     }
 
     public String getName() {
@@ -45,6 +55,7 @@ public class EquipmentSearchFilter {
     }
 
     // Setters
+
     public void setName(String name) {
         this.name = name;
     }
@@ -68,5 +79,4 @@ public class EquipmentSearchFilter {
     public void setSortCriteria(String sortCriteria) {
         this.sortCriteria = sortCriteria;
     }
-
 }

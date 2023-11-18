@@ -15,11 +15,11 @@ INSERT INTO public.company_administrator(
 	company_id, id)
 	VALUES (1, 3);
 
-INSERT INTO public.equipment(
-	name, description)
-	VALUES ('Injekcija', 'Za vakcinisanje'),
-		   ('Stetoskop', 'Za slusanje srca'),
-		   ('Toplomer', 'Za merenje temperature');
+INSERT INTO public.equipment(name, description, type, average_rating)
+	VALUES 
+	('Injekcija', 'Za vakcinisanje', 'TypeA', 4.5),
+	('Stetoskop', 'Za slusanje srca', 'TypeB', 3.8);
+  ('Toplomer', 'Za merenje temperature', 'TypeC', 2.9);
 
 INSERT INTO company_uses_equipment(
 	company_id, equipment_id)
