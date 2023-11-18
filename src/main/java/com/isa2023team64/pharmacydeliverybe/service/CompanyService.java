@@ -8,13 +8,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.isa2023team64.pharmacydeliverybe.dto.CompanyNoAdminDTO;
-import com.isa2023team64.pharmacydeliverybe.dto.EquipmentRequestDTO;
+import com.isa2023team64.pharmacydeliverybe.dto.CompanySearchFilterDTO;
 import com.isa2023team64.pharmacydeliverybe.dto.EquipmentSearchFilterDTO;
 import com.isa2023team64.pharmacydeliverybe.model.Company;
 import com.isa2023team64.pharmacydeliverybe.repository.CompanyRepository;
 import com.isa2023team64.pharmacydeliverybe.util.PagedResult;
 import com.isa2023team64.pharmacydeliverybe.util.converters.PagedResultConverter;
-import com.isa2023team64.pharmacydeliverybe.util.PagedResult;
 
 @Service
 public class CompanyService {
@@ -51,6 +50,19 @@ public class CompanyService {
     public PagedResult<CompanyNoAdminDTO> findCompaniesByEquipmentIds(List<Integer> equipmentIds, EquipmentSearchFilterDTO filter) {
         List<Company> companies = companyRepository.findCompaniesByEquipmentIds(equipmentIds);
         
+        List<CompanyNoAdminDTO> companyDTOs = companies.stream()
+        .map(company -> modelMapper.map(company, CompanyNoAdminDTO.class))
+        .collect(Collectors.toList());
+
+        PagedResult<CompanyNoAdminDTO> companyPage = pagedResultConverter.convertToPagedResult(
+        companyDTOs, filter.getPage(), filter.getPageSize());
+
+        return companyPage;
+    }
+
+    public PagedResult<CompanyNoAdminDTO> findCompaniesByEquipmentId(Integer equipmentId, CompanySearchFilterDTO filter) {
+        List<Company> companies = companyRepository.findCompaniesWithSingleEquipmentById(equipmentId);
+
         List<CompanyNoAdminDTO> companyDTOs = companies.stream()
         .map(company -> modelMapper.map(company, CompanyNoAdminDTO.class))
         .collect(Collectors.toList());

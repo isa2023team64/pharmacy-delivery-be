@@ -258,7 +258,7 @@ public class CompanyController {
         return new ResponseEntity<>(equipmentResponseDTOs, HttpStatus.OK);
     }
 
-    @GetMapping(value = "/search-equipment", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = "/search-by-equipment-filter", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<PagedResult<CompanyNoAdminDTO>> searchCompanyByEquipment(@ModelAttribute EquipmentSearchFilterDTO filter) {
 
         List<Equipment> equipment = equipmentSearchService.searchEntities(filter);
@@ -266,6 +266,14 @@ public class CompanyController {
         List<Integer> equipmentIds = equipment.stream().map(Equipment::getId).collect(Collectors.toList());
 
         PagedResult<CompanyNoAdminDTO> companyPage = companyService.findCompaniesByEquipmentIds(equipmentIds, filter);
+
+        return new ResponseEntity<>(companyPage, HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/by-equipment/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<PagedResult<CompanyNoAdminDTO>> searchCompanyByEquipment(@PathVariable Integer id, @ModelAttribute CompanySearchFilterDTO filter) {
+
+        PagedResult<CompanyNoAdminDTO> companyPage = companyService.findCompaniesByEquipmentId(id, filter);
 
         return new ResponseEntity<>(companyPage, HttpStatus.OK);
     }

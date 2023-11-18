@@ -15,4 +15,7 @@ public interface CompanyRepository extends JpaRepository<Company, Integer> {
 
     @Query("SELECT DISTINCT c FROM Company c JOIN c.equipment e WHERE e.id IN :equipmentIds")
     List<Company> findCompaniesByEquipmentIds(@Param("equipmentIds") List<Integer> equipmentIds);
+
+    @Query("SELECT DISTINCT c FROM Company c JOIN c.equipment e WHERE e.id = :equipmentId GROUP BY c HAVING COUNT(e) = 1")
+    List<Company> findCompaniesWithSingleEquipmentById(@Param("equipmentId") Integer equipmentId);    
 }
