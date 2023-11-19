@@ -70,12 +70,14 @@ public class CompanyController {
                      array = @ArraySchema(schema = @Schema(implementation = Company.class))))
     })
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<List<CompanyInfoResponseDTO>> getAll() {
+    public ResponseEntity<List<CompanyResponseDTO>> getAll() {
         List<Company> companies = companyService.findAll();
 
-        List<CompanyInfoResponseDTO> companyDTOs = new ArrayList<>();
+
+        List<CompanyResponseDTO> companyDTOs = new ArrayList<>();
         for(Company c : companies){
-            companyDTOs.add(new CompanyInfoResponseDTO(c));
+            c.setCompanyAdministrators(companyService.findCompanyAdministratorsByCompanyId(c.getId()));
+            companyDTOs.add(new CompanyResponseDTO(c));
         }
 
         return new ResponseEntity<>(companyDTOs, HttpStatus.OK);
@@ -89,14 +91,17 @@ public class CompanyController {
         @ApiResponse(responseCode = "404", description = "Company not found.", content = @Content)
     })
     @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)   
-    public ResponseEntity<CompanyInfoResponseDTO> getCompanyById(@PathVariable Integer id) {
+    public ResponseEntity<CompanyResponseDTO> getCompanyById(@PathVariable Integer id) {
         Company company = companyService.findById(id);
                  
+        List<CompanyAdministrator> companyAdministrators = companyService.findCompanyAdministratorsByCompanyId(company.getId());
+        company.setCompanyAdministrators(companyAdministrators);
+
         if (company == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 
-        return new ResponseEntity<>(new CompanyInfoResponseDTO(company), HttpStatus.OK);
+        return new ResponseEntity<>(new CompanyResponseDTO(company), HttpStatus.OK);
     }
 
     @Operation(summary = "Register new company", description = "Registers new company", method = "POST")
@@ -279,24 +284,40 @@ public class CompanyController {
         return new ResponseEntity<>(companyPage, HttpStatus.OK);
     }
 
-    @Operation(summary = "Get company with company's administrators by id", description = "Gets company with company's administrators by id", method = "GET")
+    @Operation(summary = "Get all companies without companies administrators", description = "Gets all companies without companies administrators.", method = "GET")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "All companies fetched successfully.",
+                     content = @Content(mediaType = "application/json",
+                     array = @ArraySchema(schema = @Schema(implementation = Company.class))))
+    })
+    @GetMapping(value = "/no-company-administrators", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<List<CompanyInfoResponseDTO>> getAllWithoutCompanyAdministrators() {
+        List<Company> companies = companyService.findAll();
+
+        List<CompanyInfoResponseDTO> companyDTOs = new ArrayList<>();
+        for(Company c : companies){
+            companyDTOs.add(new CompanyInfoResponseDTO(c));
+        }
+
+        return new ResponseEntity<>(companyDTOs, HttpStatus.OK);
+    }
+
+    @Operation(summary = "Get company without company's administrators by id", description = "Gets company without company's administrators by id", method = "GET")
     @ApiResponses(value = {
         @ApiResponse(responseCode = "200", description = "Company fetched successfully.",
                 content = @Content(mediaType = "application/json",
                 schema = @Schema(implementation = Company.class))),
         @ApiResponse(responseCode = "404", description = "Company not found.", content = @Content)
     })
-    @GetMapping(value = "/company-administrators/{id}", produces = MediaType.APPLICATION_JSON_VALUE)   
-    public ResponseEntity<CompanyResponseDTO> getCompanyWithCompanyAdministratorsById(@PathVariable Integer id) {
+    @GetMapping(value = "/no-company-administrators/{id}", produces = MediaType.APPLICATION_JSON_VALUE)   
+    public ResponseEntity<CompanyInfoResponseDTO> getCompanyWithoutCompanyAdministratorsById(@PathVariable Integer id) {
+        
         Company company = companyService.findById(id);
                  
-        List<CompanyAdministrator> companyAdministrators = companyService.findCompanyAdministratorsByCompanyId(company.getId());
-        company.setCompanyAdministrators(companyAdministrators);
-
         if (company == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 
-        return new ResponseEntity<>(new CompanyResponseDTO(company), HttpStatus.OK);
+        return new ResponseEntity<>(new CompanyInfoResponseDTO(company), HttpStatus.OK);
     }
 }
