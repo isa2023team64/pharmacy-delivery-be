@@ -10,7 +10,7 @@ import jakarta.persistence.ManyToOne;
 @Entity
 public class CompanyAdministrator extends User {
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "company_id")
     private Company company;
 
