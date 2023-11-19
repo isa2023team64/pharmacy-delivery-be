@@ -48,6 +48,10 @@ public class Company extends GenericEntity{
     @Column(nullable = false)
     private double averageRating;
 
+    @Column(name = "image_url", nullable = false)
+    @NotEmpty
+    private String imageURL;
+
     @OneToMany(mappedBy = "company", cascade = CascadeType.ALL)
     private List<CompanyAdministrator> companyAdministrators;
     
@@ -60,21 +64,23 @@ public class Company extends GenericEntity{
         super();
     }
 
-    public Company(Integer id, String name, String address, String description, double averageRating){
+    public Company(Integer id, String name, String address, String description, double averageRating, String imageURL){
         super(id);
         this.name = name;
         this.address = address;
         this.description = description;
         this.averageRating = averageRating;
+        this.imageURL = imageURL;
         this.companyAdministrators = new ArrayList<CompanyAdministrator>();
     }   
 
-    public Company(Integer id, String name, String address, String description, double averageRating, List<CompanyAdministrator> companyAdministrators) {
+    public Company(Integer id, String name, String address, String description, double averageRating, String imageURL, List<CompanyAdministrator> companyAdministrators) {
         super(id);
         this.name = name;
         this.address = address;
         this.description = description;
         this.averageRating = averageRating;
+        this.imageURL = imageURL;
         this.companyAdministrators = companyAdministrators;
         if (companyAdministrators != null) {
             companyAdministrators.forEach(companyAdministrator -> companyAdministrator.setCompanyEntity(this));
@@ -145,7 +151,7 @@ public class Company extends GenericEntity{
 
     public void setAverageRating(double averageRating) {
         this.averageRating = averageRating;
-    }
+    } 
 
     public List<CompanyAdministrator> getCompanyAdministrators() {
         return companyAdministrators;
@@ -166,4 +172,11 @@ public class Company extends GenericEntity{
         this.equipment = equipment;
     }
 
+    public String getImageURL() {
+        return imageURL;
+    }
+
+    public void setImageURL(String imageURL) {
+        this.imageURL = imageURL;
+    }
 }

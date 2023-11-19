@@ -8,6 +8,7 @@ public class CompanyNoAdminDTO {
     private String country;
     private String description;
     private double averageRating;
+    private String imageURL;
 
     private String openingTime;
     private String closingTime;
@@ -85,5 +86,13 @@ public class CompanyNoAdminDTO {
 
     public void setAverageRating(double averageRating) {
         this.averageRating = averageRating;
+    }
+
+    public String getImageURL() {
+        return imageURL;
+    }
+
+    public void setImageURL(String imageURL) {
+        this.imageURL = imageURL;
     }
 }
