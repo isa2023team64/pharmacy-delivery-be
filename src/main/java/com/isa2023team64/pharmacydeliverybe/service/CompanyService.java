@@ -79,4 +79,8 @@ public class CompanyService {
 
         return companyPage;
     }
+
+    public Company findCompanyByAdministratorId(Integer companyAdministratorId) {
+        return companyRepository.findCompanyByAdministratorId(companyAdministratorId);
+    }
 }

@@ -14,4 +14,6 @@ public interface EquipmentSearchService {
     public PagedResult<EquipmentResponseDTO> search(EquipmentSearchFilterDTO filter);
 
     public List<Equipment> searchEntities(EquipmentSearchFilterDTO filter);
+
+    public PagedResult<EquipmentResponseDTO> searchWithCompanyAdministrator(Integer companyAdministratorId, EquipmentSearchFilterDTO filter);
 }
