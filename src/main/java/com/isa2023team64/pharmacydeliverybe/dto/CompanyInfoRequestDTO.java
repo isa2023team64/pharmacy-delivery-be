@@ -3,6 +3,7 @@ package com.isa2023team64.pharmacydeliverybe.dto;
 import java.time.LocalTime;
 
 import com.isa2023team64.pharmacydeliverybe.model.Company;
+import com.isa2023team64.pharmacydeliverybe.util.WorkingHours;
 
 public class CompanyInfoRequestDTO {
     private String name;
@@ -28,8 +29,8 @@ public class CompanyInfoRequestDTO {
         this.city = city;
         this.country = country;
         this.description = description;
-        this.openingTime = openingTime.getHour()+":"+openingTime.getMinute()+":"+openingTime.getSecond();
-        this.closingTime = closingTime.getHour()+":"+closingTime.getMinute()+":"+openingTime.getSecond();
+        this.openingTime = WorkingHours.formatTime(openingTime);
+        this.closingTime = WorkingHours.formatTime(closingTime);
     }
 
     public String getName() {

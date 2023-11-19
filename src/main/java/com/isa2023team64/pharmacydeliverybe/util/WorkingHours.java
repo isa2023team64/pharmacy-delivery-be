@@ -28,7 +28,19 @@ public class WorkingHours {
     }
 
     public static String formatTime(LocalTime time) {
-        return time.getHour() + ":" + time.getMinute() + ":" + time.getSecond();
+        String hour = formatNumber(time.getHour());
+        String minute = formatNumber(time.getMinute());
+        String second = formatNumber(time.getSecond());
+        return hour + ":" + minute + ":" + second;
+    }
+
+    private static String formatNumber(int number) {
+        String formatted = "";
+        if (number < 10) {
+            formatted += "0";
+        }
+        formatted += Integer.toString(number);
+        return formatted;
     }
 
     public String getOpeningTimeFormatted() {

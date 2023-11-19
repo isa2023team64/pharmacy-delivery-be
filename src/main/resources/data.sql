@@ -1,5 +1,5 @@
 INSERT INTO public.company(
-	average_rating, closing_time, opening_time, address, city, country, description, name)
+	average_rating, opening_time, closing_time, address, city, country, description, name)
 	VALUES (0, '08:00:00', '20:00:00', 'Bulevar Oslobodjenja', 'Novi Sad', 'Serbia', 'Medical equipment', 'Hemofarm'),
 			(4, '09:00:00', '21:00:00', 'Bulevar Cara Lazara', 'Novi Sad', 'Serbia', 'New medical equipment', 'MediGroup');
 
