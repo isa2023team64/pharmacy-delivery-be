@@ -1,44 +1,32 @@
 package com.isa2023team64.pharmacydeliverybe.dto;
 
-import com.isa2023team64.pharmacydeliverybe.model.RegisteredUser;
-
-public class RegisteredUserRequestDTO {
-    private String email;
+public class RegisteredUserUpdateDTO {
     private String password;
+    private String passwordConfirmation;
     private String firstName;
     private String lastName;
     private String city;
     private String country;
     private String phoneNumber;
     private String workplace;
-    private String companyName;
+    private String companyName; 
 
-    public RegisteredUserRequestDTO() {
+    public RegisteredUserUpdateDTO() {
         super();
     }
 
-    public RegisteredUserRequestDTO(RegisteredUser registeredUser) {
-        this(registeredUser.getEmail(), registeredUser.getPassword(), registeredUser.getFirstName(), registeredUser.getLastName(),registeredUser.getCity(),registeredUser.getCountry(),registeredUser.getPhoneNumber(),registeredUser.getWorkplace(),registeredUser.getCompanyName());
-    }
-
-    public RegisteredUserRequestDTO(String email, String password, String firstName, String lastName, String city, String country,String phoneNumber, String workplace, String company) {
-        this.email = email;
-        this.password = password;        
+    public RegisteredUserUpdateDTO(String password, String passwordConfirmation, String firstName, String lastName,
+            String city, String country, String phoneNumber, String workplace, String companyName) {
+        super();
+        this.password = password;
+        this.passwordConfirmation = passwordConfirmation;
         this.firstName = firstName;
         this.lastName = lastName;
         this.city = city;
         this.country = country;
         this.phoneNumber = phoneNumber;
         this.workplace = workplace;
-        this.companyName = company;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
+        this.companyName = companyName;
     }
 
     public String getPassword() {
@@ -47,6 +35,14 @@ public class RegisteredUserRequestDTO {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public String getPasswordConfirmation() {
+        return passwordConfirmation;
+    }
+
+    public void setPasswordConfirmation(String passwordConfirmation) {
+        this.passwordConfirmation = passwordConfirmation;
     }
 
     public String getFirstName() {
@@ -60,10 +56,11 @@ public class RegisteredUserRequestDTO {
     public String getLastName() {
         return lastName;
     }
+
     public void setLastName(String lastName) {
         this.lastName = lastName;
     }
-
+    
     public String getCity() {
         return city;
     }
@@ -79,7 +76,7 @@ public class RegisteredUserRequestDTO {
     public void setCountry(String country) {
         this.country = country;
     }
-
+    
     public String getPhoneNumber() {
         return phoneNumber;
     }
@@ -87,7 +84,7 @@ public class RegisteredUserRequestDTO {
     public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
     }
-
+    
     public String getWorkplace() {
         return workplace;
     }
@@ -100,7 +97,7 @@ public class RegisteredUserRequestDTO {
         return companyName;
     }
 
-    public void setCompanyName(String company) {
-        this.companyName = company;
+    public void setCompanyName(String companyName) {
+        this.companyName = companyName;
     }
 }
