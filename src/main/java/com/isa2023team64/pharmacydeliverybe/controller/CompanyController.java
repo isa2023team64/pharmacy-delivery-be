@@ -18,7 +18,6 @@ import com.isa2023team64.pharmacydeliverybe.dto.CompanyNoAdminDTO;
 import com.isa2023team64.pharmacydeliverybe.dto.CompanyRequestDTO;
 import com.isa2023team64.pharmacydeliverybe.dto.CompanyResponseDTO;
 import com.isa2023team64.pharmacydeliverybe.dto.CompanySearchFilterDTO;
-import com.isa2023team64.pharmacydeliverybe.dto.EquipmentRequestDTO;
 import com.isa2023team64.pharmacydeliverybe.dto.EquipmentResponseDTO;
 import com.isa2023team64.pharmacydeliverybe.dto.EquipmentSearchFilterDTO;
 import com.isa2023team64.pharmacydeliverybe.model.Company;
@@ -74,8 +73,10 @@ public class CompanyController {
     public ResponseEntity<List<CompanyResponseDTO>> getAll() {
         List<Company> companies = companyService.findAll();
 
+
         List<CompanyResponseDTO> companyDTOs = new ArrayList<>();
         for(Company c : companies){
+            c.setCompanyAdministrators(companyService.findCompanyAdministratorsByCompanyId(c.getId()));
             companyDTOs.add(new CompanyResponseDTO(c));
         }
 
@@ -92,6 +93,9 @@ public class CompanyController {
     @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)   
     public ResponseEntity<CompanyResponseDTO> getCompanyById(@PathVariable Integer id) {
         Company company = companyService.findById(id);
+                 
+        List<CompanyAdministrator> companyAdministrators = companyService.findCompanyAdministratorsByCompanyId(company.getId());
+        company.setCompanyAdministrators(companyAdministrators);
 
         if (company == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -179,7 +183,8 @@ public class CompanyController {
         
         Company company = companyService.findById(id);
 
-        List<CompanyAdministrator> companyAdministrators = company.getCompanyAdministrators();
+        // List<CompanyAdministrator> companyAdministrators = company.getCompanyAdministrators();
+        List<CompanyAdministrator> companyAdministrators = companyService.findCompanyAdministratorsByCompanyId(company.getId());
 
         CompanyAdministrator companyAdministrator = new CompanyAdministrator();
 
@@ -192,6 +197,7 @@ public class CompanyController {
         companyAdministrator.setPhoneNumber(companyAdministratorRequestDTO.getPhoneNumber());
         companyAdministrator.setWorkplace(companyAdministratorRequestDTO.getWorkplace());
         companyAdministrator.setCompanyName(companyAdministratorRequestDTO.getCompanyName());
+        companyAdministrator.setActive(true);
 
         companyAdministrators.add(companyAdministrator);        
         companyAdministratorService.register(companyAdministrator);
@@ -271,10 +277,47 @@ public class CompanyController {
     }
 
     @GetMapping(value = "/by-equipment/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<PagedResult<CompanyNoAdminDTO>> searchCompanyByEquipment(@PathVariable Integer id, @ModelAttribute CompanySearchFilterDTO filter) {
+    public ResponseEntity<PagedResult<CompanyInfoResponseDTO>> searchCompanyByEquipment(@PathVariable Integer id, @ModelAttribute CompanySearchFilterDTO filter) {
 
-        PagedResult<CompanyNoAdminDTO> companyPage = companyService.findCompaniesByEquipmentId(id, filter);
+        PagedResult<CompanyInfoResponseDTO> companyPage = companyService.findCompaniesByEquipmentId(id, filter);
 
         return new ResponseEntity<>(companyPage, HttpStatus.OK);
+    }
+
+    @Operation(summary = "Get all companies without companies administrators", description = "Gets all companies without companies administrators.", method = "GET")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "All companies fetched successfully.",
+                     content = @Content(mediaType = "application/json",
+                     array = @ArraySchema(schema = @Schema(implementation = Company.class))))
+    })
+    @GetMapping(value = "/no-company-administrators", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<List<CompanyInfoResponseDTO>> getAllWithoutCompanyAdministrators() {
+        List<Company> companies = companyService.findAll();
+
+        List<CompanyInfoResponseDTO> companyDTOs = new ArrayList<>();
+        for(Company c : companies){
+            companyDTOs.add(new CompanyInfoResponseDTO(c));
+        }
+
+        return new ResponseEntity<>(companyDTOs, HttpStatus.OK);
+    }
+
+    @Operation(summary = "Get company without company's administrators by id", description = "Gets company without company's administrators by id", method = "GET")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "Company fetched successfully.",
+                content = @Content(mediaType = "application/json",
+                schema = @Schema(implementation = Company.class))),
+        @ApiResponse(responseCode = "404", description = "Company not found.", content = @Content)
+    })
+    @GetMapping(value = "/no-company-administrators/{id}", produces = MediaType.APPLICATION_JSON_VALUE)   
+    public ResponseEntity<CompanyInfoResponseDTO> getCompanyWithoutCompanyAdministratorsById(@PathVariable Integer id) {
+        
+        Company company = companyService.findById(id);
+                 
+        if (company == null) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
+        return new ResponseEntity<>(new CompanyInfoResponseDTO(company), HttpStatus.OK);
     }
 }

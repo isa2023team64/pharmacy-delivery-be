@@ -9,6 +9,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -65,8 +66,21 @@ public class EquipmentController {
                     schema = @Schema(implementation = PagedResult.class, subTypes = {EquipmentRequestDTO.class})))
     })
     @GetMapping(value = "/search", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<PagedResult<EquipmentRequestDTO>> search(@ModelAttribute EquipmentSearchFilterDTO filter) {
-        PagedResult<EquipmentRequestDTO> equipment = searchService.search(filter);
+    public ResponseEntity<PagedResult<EquipmentResponseDTO>> search(@ModelAttribute EquipmentSearchFilterDTO filter) {
+        PagedResult<EquipmentResponseDTO> equipment = searchService.search(filter);
+
+        return new ResponseEntity<>(equipment, HttpStatus.OK);
+    }
+
+    @Operation(summary = "Search, filter and sort all equipment for company administrator.", description = "Search, filter and sort all equipment for company administrator", method = "GET")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Eqipment searched fetched successfully.",
+                    content = @Content(mediaType = "application/json",
+                    schema = @Schema(implementation = PagedResult.class, subTypes = {EquipmentRequestDTO.class})))
+    })
+    @GetMapping(value = "/search/company-administrator/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<PagedResult<EquipmentResponseDTO>> searchWithCompanyAdministrator(@PathVariable Integer id, @ModelAttribute EquipmentSearchFilterDTO filter) {
+        PagedResult<EquipmentResponseDTO> equipment = searchService.searchWithCompanyAdministrator(id, filter);
 
         return new ResponseEntity<>(equipment, HttpStatus.OK);
     }

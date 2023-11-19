@@ -12,6 +12,7 @@ import com.isa2023team64.pharmacydeliverybe.service.CompanyFilterService;
 @Service
 public class CompanyFilterServiceImplementation implements CompanyFilterService {
 
+    @Override
     public List<Company> filter(List<Company> companies, CompanySearchFilter filter) {
         List<Company> filteredCompanies = companies.stream()
                 .filter(company -> matchesFilter(company, filter))
@@ -32,15 +33,15 @@ public class CompanyFilterServiceImplementation implements CompanyFilterService 
     }
 
     private boolean matchesNameFilter(Company company, String nameFilter) {
-        return company.getName().contains(nameFilter);
+        return company.getName().toLowerCase().contains(nameFilter.toLowerCase());
     }
 
     private boolean matchesCountryFilter(Company company, String countryFilter) {
-        return company.getCountry().contains(countryFilter);
+        return company.getCountry().toLowerCase().contains(countryFilter.toLowerCase());
     }
 
     private boolean matchesCityFilter(Company company, String cityFilter) {
-        return company.getCity().contains(cityFilter);
+        return company.getCity().toLowerCase().contains(cityFilter.toLowerCase());
     }
 
     private boolean matchesMinRatingFilter(Company company, double minRating) {

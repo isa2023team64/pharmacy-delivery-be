@@ -36,6 +36,7 @@ public class CompanySearchServiceImplementation implements CompanySearchService 
     @Autowired
     private PagedResultConverter pagedResultConverter;
 
+    @Override
     public PagedResult<CompanyNoAdminDTO> search(CompanySearchFilterDTO filter) {
         List<Company> companies = companyRepository.findAll();
 

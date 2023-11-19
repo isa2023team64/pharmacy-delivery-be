@@ -6,10 +6,13 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.isa2023team64.pharmacydeliverybe.dto.RegisteredUserResponseDTO;
+import com.isa2023team64.pharmacydeliverybe.dto.RegisteredUserUpdateDTO;
 import com.isa2023team64.pharmacydeliverybe.model.RegisteredUser;
 import com.isa2023team64.pharmacydeliverybe.service.RegisteredUserService;
 
@@ -20,6 +23,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.persistence.EntityNotFoundException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -84,5 +88,29 @@ public class RegisteredUserController {
         }
 
         return new ResponseEntity<>(new RegisteredUserResponseDTO(registeredUser), HttpStatus.OK);
+    }
+
+    @Operation(summary = "Update user.", description = "Update user.", method = "PUT")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "User updated successfully.",
+                     content = @Content(mediaType = "application/json",
+                     schema = @Schema(implementation = RegisteredUser.class))),
+        @ApiResponse(responseCode = "400", description = "Password and confirmation don't match.",
+                     content = @Content(mediaType = "application/json", 
+                     schema = @Schema(implementation = String.class))),
+        @ApiResponse(responseCode = "404", description = "User not found.",
+                     content = @Content(mediaType = "application/json", 
+                     schema = @Schema(implementation = String.class)))
+    })
+    @PutMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> update(@PathVariable int id, @RequestBody RegisteredUserUpdateDTO updatedUser) {
+        try {
+            RegisteredUser user = registeredUserService.update(id, updatedUser);
+            return new ResponseEntity<>(user, HttpStatus.OK);
+        } catch (IllegalArgumentException exception) {
+            return new ResponseEntity<>("Password and confirmation don't match.", HttpStatus.BAD_REQUEST);
+        } catch (EntityNotFoundException exception) {
+            return new ResponseEntity<>("User not found.", HttpStatus.NOT_FOUND);
+        }
     }
 }
