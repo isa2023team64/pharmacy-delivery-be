@@ -13,4 +13,6 @@ public interface EquipmentService {
     public Equipment save(Equipment equipment);
 
     public Equipment update(Equipment equipment);
+
+    public Equipment add(Equipment equipment);
 }
