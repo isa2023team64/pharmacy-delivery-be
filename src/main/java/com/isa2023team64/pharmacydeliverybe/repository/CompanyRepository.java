@@ -22,5 +22,8 @@ public interface CompanyRepository extends JpaRepository<Company, Integer> {
     
     @Query("SELECT ca FROM CompanyAdministrator ca WHERE ca.company.id = :companyId")
     List<CompanyAdministrator> findCompanyAdministratorsByCompanyId(@Param("companyId") Integer companyId);
+
+    @Query("SELECT ca.company FROM CompanyAdministrator ca WHERE ca.id = :companyAdministratorId")
+    public Company findCompanyByAdministratorId(@Param("companyAdministratorId") Integer companyAdministratorId);
     
 }
