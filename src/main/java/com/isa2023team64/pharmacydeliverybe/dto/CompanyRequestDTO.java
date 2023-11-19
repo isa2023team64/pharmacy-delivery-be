@@ -39,6 +39,7 @@ public class CompanyRequestDTO {
         this.openingTime = WorkingHours.formatTime(openingTime);
         this.closingTime = WorkingHours.formatTime(closingTime);
         this.description = description;
+        this.imageURL = imageURL;
         if (companyAdministrators != null) {
             this.companyAdministrators = companyAdministrators
                     .stream()
@@ -110,4 +111,13 @@ public class CompanyRequestDTO {
     public void setCompanyAdministrators(List<CompanyAdministratorRequestDTO> companyAdministrators) {
         this.companyAdministrators = companyAdministrators;
     }
+
+    public String getImageURL(){
+        return this.imageURL;
+    }
+
+    public void setImageURL(String imageURL){
+        this.imageURL = imageURL;
+    }
+
 }
