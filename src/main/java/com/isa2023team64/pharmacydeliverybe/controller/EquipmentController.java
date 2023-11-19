@@ -65,8 +65,8 @@ public class EquipmentController {
                     schema = @Schema(implementation = PagedResult.class, subTypes = {EquipmentRequestDTO.class})))
     })
     @GetMapping(value = "/search", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<PagedResult<EquipmentRequestDTO>> search(@ModelAttribute EquipmentSearchFilterDTO filter) {
-        PagedResult<EquipmentRequestDTO> equipment = searchService.search(filter);
+    public ResponseEntity<PagedResult<EquipmentResponseDTO>> search(@ModelAttribute EquipmentSearchFilterDTO filter) {
+        PagedResult<EquipmentResponseDTO> equipment = searchService.search(filter);
 
         return new ResponseEntity<>(equipment, HttpStatus.OK);
     }

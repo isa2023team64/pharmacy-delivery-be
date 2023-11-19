@@ -7,7 +7,6 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import com.isa2023team64.pharmacydeliverybe.model.Company;
-import com.isa2023team64.pharmacydeliverybe.model.User;
 import com.isa2023team64.pharmacydeliverybe.model.CompanyAdministrator;
 
 public interface CompanyRepository extends JpaRepository<Company, Integer> {
