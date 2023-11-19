@@ -9,37 +9,37 @@ import java.time.LocalTime;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToMany;
-import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotEmpty;
 
 
 
 @Entity
-@Table(name="app_company")
 public class Company extends GenericEntity{
  
     @Column(unique = true, nullable = false)
     @NotEmpty
     private String name;
 
-    @Column(unique = true, nullable = false)
+    @Column(nullable = false)
     @NotEmpty
     private String address;
 
-    @Column(unique = true, nullable = false)
+    @Column(nullable = false)
     @NotEmpty
     private String city;
 
-    @Column(unique = true, nullable = false)
+    @Column(nullable = false)
     @NotEmpty
     private String country;
 
-    @Column(unique = true, nullable = false)
+    @Column(nullable = false)
     private LocalTime openingTime;
 
-    @Column(unique = true, nullable = false)
+    @Column(nullable = false)
     private LocalTime closingTime;
 
     @Column(nullable = false)
@@ -48,8 +48,12 @@ public class Company extends GenericEntity{
     @Column(nullable = false)
     private double averageRating;
 
-    @OneToMany(mappedBy = "company", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    private List<MockCompanyAdministrator> companyAdministrators;
+    @OneToMany(mappedBy = "company", cascade = CascadeType.ALL)
+    private List<CompanyAdministrator> companyAdministrators;
+    
+    @ManyToMany( cascade = {CascadeType.PERSIST,CascadeType.MERGE,CascadeType.DETACH})
+	@JoinTable(name = "company_uses_equipment", joinColumns = @JoinColumn(name = "company_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "equipment_id", referencedColumnName = "id"))
+    private List<Equipment> equipment;
 
 
     public Company(){
@@ -62,10 +66,10 @@ public class Company extends GenericEntity{
         this.address = address;
         this.description = description;
         this.averageRating = averageRating;
-        this.companyAdministrators = new ArrayList<MockCompanyAdministrator>();
+        this.companyAdministrators = new ArrayList<CompanyAdministrator>();
     }   
 
-    public Company(Integer id, String name, String address, String description, double averageRating, List<MockCompanyAdministrator> companyAdministrators) {
+    public Company(Integer id, String name, String address, String description, double averageRating, List<CompanyAdministrator> companyAdministrators) {
         super(id);
         this.name = name;
         this.address = address;
@@ -143,15 +147,23 @@ public class Company extends GenericEntity{
         this.averageRating = averageRating;
     }
 
-    public List<MockCompanyAdministrator> getCompanyAdministrators() {
+    public List<CompanyAdministrator> getCompanyAdministrators() {
         return companyAdministrators;
     }
 
-    public void setCompanyAdministrators(List<MockCompanyAdministrator> companyAdministrators) {
+    public void setCompanyAdministrators(List<CompanyAdministrator> companyAdministrators) {
         this.companyAdministrators = companyAdministrators;
         if(companyAdministrators != null) {
             companyAdministrators.forEach(companyAdministrator -> companyAdministrator.setCompanyEntity(this));
         }
+    }
+    
+    public List<Equipment> getEquipment() {
+        return equipment;
+    }
+
+    public void setEquipment(List<Equipment> equipment) {
+        this.equipment = equipment;
     }
 
 }

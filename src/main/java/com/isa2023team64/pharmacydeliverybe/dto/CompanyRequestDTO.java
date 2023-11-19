@@ -1,7 +1,7 @@
 package com.isa2023team64.pharmacydeliverybe.dto;
 
 import com.isa2023team64.pharmacydeliverybe.model.Company;
-import com.isa2023team64.pharmacydeliverybe.model.MockCompanyAdministrator;
+import com.isa2023team64.pharmacydeliverybe.model.CompanyAdministrator;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -13,12 +13,11 @@ public class CompanyRequestDTO {
     private String city;
     private String country;
     private String description;
-    private double averageRating;
 
     private String openingTime;
     private String closingTime;
 
-    private List<MockCompanyAdministratorRequestDTO> companyAdministrators;
+    private List<CompanyAdministratorRequestDTO> companyAdministrators;
 
     public CompanyRequestDTO() {
         super();
@@ -26,12 +25,11 @@ public class CompanyRequestDTO {
 
     public CompanyRequestDTO(Company company){
         this(company.getName(), company.getAddress(), company.getCity(), company.getCountry(), company.getOpeningTime(),
-        company.getClosingTime(), company.getDescription(), company.getAverageRating(), 
-        company.getCompanyAdministrators());
+        company.getClosingTime(), company.getDescription(), company.getCompanyAdministrators());
     }
 
     public CompanyRequestDTO(String name, String address, String city, String country, LocalTime openingTime, LocalTime closingTime,
-    String description, double averageRating, List<MockCompanyAdministrator> companyAdministrators) {
+    String description, List<CompanyAdministrator> companyAdministrators) {
         this.name = name;
         this.address = address;
         this.city = city;
@@ -39,11 +37,10 @@ public class CompanyRequestDTO {
         this.openingTime = openingTime.getHour()+":"+openingTime.getMinute()+":"+openingTime.getSecond();
         this.closingTime = closingTime.getHour()+":"+closingTime.getMinute()+":"+openingTime.getSecond();
         this.description = description;
-        this.averageRating = averageRating;
         if (companyAdministrators != null) {
             this.companyAdministrators = companyAdministrators
                     .stream()
-                    .map(MockCompanyAdministratorRequestDTO::new)
+                    .map(CompanyAdministratorRequestDTO::new)
                     .collect(Collectors.toList());
         }
     }
@@ -104,19 +101,11 @@ public class CompanyRequestDTO {
         this.description = description;
     }
 
-    public double getAverageRating() {
-        return averageRating;
-    }
-
-    public void setAverageRating(double averageRating) {
-        this.averageRating = averageRating;
-    }
-
-    public List<MockCompanyAdministratorRequestDTO> getCompanyAdministrators() {
+    public List<CompanyAdministratorRequestDTO> getCompanyAdministrators() {
         return companyAdministrators;
     }
 
-    public void setCompanyAdministrators(List<MockCompanyAdministratorRequestDTO> companyAdministrators) {
+    public void setCompanyAdministrators(List<CompanyAdministratorRequestDTO> companyAdministrators) {
         this.companyAdministrators = companyAdministrators;
     }
 }
