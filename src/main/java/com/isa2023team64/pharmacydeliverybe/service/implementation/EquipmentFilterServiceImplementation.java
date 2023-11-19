@@ -32,15 +32,15 @@ public class EquipmentFilterServiceImplementation implements EquipmentFilterServ
     }
 
     private boolean matchesNameFilter(Equipment equipment, String nameFilter) {
-        return equipment.getName().contains(nameFilter);
+        return equipment.getName().toLowerCase().contains(nameFilter.toLowerCase());
     }
 
     private boolean matchesTypeFilter(Equipment equipment, String typeFilter) {
-        return equipment.getType().contains(typeFilter);
+        return equipment.getType().toLowerCase().contains(typeFilter.toLowerCase());
     }
 
     private boolean matchesDescriptionFilter(Equipment equipment, String descriptionFilter) {
-        return equipment.getDescription().contains(descriptionFilter);
+        return equipment.getDescription().toLowerCase().contains(descriptionFilter.toLowerCase());
     }
 
     private boolean matchesMinRatingFilter(Equipment equipment, double minRating) {
