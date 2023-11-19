@@ -14,6 +14,7 @@ public class CompanyRequestDTO {
     private String city;
     private String country;
     private String description;
+    private String imageURL;
 
     private String openingTime;
     private String closingTime;
@@ -25,11 +26,11 @@ public class CompanyRequestDTO {
     }
 
     public CompanyRequestDTO(Company company){
-        this(company.getName(), company.getAddress(), company.getCity(), company.getCountry(), company.getOpeningTime(),
+        this(company.getName(), company.getAddress(), company.getCity(), company.getCountry(), company.getImageURL(), company.getOpeningTime(),
         company.getClosingTime(), company.getDescription(), company.getCompanyAdministrators());
     }
 
-    public CompanyRequestDTO(String name, String address, String city, String country, LocalTime openingTime, LocalTime closingTime,
+    public CompanyRequestDTO(String name, String address, String city, String country, String imageURL, LocalTime openingTime, LocalTime closingTime,
     String description, List<CompanyAdministrator> companyAdministrators) {
         this.name = name;
         this.address = address;
