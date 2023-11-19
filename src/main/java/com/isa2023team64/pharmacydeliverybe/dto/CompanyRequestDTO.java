@@ -2,6 +2,7 @@ package com.isa2023team64.pharmacydeliverybe.dto;
 
 import com.isa2023team64.pharmacydeliverybe.model.Company;
 import com.isa2023team64.pharmacydeliverybe.model.CompanyAdministrator;
+import com.isa2023team64.pharmacydeliverybe.util.WorkingHours;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -34,8 +35,8 @@ public class CompanyRequestDTO {
         this.address = address;
         this.city = city;
         this.country = country;
-        this.openingTime = openingTime.getHour()+":"+openingTime.getMinute()+":"+openingTime.getSecond();
-        this.closingTime = closingTime.getHour()+":"+closingTime.getMinute()+":"+openingTime.getSecond();
+        this.openingTime = WorkingHours.formatTime(openingTime);
+        this.closingTime = WorkingHours.formatTime(closingTime);
         this.description = description;
         if (companyAdministrators != null) {
             this.companyAdministrators = companyAdministrators

@@ -1,6 +1,7 @@
 package com.isa2023team64.pharmacydeliverybe.dto;
 
 public class CompanyNoAdminDTO {
+    private Integer id;
     private String name;
     private String address;
     private String city;
@@ -13,6 +14,14 @@ public class CompanyNoAdminDTO {
 
     public CompanyNoAdminDTO() {
         super();
+    }
+    
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     public String getName() {
