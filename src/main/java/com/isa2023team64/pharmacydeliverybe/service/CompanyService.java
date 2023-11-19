@@ -7,7 +7,9 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.isa2023team64.pharmacydeliverybe.dto.CompanyInfoResponseDTO;
 import com.isa2023team64.pharmacydeliverybe.dto.CompanyNoAdminDTO;
+
 import com.isa2023team64.pharmacydeliverybe.dto.CompanySearchFilterDTO;
 import com.isa2023team64.pharmacydeliverybe.dto.EquipmentSearchFilterDTO;
 import com.isa2023team64.pharmacydeliverybe.model.Company;
@@ -65,14 +67,14 @@ public class CompanyService {
         return companyPage;
     }
 
-    public PagedResult<CompanyNoAdminDTO> findCompaniesByEquipmentId(Integer equipmentId, CompanySearchFilterDTO filter) {
+    public PagedResult<CompanyInfoResponseDTO> findCompaniesByEquipmentId(Integer equipmentId, CompanySearchFilterDTO filter) {
         List<Company> companies = companyRepository.findCompaniesWithSingleEquipmentById(equipmentId);
 
-        List<CompanyNoAdminDTO> companyDTOs = companies.stream()
-        .map(company -> modelMapper.map(company, CompanyNoAdminDTO.class))
+        List<CompanyInfoResponseDTO> companyDTOs = companies.stream()
+        .map(company -> modelMapper.map(company, CompanyInfoResponseDTO.class))
         .collect(Collectors.toList());
 
-        PagedResult<CompanyNoAdminDTO> companyPage = pagedResultConverter.convertToPagedResult(
+        PagedResult<CompanyInfoResponseDTO> companyPage = pagedResultConverter.convertToPagedResult(
         companyDTOs, filter.getPage(), filter.getPageSize());
 
         return companyPage;
