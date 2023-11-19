@@ -6,7 +6,8 @@ INSERT INTO public.company(
 INSERT INTO app_user (email, password, first_name, last_name, active, last_password_reset_date, city, country, phone_number, workplace, company_name)
 VALUES ('user1@example.com', 'password123', 'John', 'Doe', true, CURRENT_TIMESTAMP, 'City', 'Country', '+123456789012', 'Workplace', 'Company'),
        ('veljko@example.com', 'super', 'Veljko', 'Nikolic', true, CURRENT_TIMESTAMP, 'Novi Sad', 'Serbia', '+123456789012', 'Doctor', 'Poliklinika'),
-       ('nikolic@example.com', 'sifra', 'Veljko', 'Nikolic', true, CURRENT_TIMESTAMP, 'Novi Sad', 'Serbia', '+381603080177', 'Administrator', 'Hemofarm');
+       ('nikolic@example.com', 'sifra', 'Veljko', 'Nikolic', true, CURRENT_TIMESTAMP, 'Novi Sad', 'Serbia', '+381603080177', 'Administrator', 'Hemofarm'),
+       ('milos@example.com', 'sifra', 'Milos', 'Djuric', true, CURRENT_TIMESTAMP, 'Novi Sad', 'Serbia', '+381123123789', 'Administrator', 'Hemofarm');
 
 INSERT INTO public.registered_user(id)
 VALUES (1),
@@ -14,7 +15,8 @@ VALUES (1),
 
 INSERT INTO public.company_administrator(
 	company_id, id)
-	VALUES (1, 3);
+	VALUES (1, 3),
+			(1, 4);
 
 INSERT INTO public.equipment(name, description, type, average_rating)
 	VALUES 
