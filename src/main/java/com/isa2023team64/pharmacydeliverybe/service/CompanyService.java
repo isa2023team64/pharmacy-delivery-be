@@ -48,9 +48,9 @@ public class CompanyService {
         return companyRepository.findOneWithEquipment(companyId);
     }
 
-    // public List<CompanyAdministrator> findCompanyAdministratorsByCompanyId(Integer companyId){
-    //     return companyRepository.findCompanyAdministratorsByCompanyIdEagerly(companyId);
-    // }
+    public List<CompanyAdministrator> findCompanyAdministratorsByCompanyId(Integer companyId){
+        return companyRepository.findCompanyAdministratorsByCompanyId(companyId);
+    }
 
     public PagedResult<CompanyNoAdminDTO> findCompaniesByEquipmentIds(List<Integer> equipmentIds, EquipmentSearchFilterDTO filter) {
         List<Company> companies = companyRepository.findCompaniesByEquipmentIds(equipmentIds);

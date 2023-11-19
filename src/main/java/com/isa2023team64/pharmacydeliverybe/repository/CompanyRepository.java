@@ -21,7 +21,7 @@ public interface CompanyRepository extends JpaRepository<Company, Integer> {
     @Query("SELECT DISTINCT c FROM Company c JOIN c.equipment e WHERE e.id = :equipmentId GROUP BY c HAVING COUNT(e) = 1")
     List<Company> findCompaniesWithSingleEquipmentById(@Param("equipmentId") Integer equipmentId); 
     
-    // @Query("SELECT ca FROM CompanyAdministrator ca JOIN ca.id c JOIN ca.company_id u WHERE c.company_id = :companyId")
-    // List<CompanyAdministrator> findCompanyAdministratorsByCompanyIdEagerly(@Param("companyId") Integer companyId);    
+    @Query("SELECT ca FROM CompanyAdministrator ca WHERE ca.company.id = :companyId")
+    List<CompanyAdministrator> findCompanyAdministratorsByCompanyId(@Param("companyId") Integer companyId);
     
 }

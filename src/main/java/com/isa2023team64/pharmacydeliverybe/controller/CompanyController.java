@@ -179,7 +179,8 @@ public class CompanyController {
         
         Company company = companyService.findById(id);
 
-        List<CompanyAdministrator> companyAdministrators = company.getCompanyAdministrators();
+        // List<CompanyAdministrator> companyAdministrators = company.getCompanyAdministrators();
+        List<CompanyAdministrator> companyAdministrators = companyService.findCompanyAdministratorsByCompanyId(company.getId());
 
         CompanyAdministrator companyAdministrator = new CompanyAdministrator();
 

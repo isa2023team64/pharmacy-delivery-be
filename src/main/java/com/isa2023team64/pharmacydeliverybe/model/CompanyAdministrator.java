@@ -3,12 +3,15 @@ package com.isa2023team64.pharmacydeliverybe.model;
 import java.security.Timestamp;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 
 @Entity
 public class CompanyAdministrator extends User {
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "company_id")
     private Company company;
 
     public CompanyAdministrator() {
