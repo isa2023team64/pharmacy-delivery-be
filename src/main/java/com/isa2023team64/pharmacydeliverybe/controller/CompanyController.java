@@ -26,6 +26,7 @@ import com.isa2023team64.pharmacydeliverybe.service.EquipmentSearchService;
 import com.isa2023team64.pharmacydeliverybe.service.CompanyService;
 import com.isa2023team64.pharmacydeliverybe.util.PagedResult;
 import com.isa2023team64.pharmacydeliverybe.util.WorkingHours;
+import com.isa2023team64.pharmacydeliverybe.dto.AddEquipmentToCompanyDTO;
 import com.isa2023team64.pharmacydeliverybe.dto.CompanyAdministratorRequestDTO;
 import com.isa2023team64.pharmacydeliverybe.dto.CompanyInfoRequestDTO;
 import com.isa2023team64.pharmacydeliverybe.dto.CompanyInfoResponseDTO;
@@ -319,5 +320,39 @@ public class CompanyController {
         }
 
         return new ResponseEntity<>(new CompanyInfoResponseDTO(company), HttpStatus.OK);
+    }
+
+    @Operation(summary = "Add equipment to company", description = "Add equipment to company", method = "PUT")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "Company fetched successfully.",
+                content = @Content(mediaType = "application/json",
+                schema = @Schema(implementation = Company.class))),
+        @ApiResponse(responseCode = "404", description = "Company not found.", content = @Content)
+    })
+    @PutMapping(value = "add-equipment", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<AddEquipmentToCompanyDTO> addEquipmentToCompany(@RequestBody AddEquipmentToCompanyDTO dto) {
+        Integer companyId = dto.getCompanyId();
+        Integer equipmentId = dto.getEquipmentId();
+
+        this.companyService.addEquipmentToCompany(companyId, equipmentId);
+
+        return new ResponseEntity<>(new AddEquipmentToCompanyDTO(companyId, equipmentId), HttpStatus.OK);
+    }
+
+    @Operation(summary = "Remove equipment to company", description = "Remove equipment from company", method = "PUT")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "Company fetched successfully.",
+                content = @Content(mediaType = "application/json",
+                schema = @Schema(implementation = Company.class))),
+        @ApiResponse(responseCode = "404", description = "Company not found.", content = @Content)
+    })
+    @PutMapping(value = "remove-equipment", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<AddEquipmentToCompanyDTO> deleteEquipmentFromCompany(@RequestBody AddEquipmentToCompanyDTO dto) {
+        Integer companyId = dto.getCompanyId();
+        Integer equipmentId = dto.getEquipmentId();
+
+        this.companyService.removeEquipmentToCompany(companyId, equipmentId);
+
+        return new ResponseEntity<>(new AddEquipmentToCompanyDTO(companyId, equipmentId), HttpStatus.OK);
     }
 }

@@ -34,5 +34,9 @@ public class EquipmentServiceImplementation implements EquipmentService {
     public Equipment update(Equipment equipment) {
         return equipmentRepository.save(equipment);
     }
-    
+
+    @Override
+    public Equipment add(Equipment equipment) {
+        return equipmentRepository.save(equipment);
+    }
 }

@@ -1,5 +1,6 @@
 package com.isa2023team64.pharmacydeliverybe.service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -14,7 +15,9 @@ import com.isa2023team64.pharmacydeliverybe.dto.CompanySearchFilterDTO;
 import com.isa2023team64.pharmacydeliverybe.dto.EquipmentSearchFilterDTO;
 import com.isa2023team64.pharmacydeliverybe.model.Company;
 import com.isa2023team64.pharmacydeliverybe.model.CompanyAdministrator;
+import com.isa2023team64.pharmacydeliverybe.model.Equipment;
 import com.isa2023team64.pharmacydeliverybe.repository.CompanyRepository;
+import com.isa2023team64.pharmacydeliverybe.repository.EquipmentRepository;
 import com.isa2023team64.pharmacydeliverybe.util.PagedResult;
 import com.isa2023team64.pharmacydeliverybe.util.converters.PagedResultConverter;
 
@@ -23,6 +26,9 @@ public class CompanyService {
     
     @Autowired
     private CompanyRepository companyRepository;
+
+    @Autowired
+    private EquipmentRepository equipmentRepository;
 
     @Autowired
     private ModelMapper modelMapper;
@@ -82,5 +88,40 @@ public class CompanyService {
 
     public Company findCompanyByAdministratorId(Integer companyAdministratorId) {
         return companyRepository.findCompanyByAdministratorId(companyAdministratorId);
+    }
+
+    public void addEquipmentToCompany(Integer companyId, Integer equipmentId) {
+        Company company = companyRepository.findById(companyId).orElse(null);
+        Equipment equipment = equipmentRepository.findById(equipmentId).orElse(null);
+
+        if (company != null && equipment != null) {
+
+            if (company.getEquipment() == null) {
+                company.setEquipment(new ArrayList<>());
+            }
+            company.getEquipment().add(equipment);
+
+            companyRepository.save(company);
+        }
+    }
+
+    public void removeEquipmentToCompany(Integer companyId, Integer equipmentId) {
+        Company company = companyRepository.findById(companyId).orElse(null);
+
+        if (company != null) {
+
+            if (company.getEquipment() == null) {
+                company.setEquipment(new ArrayList<>());
+            }
+            for (Equipment eq : company.getEquipment()) {
+                if (eq.getId() == equipmentId) {
+                    company.getEquipment().remove(eq);
+                    break;
+                }
+            }
+            
+
+            companyRepository.save(company);
+        }
     }
 }
