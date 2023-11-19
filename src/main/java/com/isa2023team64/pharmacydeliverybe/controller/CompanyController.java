@@ -138,7 +138,7 @@ public class CompanyController {
         company.setClosingTime(closingTime);
         company.setDescription(companyRequestDTO.getDescription());
         company.setAverageRating(0);
-        company.setImageURL("https://pactandpartners.com/wp-content/uploads/2020/02/Medical-Devices-scaled.jpeg");
+        company.setImageURL("https://seeklogo.com/images/M/medical-company-logo-A572E099DB-seeklogo.com.png");
 
         company = companyService.register(company);
 
