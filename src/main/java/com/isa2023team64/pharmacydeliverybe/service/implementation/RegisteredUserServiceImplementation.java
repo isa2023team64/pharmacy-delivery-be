@@ -5,7 +5,7 @@ import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-//import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.isa2023team64.pharmacydeliverybe.dto.RegisteredUserRequestDTO;
@@ -20,8 +20,10 @@ import jakarta.persistence.EntityNotFoundException;
 public class RegisteredUserServiceImplementation implements RegisteredUserService {
 
     @Autowired
-	//private PasswordEncoder passwordEncoder;
     private RegisteredUserRepository registeredUserRepository;
+
+    @Autowired
+	private PasswordEncoder passwordEncoder;
 
     @Override
     public RegisteredUser saveRegisteredUser(RegisteredUserRequestDTO user) {
@@ -31,7 +33,7 @@ public class RegisteredUserServiceImplementation implements RegisteredUserServic
 		// treba voditi racuna da se koristi isi password encoder bean koji je postavljen u AUthenticationManager-u kako bi koristili isti algoritam
 		u.setEmail(user.getEmail());
         //u.setPassword(passwordEncoder.encode(user.getPassword()));
-        u.setPassword(user.getPassword());
+        u.setPassword(passwordEncoder.encode(user.getPassword()));
 		u.setFirstName(user.getFirstName());
 		u.setLastName(user.getLastName());
 		u.setActive(false);

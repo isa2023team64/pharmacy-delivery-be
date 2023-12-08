@@ -87,9 +87,12 @@ public class WebSecurityConfig {
         
         // sve neautentifikovane zahteve obradi uniformno i posalji 401 gresku	
         http.exceptionHandling().authenticationEntryPoint(restAuthenticationEntryPoint);
-    	http.authorizeRequests().requestMatchers("/auth/**").permitAll()		// /auth/**
-			.requestMatchers("/h2-console/**").permitAll()	// /h2-console/** ako se koristi H2 baza)
-			.requestMatchers("/api/foo").permitAll()		// /api/foo
+    	http.authorizeRequests().requestMatchers("/auth/login").permitAll()		// /auth/**
+			.requestMatchers("/h2-console/*").permitAll()	// /h2-console/** ako se koristi H2 baza)
+			.requestMatchers("/api/foo").permitAll()
+			.requestMatchers("/api/registration").permitAll()
+			.requestMatchers("/api/registration/activate/*").permitAll()
+			.requestMatchers("/v3/api-docs").permitAll()		// /api/foo
 			// ukoliko ne zelimo da koristimo @PreAuthorize anotacije nad metodama kontrolera, moze se iskoristiti hasRole() metoda da se ogranici
 			// koji tip korisnika moze da pristupi odgovarajucoj ruti. Npr. ukoliko zelimo da definisemo da ruti 'admin' moze da pristupi
 			// samo korisnik koji ima rolu 'ADMIN', navodimo na sledeci nacin: 
@@ -123,8 +126,8 @@ public class WebSecurityConfig {
     			
     			
     			// Ovim smo dozvolili pristup statickim resursima aplikacije
-    			.requestMatchers(HttpMethod.GET, "/", "/webjars/**", "/*.html", "favicon.ico",
-    			"/**/*.html", "/**/*.css", "/**/*.js");	 
+    			.requestMatchers(HttpMethod.GET, "/", "/swagger-ui/*","/v3/api-docs/*", "/webjars/*", "/*.html", "favicon.ico",
+    			"/*/*.html", "/*/*.css", "/*/*.js");	 
 
     }
 
