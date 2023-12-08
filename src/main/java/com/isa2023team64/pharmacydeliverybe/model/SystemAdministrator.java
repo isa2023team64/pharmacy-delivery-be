@@ -1,6 +1,5 @@
 package com.isa2023team64.pharmacydeliverybe.model;
 
-import java.security.Timestamp;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
