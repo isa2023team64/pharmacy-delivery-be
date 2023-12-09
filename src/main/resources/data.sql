@@ -65,21 +65,13 @@ VALUES (1, 'City', 'Country', '+123456789012', 'Workplace', 'Company'),
        (2, 'Novi Sad', 'Serbia', '+123456789012', 'Doctor', 'Poliklinika');
 
 INSERT INTO public.company_administrator(
-	company_id, id, city, country, phone_number, workplace, company_name)
-	VALUES (1, 3, 'Novi Sad', 'Serbia', '+381603080177', 'Administrator', 'Hemofarm'),
-		   (1, 4, 'Novi Sad', 'Serbia', '+381123123789', 'Administrator', 'Hemofarm');
+	id, company_id, city, country, phone_number, workplace, company_name)
+	VALUES (3, 1, 'Novi Sad', 'Serbia', '+381603080177', 'Administrator', 'Hemofarm'),
+		   (4, 1, 'Novi Sad', 'Serbia', '+381123123789', 'Administrator', 'Hemofarm');
 
-INSERT INTO public.equipment(name, description, type, average_rating)
-	VALUES 
-	('Injekcija', 'Za vakcinisanje', 'TypeA', 4.5),
-	('Stetoskop', 'Za slusanje srca', 'TypeB', 3.8),
-	('Toplomer', 'Za merenje temperature', 'TypeC', 2.9),
-	('Cetka za zube', 'Za pranje zuba', 'TypeC', 3.5);
-
-INSERT INTO company_uses_equipment(
-	company_id, equipment_id)
-	VALUES (1, 1),
-		   (1, 2),
-		   (1, 3),
-		   (2, 4),
-		   (2, 2);
+INSERT INTO public.equipment(name, description, type, company_id, stock_count, average_rating)
+VALUES 
+	('Injekcija', 'Za vakcinisanje', 'TypeA', 1, 5, 4.5),
+	('Stetoskop', 'Za slusanje srca', 'TypeB', 1, 7, 3.8),
+	('Toplomer', 'Za merenje temperature', 'TypeC', 2, 9, 2.9),
+	('Cetka za zube', 'Za pranje zuba', 'TypeC', 1, 6, 3.5);
