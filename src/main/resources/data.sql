@@ -54,20 +54,20 @@ INSERT INTO public.company(
 			(4.25, '08:00:00', '21:00:00', 'Bulevar Cara Lazara', 'Zagreb', 'Croatia', 'New medical equipment', 'WellnessPulse Diagnostics', 'https://cdn.logojoy.com/wp-content/uploads/2018/05/30162353/1159.png'),
 			(5, '09:00:00', '21:00:00', 'Bulevar Cara Lazara', 'Zagreb', 'Croatia', 'New medical equipment', 'Jugolab', 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRFbfqI1nQ45HbWeck3T4se91ECBLsX42I0Fg&usqp=CAU');
 
-INSERT INTO app_user (email, password, first_name, last_name, active, last_password_reset_date, city, country, phone_number, workplace, company_name)
-VALUES ('user1@example.com', 'password123', 'John', 'Doe', true, CURRENT_TIMESTAMP, 'City', 'Country', '+123456789012', 'Workplace', 'Company'),
-       ('veljko@example.com', 'super', 'Veljko', 'Nikolic', true, CURRENT_TIMESTAMP, 'Novi Sad', 'Serbia', '+123456789012', 'Doctor', 'Poliklinika'),
-       ('nikolic@example.com', 'sifra', 'Veljko', 'Nikolic', true, CURRENT_TIMESTAMP, 'Novi Sad', 'Serbia', '+381603080177', 'Administrator', 'Hemofarm'),
-       ('milos@example.com', 'sifra', 'Milos', 'Djuric', true, CURRENT_TIMESTAMP, 'Novi Sad', 'Serbia', '+381123123789', 'Administrator', 'Hemofarm');
+INSERT INTO app_user (email, password, first_name, last_name, active, last_password_reset_date)
+VALUES ('user1@example.com', 'password123', 'John', 'Doe', true, CURRENT_TIMESTAMP),
+       ('veljko@example.com', 'super', 'Veljko', 'Nikolic', true, CURRENT_TIMESTAMP),
+       ('nikolic@example.com', 'sifra', 'Veljko', 'Nikolic', true, CURRENT_TIMESTAMP),
+       ('milos@example.com', 'sifra', 'Milos', 'Djuric', true, CURRENT_TIMESTAMP);
 
-INSERT INTO public.registered_user(id)
-VALUES (1),
-       (2);
+INSERT INTO public.registered_user(id, city, country, phone_number, workplace, company_name)
+VALUES (1, 'City', 'Country', '+123456789012', 'Workplace', 'Company'),
+       (2, 'Novi Sad', 'Serbia', '+123456789012', 'Doctor', 'Poliklinika');
 
 INSERT INTO public.company_administrator(
-	company_id, id)
-	VALUES (1, 3),
-			(1, 4);
+	company_id, id, city, country, phone_number, workplace, company_name)
+	VALUES (1, 3, 'Novi Sad', 'Serbia', '+381603080177', 'Administrator', 'Hemofarm'),
+		   (1, 4, 'Novi Sad', 'Serbia', '+381123123789', 'Administrator', 'Hemofarm');
 
 INSERT INTO public.equipment(name, description, type, average_rating)
 	VALUES 
