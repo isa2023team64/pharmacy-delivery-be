@@ -1,10 +1,8 @@
 package com.isa2023team64.pharmacydeliverybe.controller;
 
-import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.catalina.connector.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -17,15 +15,10 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import com.isa2023team64.pharmacydeliverybe.dto.CompanyAdministratorRequestDTO;
-import com.isa2023team64.pharmacydeliverybe.dto.CompanyRequestDTO;
-import com.isa2023team64.pharmacydeliverybe.dto.CompanyResponseDTO;
 import com.isa2023team64.pharmacydeliverybe.dto.EquipmentRequestDTO;
 import com.isa2023team64.pharmacydeliverybe.dto.EquipmentResponseDTO;
 import com.isa2023team64.pharmacydeliverybe.dto.EquipmentSearchFilterDTO;
 import com.isa2023team64.pharmacydeliverybe.model.Company;
-import com.isa2023team64.pharmacydeliverybe.model.CompanyAdministrator;
 import com.isa2023team64.pharmacydeliverybe.model.Equipment;
 import com.isa2023team64.pharmacydeliverybe.service.CompanyService;
 import com.isa2023team64.pharmacydeliverybe.service.EquipmentSearchService;
