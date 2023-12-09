@@ -160,7 +160,7 @@ public class CompanyController {
                 companyAdministrator.setWorkplace(companyAdministratorDTO.getWorkplace());
                 companyAdministrator.setCompanyName(companyAdministratorDTO.getCompanyName());
 
-                companyAdministrator.setCompanyEntity(company);
+                companyAdministrator.setCompany(company);
                 
                 companyAdministrators.add(companyAdministrator);
 

@@ -83,21 +83,12 @@ public class Company extends GenericEntity{
         this.imageURL = imageURL;
         this.companyAdministrators = companyAdministrators;
         if (companyAdministrators != null) {
-            companyAdministrators.forEach(companyAdministrator -> companyAdministrator.setCompanyEntity(this));
+            companyAdministrators.forEach(companyAdministrator -> companyAdministrator.setCompany(this));
         }
-    }
-
-
-    public String getName() {
-        return name;
     }
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public String getAddress() {
-        return address;
     }
 
     public void setAddress(String address) {
@@ -112,71 +103,39 @@ public class Company extends GenericEntity{
         this.city = city;
     }
 
-    public String getCountry() {
-        return country;
-    }
-
     public void setCountry(String country) {
         this.country = country;
-    }
-
-    public LocalTime getOpeningTime(){
-        return openingTime;
     }
 
     public void setOpeningTime(LocalTime openingTime){
         this.openingTime = openingTime;
     }
 
-    public LocalTime getClosingTime(){
-        return closingTime;
-    }
-
     public void setClosingTime(LocalTime closingTime){
         this.closingTime = closingTime;
-    }
-
-    public String getDescription() {
-        return description;
     }
 
     public void setDescription(String description) {
         this.description = description;
     }
 
-
-    public double getAverageRating() {
-        return averageRating;
-    }
-
     public void setAverageRating(double averageRating) {
         this.averageRating = averageRating;
-    } 
-
-    public List<CompanyAdministrator> getCompanyAdministrators() {
-        return companyAdministrators;
     }
 
     public void setCompanyAdministrators(List<CompanyAdministrator> companyAdministrators) {
         this.companyAdministrators = companyAdministrators;
         if(companyAdministrators != null) {
-            companyAdministrators.forEach(companyAdministrator -> companyAdministrator.setCompanyEntity(this));
+            companyAdministrators.forEach(companyAdministrator -> companyAdministrator.setCompany(this));
         }
-    }
-    
-    public List<Equipment> getEquipment() {
-        return equipment;
     }
 
     public void setEquipment(List<Equipment> equipment) {
         this.equipment = equipment;
     }
 
-    public String getImageURL() {
-        return imageURL;
-    }
-
     public void setImageURL(String imageURL) {
         this.imageURL = imageURL;
     }
+    
 }
