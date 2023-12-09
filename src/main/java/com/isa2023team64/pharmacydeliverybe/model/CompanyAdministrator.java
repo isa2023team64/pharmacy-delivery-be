@@ -5,17 +5,15 @@ import java.security.Timestamp;
 import jakarta.persistence.Entity;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import lombok.NoArgsConstructor;
 
 @Entity
+@NoArgsConstructor
 public class CompanyAdministrator extends User {
 
     @ManyToOne
     @JoinColumn(name = "company_id")
     private Company company;
-
-    public CompanyAdministrator() {
-        super();
-    }
 
     public CompanyAdministrator(Integer id, String email, String password, String firstName, String lastName,
     boolean active, Timestamp lastPasswordResetDate, String city, String country, String phoneNumber, String workplace, String companyName) {

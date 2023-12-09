@@ -15,10 +15,14 @@ import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToMany;
 import jakarta.validation.constraints.NotEmpty;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 
 
 @Entity
+@Getter
+@NoArgsConstructor
 public class Company extends GenericEntity{
  
     @Column(unique = true, nullable = false)
@@ -59,11 +63,6 @@ public class Company extends GenericEntity{
     @ManyToMany( fetch = FetchType.EAGER, cascade = {CascadeType.PERSIST,CascadeType.MERGE,CascadeType.DETACH})
 	@JoinTable(name = "company_uses_equipment", joinColumns = @JoinColumn(name = "company_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "equipment_id", referencedColumnName = "id"))
     private List<Equipment> equipment;
-
-
-    public Company(){
-        super();
-    }
 
     public Company(Integer id, String name, String address, String description, double averageRating, String imageURL){
         super(id);
