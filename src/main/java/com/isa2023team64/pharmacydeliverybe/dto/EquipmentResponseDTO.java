@@ -2,12 +2,16 @@ package com.isa2023team64.pharmacydeliverybe.dto;
 
 import com.isa2023team64.pharmacydeliverybe.model.Equipment;
 
-public class EquipmentResponseDTO extends EquipmentRequestDTO {
-    private Integer id;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-    public EquipmentResponseDTO() {
-        super();
-    }
+@Getter
+@Setter
+@NoArgsConstructor
+public class EquipmentResponseDTO extends EquipmentRequestDTO {
+
+    private Integer id;
 
     public EquipmentResponseDTO(Equipment equipment) {
         this(equipment.getId(), equipment.getName(), equipment.getDescription(), equipment.getType(), equipment.getAverageRating());
@@ -18,11 +22,4 @@ public class EquipmentResponseDTO extends EquipmentRequestDTO {
         this.id = id;
     }
 
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
 }

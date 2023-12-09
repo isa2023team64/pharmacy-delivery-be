@@ -4,13 +4,16 @@ import java.sql.Timestamp;
 
 import com.isa2023team64.pharmacydeliverybe.model.SystemAdministrator;
 
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+@Getter
+@Setter
+@NoArgsConstructor
 public class SystemAdministratorResponseDTO extends SystemAdministratorRequestDTO{
+
     private Integer id;
-
-    public SystemAdministratorResponseDTO() {
-        super();
-    }
-
 
     public SystemAdministratorResponseDTO(SystemAdministrator systemAdministrator){
         this(systemAdministrator.getId(), systemAdministrator.getEmail(), systemAdministrator.getPassword(), systemAdministrator.getFirstName(), 
@@ -24,12 +27,5 @@ public class SystemAdministratorResponseDTO extends SystemAdministratorRequestDT
         super(email, password, firstName, lastName, city, country, phoneNumber, workplace, company);
         this.id = id;        
     }
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
+    
 }

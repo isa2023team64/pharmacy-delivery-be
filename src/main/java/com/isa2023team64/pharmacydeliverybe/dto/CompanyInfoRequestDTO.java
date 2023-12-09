@@ -5,7 +5,17 @@ import java.time.LocalTime;
 import com.isa2023team64.pharmacydeliverybe.model.Company;
 import com.isa2023team64.pharmacydeliverybe.util.WorkingHours;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class CompanyInfoRequestDTO {
+
     private String name;
     private String address;
     private String city;
@@ -13,10 +23,6 @@ public class CompanyInfoRequestDTO {
     private String description;
     private String openingTime;
     private String closingTime;
-
-    public CompanyInfoRequestDTO() {
-        super();
-    }
 
     public CompanyInfoRequestDTO(Company company) {
         this(company.getName(), company.getAddress(), company.getCity(), company.getCountry(), company.getDescription(), company.getOpeningTime(), company.getClosingTime());
@@ -33,59 +39,4 @@ public class CompanyInfoRequestDTO {
         this.closingTime = WorkingHours.formatTime(closingTime);
     }
 
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getAddress() {
-        return address;
-    }
-
-    public void setAddress(String address) {
-        this.address = address;
-    }
-
-    public String getCity() {
-        return city;
-    }
-
-    public void setCity(String city) {
-        this.city = city;
-    }
-
-    public String getCountry() {
-        return country;
-    }
-
-    public void setCountry(String country) {
-        this.country = country;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public String getOpeningTime() {
-        return openingTime;
-    }
-
-    public void setOpeningTime(String openingTime) {
-        this.openingTime = openingTime;
-    }
-
-    public String getClosingTime() {
-        return closingTime;
-    }
-
-    public void setClosingTime(String closingTime) {
-        this.closingTime = closingTime;
-    }
 }
