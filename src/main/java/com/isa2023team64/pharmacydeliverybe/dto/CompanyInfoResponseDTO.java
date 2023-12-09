@@ -4,13 +4,17 @@ import java.time.LocalTime;
 
 import com.isa2023team64.pharmacydeliverybe.model.Company;
 
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+@Getter
+@Setter
+@NoArgsConstructor
 public class CompanyInfoResponseDTO extends CompanyInfoRequestDTO {
+
     private Integer id;
     private double averageRating;
-
-    public CompanyInfoResponseDTO() {
-        super();
-    }
 
     public CompanyInfoResponseDTO(Company company) {
         this(company.getId(), company.getName(), company.getAddress(), company.getCity(), company.getCountry(), company.getDescription(), company.getAverageRating(), company.getOpeningTime(), company.getClosingTime());
@@ -23,19 +27,4 @@ public class CompanyInfoResponseDTO extends CompanyInfoRequestDTO {
         this.averageRating = averageRating;
     }
 
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public double getAverageRating() {
-        return averageRating;
-    }
-
-    public void setAverageRating(double averageRating) {
-        this.averageRating = averageRating;
-    }
 }

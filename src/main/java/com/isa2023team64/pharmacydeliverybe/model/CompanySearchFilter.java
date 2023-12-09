@@ -1,6 +1,10 @@
 package com.isa2023team64.pharmacydeliverybe.model;
 
+import lombok.Getter;
+
+@Getter
 public class CompanySearchFilter {
+    
     private String name;
     private String country;
     private String city;
@@ -29,27 +33,4 @@ public class CompanySearchFilter {
         }
     }
 
-    public String getName() {
-        return name;
-    }
-
-    public String getCountry() {
-        return country;
-    }
-
-    public String getCity() {
-        return city;
-    }
-
-    public double getMinRating() {
-        return minRating;
-    }
-
-    public double getMaxRating() {
-        return maxRating;
-    }
-
-    public String getSortCriteria() {
-        return sortCriteria;
-    }    
 }
