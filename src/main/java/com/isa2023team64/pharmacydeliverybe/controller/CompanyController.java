@@ -356,4 +356,8 @@ public class CompanyController {
 
         return new ResponseEntity<>(new AddEquipmentToCompanyDTO(companyId, equipmentId), HttpStatus.OK);
     }
+
+    // public ResponseEntity<AppointmentResponseDTO> scheduleAppointment(@RequestBody AppointmentRequestDTO appointmentRequestDTO) {
+        
+    // }
 }

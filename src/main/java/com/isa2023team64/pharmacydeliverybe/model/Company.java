@@ -58,19 +58,23 @@ public class Company extends GenericEntity{
     @OneToMany(mappedBy = "company", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private List<Equipment> equipment;
 
-    public Company(Integer id, String name, String address, String description, List<Equipment> equipment, double averageRating, String imageURL){
+    @OneToMany(mappedBy = "company", cascade = CascadeType.ALL)
+    private List<Appointment> appointments;
+
+    public Company(Integer id, String name, String address, String description, List<Equipment> equipment, List<Appointment> appointments, double averageRating, String imageURL){
         super(id);
         this.name = name;
         this.address = address;
         this.description = description;
         this.equipment = equipment;
+        this.appointments = appointments;
         this.averageRating = averageRating;
         this.imageURL = imageURL;
         this.companyAdministrators = new ArrayList<CompanyAdministrator>();
     }
 
-    public Company(Integer id, String name, String address, String description, List<Equipment> equipment, double averageRating, String imageURL, List<CompanyAdministrator> companyAdministrators) {
-        this(id, name, address, description, equipment, averageRating, imageURL);
+    public Company(Integer id, String name, String address, String description, List<Equipment> equipment, List<Appointment> appointments, double averageRating, String imageURL, List<CompanyAdministrator> companyAdministrators) {
+        this(id, name, address, description, equipment, appointments, averageRating, imageURL);
         this.companyAdministrators = companyAdministrators;
         this.setCompanyAdministrators(companyAdministrators);
     }
