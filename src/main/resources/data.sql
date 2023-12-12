@@ -54,6 +54,8 @@ INSERT INTO public.company(
 			(4.25, '08:00:00', '21:00:00', 'Bulevar Cara Lazara', 'Zagreb', 'Croatia', 'New medical equipment', 'WellnessPulse Diagnostics', 'https://cdn.logojoy.com/wp-content/uploads/2018/05/30162353/1159.png'),
 			(5, '09:00:00', '21:00:00', 'Bulevar Cara Lazara', 'Zagreb', 'Croatia', 'New medical equipment', 'Jugolab', 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRFbfqI1nQ45HbWeck3T4se91ECBLsX42I0Fg&usqp=CAU');
 
+
+
 INSERT INTO app_user (email, password, first_name, last_name, active, last_password_reset_date)
 VALUES ('user1@example.com', 'password123', 'John', 'Doe', true, CURRENT_TIMESTAMP),
        ('veljko@example.com', 'super', 'Veljko', 'Nikolic', true, CURRENT_TIMESTAMP),
@@ -69,6 +71,15 @@ INSERT INTO public.company_administrator(
 	VALUES (1, 3, 'Novi Sad', 'Serbia', '+381603080177', 'Administrator', 'Hemofarm'),
 			(1, 4, 'Novi Sad', 'Serbia', '+381123123789', 'Administrator', 'Hemofarm');
 
+INSERT INTO ROLE (name) VALUES ('ROLE_USER');
+INSERT INTO ROLE (name) VALUES ('ROLE_SYSTEM_ADMIN');
+INSERT INTO ROLE (name) VALUES ('ROLE_COMPANY_ADMIN');
+
+INSERT INTO USER_ROLE (user_id, role_id) VALUES (1, 1); -- user-u dodeljujemo rolu USER
+INSERT INTO USER_ROLE (user_id, role_id) VALUES (2, 1); -- admin-u dodeljujemo rolu USER
+INSERT INTO USER_ROLE (user_id, role_id) VALUES (3, 3); -- user-u dodeljujemo rolu ADMIN
+INSERT INTO USER_ROLE (user_id, role_id) VALUES (4, 3); -- user-u dodeljujemo rolu ADMIN
+
 INSERT INTO public.equipment(name, description, type, average_rating)
 	VALUES 
 	('Injekcija', 'Za vakcinisanje', 'TypeA', 4.5),
@@ -76,10 +87,10 @@ INSERT INTO public.equipment(name, description, type, average_rating)
 	('Toplomer', 'Za merenje temperature', 'TypeC', 2.9),
 	('Cetka za zube', 'Za pranje zuba', 'TypeC', 3.5);
 
-INSERT INTO company_uses_equipment(
-	company_id, equipment_id)
-	VALUES (1, 1),
-		   (1, 2),
-		   (1, 3),
-		   (2, 4),
-		   (2, 2);
+INSERT INTO company_uses_equipment(company_id, equipment_id)
+VALUES 
+  (1, 1),
+  (1, 2),
+  (1, 3),
+  (2, 4),
+  (2, 2);

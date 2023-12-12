@@ -90,6 +90,19 @@ public class WebSecurityConfig {
     	http.authorizeRequests().requestMatchers("/auth/*").permitAll()		// /auth/**
 			.requestMatchers("/h2-console/*").permitAll()	// /h2-console/** ako se koristi H2 baza)
 			.requestMatchers("/api/foo").permitAll()
+			
+			.requestMatchers("/api/companies/{id}").permitAll()
+			.requestMatchers("/api/companies/{companyId}/equipment").permitAll()
+			.requestMatchers("/api/companies/search").permitAll()
+			.requestMatchers("/api/companies/search-by-equipment-filter").permitAll()
+			.requestMatchers("/api/companies/by-equipment/{id}").permitAll()
+
+			.requestMatchers("/api/equipment").permitAll()
+			.requestMatchers("/api/equipment/{search}/equipment").permitAll()
+			.requestMatchers("/api/equipment/{id}").permitAll()
+			.requestMatchers("/api/equipment/not-owned-by-company/{companyId}").permitAll()
+
+
 			.requestMatchers("/api/registration").permitAll()
 			.requestMatchers("/api/registration/activate/*").permitAll()
 			.requestMatchers("/v3/api-docs").permitAll()		// /api/foo

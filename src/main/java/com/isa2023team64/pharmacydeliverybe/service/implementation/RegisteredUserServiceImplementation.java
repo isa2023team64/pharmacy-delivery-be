@@ -11,8 +11,10 @@ import org.springframework.stereotype.Service;
 import com.isa2023team64.pharmacydeliverybe.dto.RegisteredUserRequestDTO;
 import com.isa2023team64.pharmacydeliverybe.dto.RegisteredUserUpdateDTO;
 import com.isa2023team64.pharmacydeliverybe.model.RegisteredUser;
+import com.isa2023team64.pharmacydeliverybe.model.Role;
 import com.isa2023team64.pharmacydeliverybe.repository.RegisteredUserRepository;
 import com.isa2023team64.pharmacydeliverybe.service.RegisteredUserService;
+import com.isa2023team64.pharmacydeliverybe.service.RoleService;
 
 import jakarta.persistence.EntityNotFoundException;
 
@@ -24,6 +26,9 @@ public class RegisteredUserServiceImplementation implements RegisteredUserServic
 
     @Autowired
 	private PasswordEncoder passwordEncoder;
+    
+    @Autowired
+	private RoleService roleService;
 
     @Override
     public RegisteredUser saveRegisteredUser(RegisteredUserRequestDTO user) {
@@ -32,7 +37,6 @@ public class RegisteredUserServiceImplementation implements RegisteredUserServic
 		// pre nego sto postavimo lozinku u atribut hesiramo je kako bi se u bazi nalazila hesirana lozinka
 		// treba voditi racuna da se koristi isi password encoder bean koji je postavljen u AUthenticationManager-u kako bi koristili isti algoritam
 		u.setEmail(user.getEmail());
-        //u.setPassword(passwordEncoder.encode(user.getPassword()));
         u.setPassword(passwordEncoder.encode(user.getPassword()));
 		u.setFirstName(user.getFirstName());
 		u.setLastName(user.getLastName());
@@ -43,6 +47,8 @@ public class RegisteredUserServiceImplementation implements RegisteredUserServic
         u.setLastPasswordResetDate(new Timestamp(new Date().getTime()));
         u.setWorkplace(user.getWorkplace());
         u.setCompanyName(user.getCompanyName());
+        List<Role> roles = roleService.findByName("ROLE_USER");
+		u.setRoles(roles);
 		
 		return registeredUserRepository.save(u);
     }
