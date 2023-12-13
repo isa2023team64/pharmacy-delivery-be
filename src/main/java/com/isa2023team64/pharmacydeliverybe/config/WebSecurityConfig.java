@@ -105,6 +105,7 @@ public class WebSecurityConfig {
 
 			.requestMatchers("/api/registration").permitAll()
 			.requestMatchers("/api/registration/activate/*").permitAll()
+			.requestMatchers("/api/registered-users/by-email/*").permitAll()
 			.requestMatchers("/v3/api-docs").permitAll()		// /api/foo
 			// ukoliko ne zelimo da koristimo @PreAuthorize anotacije nad metodama kontrolera, moze se iskoristiti hasRole() metoda da se ogranici
 			// koji tip korisnika moze da pristupi odgovarajucoj ruti. Npr. ukoliko zelimo da definisemo da ruti 'admin' moze da pristupi
