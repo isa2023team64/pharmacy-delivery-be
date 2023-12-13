@@ -39,6 +39,7 @@ public class RegisteredUserController {
     @Autowired
     private RegisteredUserService registeredUserService;
 
+    
     @Operation(summary = "Get all registered users", description = "Gets all registered users.", method = "GET")
     @ApiResponses(value = {
         @ApiResponse(responseCode = "200", description = "All registered users fetched successfully.",
@@ -64,10 +65,10 @@ public class RegisteredUserController {
                      schema = @Schema(implementation = RegisteredUser.class))),
         @ApiResponse(responseCode = "404", description = "Registered user not found.", content = @Content)
     })
-    @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = "/by-id/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<RegisteredUserResponseDTO> getRegisteredUserById(@PathVariable int id) {
         RegisteredUser registeredUser = registeredUserService.findById(id);
-
+        System.out.println("Hello, World, HIII!");
         if (registeredUser == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }

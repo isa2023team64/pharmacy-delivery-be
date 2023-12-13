@@ -1,6 +1,8 @@
 package com.isa2023team64.pharmacydeliverybe.util;
 
 import java.util.Date;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import jakarta.servlet.http.HttpServletRequest;
 
@@ -8,6 +10,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
+import com.isa2023team64.pharmacydeliverybe.model.Role;
 import com.isa2023team64.pharmacydeliverybe.model.User;
 
 import io.jsonwebtoken.Claims;
@@ -56,18 +59,22 @@ public class TokenUtils {
 	 * @param username Korisničko ime korisnika kojem se token izdaje
 	 * @return JWT token
 	 */
-	public String generateToken(String username) {
-		return Jwts.builder()
-				.setIssuer(APP_NAME)
-				.setSubject(username)
-				.setAudience(generateAudience())
-				.setIssuedAt(new Date())
-				.setExpiration(generateExpirationDate())
-				.signWith(SIGNATURE_ALGORITHM, SECRET).compact();
-		
+	public String generateToken(User user) {
+        List<String> roles = user.getRoles().stream()
+                .map(Role::getName)
+                .collect(Collectors.toList());
 
-		// moguce je postavljanje proizvoljnih podataka u telo JWT tokena pozivom funkcije .claim("key", value), npr. .claim("role", user.getRole())
-	}
+        return Jwts.builder()
+                .setIssuer(APP_NAME)
+                .setSubject(user.getEmail())
+                .claim("id", user.getId())
+                .claim("roles", roles)  // Add roles as a claim
+                .setAudience(generateAudience())
+                .setIssuedAt(new Date())
+                .setExpiration(generateExpirationDate())
+                .signWith(SIGNATURE_ALGORITHM, SECRET)
+                .compact();
+    }
 	
 	/**
 	 * Funkcija za utvrđivanje tipa uređaja za koji se JWT kreira.

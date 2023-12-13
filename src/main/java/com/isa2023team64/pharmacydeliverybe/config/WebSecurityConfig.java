@@ -97,6 +97,8 @@ public class WebSecurityConfig {
 			.requestMatchers("/api/companies/search-by-equipment-filter").permitAll()
 			.requestMatchers("/api/companies/by-equipment/{id}").permitAll()
 
+			//.requestMatchers("/api/companies/**").hasAuthority("ROLE_USER")
+
 			.requestMatchers("/api/equipment").permitAll()
 			.requestMatchers("/api/equipment/{search}/equipment").permitAll()
 			.requestMatchers("/api/equipment/{id}").permitAll()
@@ -105,12 +107,12 @@ public class WebSecurityConfig {
 
 			.requestMatchers("/api/registration").permitAll()
 			.requestMatchers("/api/registration/activate/*").permitAll()
-			.requestMatchers("/api/registered-users/by-email/*").permitAll()
+			.requestMatchers("/api/registered-users/by-id/*").permitAll()
 			.requestMatchers("/v3/api-docs").permitAll()		// /api/foo
 			// ukoliko ne zelimo da koristimo @PreAuthorize anotacije nad metodama kontrolera, moze se iskoristiti hasRole() metoda da se ogranici
 			// koji tip korisnika moze da pristupi odgovarajucoj ruti. Npr. ukoliko zelimo da definisemo da ruti 'admin' moze da pristupi
 			// samo korisnik koji ima rolu 'ADMIN', navodimo na sledeci nacin: 
-			// .antMatchers("/admin").hasRole("ADMIN") ili .antMatchers("/admin").hasAuthority("ROLE_ADMIN")
+			//.requestMatchers("/role-user").hasRole("USER")// ili .antMatchers("/admin").hasAuthority("ROLE_ADMIN")
 			
 			// za svaki drugi zahtev korisnik mora biti autentifikovan
 			.anyRequest().authenticated().and()
@@ -137,6 +139,7 @@ public class WebSecurityConfig {
     	// Zahtevi koji se mecuju za web.ignoring().antMatchers() nemaju pristup SecurityContext-u
     	// Dozvoljena POST metoda na ruti /auth/login, za svaki drugi tip HTTP metode greska je 401 Unauthorized
     	return (web) -> web.ignoring().requestMatchers(HttpMethod.POST, "/auth/*")
+				.requestMatchers(HttpMethod.PUT, "/api/registration/**")
     			
     			
     			// Ovim smo dozvolili pristup statickim resursima aplikacije
