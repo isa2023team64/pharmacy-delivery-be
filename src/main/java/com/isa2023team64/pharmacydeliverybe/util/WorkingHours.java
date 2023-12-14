@@ -3,6 +3,7 @@ package com.isa2023team64.pharmacydeliverybe.util;
 import java.time.LocalTime;
 
 public class WorkingHours {
+
     public LocalTime openingTime;
     public LocalTime closingTime;
 
@@ -60,4 +61,5 @@ public class WorkingHours {
 
         return LocalTime.of(hours, minutes, seconds);
     }
+    
 }

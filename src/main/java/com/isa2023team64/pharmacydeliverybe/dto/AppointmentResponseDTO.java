@@ -16,7 +16,6 @@ public class AppointmentResponseDTO {
     private Integer id;
     private LocalDateTime startDateTime;
     private Integer duration;
-    private String clientName;
-    // private CompanyResponseDTO company;
+    private String companyAdministratorFullName;
 
 }

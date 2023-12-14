@@ -87,10 +87,10 @@ INSERT INTO public.equipment(name, description, type, average_rating)
 	('Toplomer', 'Za merenje temperature', 'TypeC', 2.9),
 	('Cetka za zube', 'Za pranje zuba', 'TypeC', 3.5);
 
-INSERT INTO company_uses_equipment(company_id, equipment_id)
-VALUES 
-  (1, 1),
-  (1, 2),
-  (1, 3),
-  (2, 4),
-  (2, 2);
+-- INSERT INTO company_uses_equipment(company_id, equipment_id)
+-- VALUES 
+--   (1, 1),
+--   (1, 2),
+--   (1, 3),
+--   (2, 4),
+--   (2, 2);

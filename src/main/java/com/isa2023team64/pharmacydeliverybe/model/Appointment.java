@@ -6,7 +6,6 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.ManyToOne;
-import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -28,11 +27,7 @@ public class Appointment extends GenericEntity {
     @NotNull
     private Integer duration; // minutes
     
-    @Column
-    @NotEmpty
-    private String clientName;
-    
-    @ManyToOne(fetch = FetchType.LAZY)
-    private Company company;
+    @ManyToOne(fetch = FetchType.EAGER)
+    private CompanyAdministrator companyAdministrator;
 
 }

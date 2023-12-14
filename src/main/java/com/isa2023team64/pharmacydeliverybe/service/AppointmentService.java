@@ -14,6 +14,6 @@ public interface AppointmentService {
 
     public Appointment update(Appointment appointment);
 
-    public Appointment add(Appointment appointment);
+    public Appointment makeAppointment(Appointment appointment);
 
 }

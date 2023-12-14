@@ -60,12 +60,14 @@ public class AppointmentController {
     public ResponseEntity<AppointmentResponseDTO> create(@RequestBody AppointmentRequestDTO requestDTO) {
         try {
             Appointment appointment = AppointmentDTOMapper.fromRequestDTO(requestDTO);
-            appointment = appointmentService.save(appointment);
+            appointment = appointmentService.makeAppointment(appointment);
             AppointmentResponseDTO dto = AppointmentDTOMapper.toResponseDTO(appointment);
             return new ResponseEntity<>(dto, HttpStatus.CREATED);
         } catch (JpaObjectRetrievalFailureException e) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        }
+        } catch (IllegalArgumentException e) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        } 
     }
     
 }

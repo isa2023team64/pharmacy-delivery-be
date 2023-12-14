@@ -103,7 +103,13 @@ public class WebSecurityConfig {
 			.requestMatchers("/api/equipment/{search}/equipment").permitAll()
 			.requestMatchers("/api/equipment/{id}").permitAll()
 			.requestMatchers("/api/equipment/not-owned-by-company/{companyId}").permitAll()
-
+			
+			// appointments
+			.requestMatchers("/api/appointments").permitAll()
+			
+			// companz administrators
+			.requestMatchers("api/company-administrators").permitAll()
+			.requestMatchers("api/company-administrators/{id}").permitAll()
 
 			.requestMatchers("/api/registration").permitAll()
 			.requestMatchers("/api/registration/activate/*").permitAll()
