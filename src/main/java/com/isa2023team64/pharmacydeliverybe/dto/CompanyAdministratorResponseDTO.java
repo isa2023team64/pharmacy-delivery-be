@@ -18,12 +18,12 @@ public class CompanyAdministratorResponseDTO extends CompanyAdministratorRequest
     public CompanyAdministratorResponseDTO(CompanyAdministrator companyAdministrator){
         this(companyAdministrator.getId(), companyAdministrator.getEmail(), companyAdministrator.getPassword(), companyAdministrator.getFirstName(), 
         companyAdministrator.getLastName(),companyAdministrator.isActive(),companyAdministrator.getLastPasswordResetDate(),companyAdministrator.getCity(),
-        companyAdministrator.getCountry(),companyAdministrator.getPhoneNumber(),companyAdministrator.getWorkplace(),companyAdministrator.getCompanyName());
+        companyAdministrator.getCountry(),companyAdministrator.getPhoneNumber());
     }
 
     public CompanyAdministratorResponseDTO(Integer id, String email, String password, String firstName, String lastName, 
-    Boolean active, Timestamp lastPasswordResetDate, String city, String country,String phoneNumber, String workplace, String company) {
-        super(email, password, firstName, lastName, city, country, phoneNumber, workplace, company);
+    Boolean active, Timestamp lastPasswordResetDate, String city, String country,String phoneNumber) {
+        super(email, password, firstName, lastName, city, country, phoneNumber);
         this.id = id;        
     }
 

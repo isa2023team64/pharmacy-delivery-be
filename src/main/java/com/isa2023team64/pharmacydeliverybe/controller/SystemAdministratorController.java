@@ -87,8 +87,6 @@ public class SystemAdministratorController {
         systemAdministrator.setCity(systemAdministratorRequestDTO.getCity());
         systemAdministrator.setCountry(systemAdministratorRequestDTO.getCountry());
         systemAdministrator.setPhoneNumber(systemAdministratorRequestDTO.getPhoneNumber());
-        systemAdministrator.setWorkplace(systemAdministratorRequestDTO.getWorkplace());
-        systemAdministrator.setCompanyName(systemAdministratorRequestDTO.getCompanyName());
 
         systemAdministrator = systemAdministratorService.register(systemAdministrator);
         return new ResponseEntity<>(new SystemAdministratorResponseDTO(systemAdministrator), HttpStatus.CREATED);

@@ -157,8 +157,7 @@ public class CompanyController {
                 companyAdministrator.setCity(companyAdministratorDTO.getCity());
                 companyAdministrator.setCountry(companyAdministratorDTO.getCountry());
                 companyAdministrator.setPhoneNumber(companyAdministratorDTO.getPhoneNumber());
-                companyAdministrator.setWorkplace(companyAdministratorDTO.getWorkplace());
-                companyAdministrator.setCompanyName(companyAdministratorDTO.getCompanyName());
+
 
                 companyAdministrator.setCompany(company);
                 
@@ -197,8 +196,6 @@ public class CompanyController {
         companyAdministrator.setCity(companyAdministratorRequestDTO.getCity());
         companyAdministrator.setCountry(companyAdministratorRequestDTO.getCountry());
         companyAdministrator.setPhoneNumber(companyAdministratorRequestDTO.getPhoneNumber());
-        companyAdministrator.setWorkplace(companyAdministratorRequestDTO.getWorkplace());
-        companyAdministrator.setCompanyName(companyAdministratorRequestDTO.getCompanyName());
         companyAdministrator.setActive(true);
 
         companyAdministrators.add(companyAdministrator);        

@@ -27,21 +27,13 @@ public class SystemAdministrator extends User {
     @Pattern(regexp = "\\+\\d{12}", message = "Phone number must start with '+' and be followed by 12 digits")
     private String phoneNumber;
 
-    @Column
-    @NotEmpty
-    private String workplace;
 
-    @Column
-    @NotEmpty
-    private String companyName;
 
     public SystemAdministrator(Integer id, String username, String email, String password, String firstName, String lastName, boolean active, @NotEmpty String city, @NotEmpty String country, @NotEmpty @Pattern (regexp = "\\+\\d{12}", message = "Phone number must start with '+' and be followed by 12 digits") 
-            String phoneNumber, @NotEmpty String workplace, @NotEmpty String companyName) {
+            String phoneNumber) {
         super(id, email, password, firstName, lastName,active);
         this.city=city;
         this.country=country;
-        this.companyName=companyName;
-        this.workplace=workplace;
         this.phoneNumber=phoneNumber;
     }
 

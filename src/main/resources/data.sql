@@ -65,9 +65,9 @@ VALUES (1, 'City', 'Country', '+123456789012', 'Workplace', 'Company'),
        (2, 'Novi Sad', 'Serbia', '+123456789012', 'Doctor', 'Poliklinika');
 
 INSERT INTO public.company_administrator(
-	company_id, id, city, country, phone_number, workplace, company_name)
-	VALUES (1, 3, 'Novi Sad', 'Serbia', '+381603080177', 'Administrator', 'Hemofarm'),
-		   (1, 4, 'Novi Sad', 'Serbia', '+381123123789', 'Administrator', 'Hemofarm');
+	company_id, id, city, country, phone_number)
+	VALUES (1, 3, 'Novi Sad', 'Serbia', '+381603080177'),
+		   (1, 4, 'Novi Sad', 'Serbia', '+381123123789');
 
 INSERT INTO public.equipment(name, description, type, average_rating)
 	VALUES 
