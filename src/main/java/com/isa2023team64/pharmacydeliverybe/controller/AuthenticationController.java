@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.isa2023team64.pharmacydeliverybe.dto.JwtAuthenticationRequest;
+import com.isa2023team64.pharmacydeliverybe.dto.JwtChangePasswordRequest;
 import com.isa2023team64.pharmacydeliverybe.dto.UserTokenState;
 import com.isa2023team64.pharmacydeliverybe.model.User;
 import com.isa2023team64.pharmacydeliverybe.util.TokenUtils;
@@ -58,5 +59,18 @@ public class AuthenticationController {
 		// Vrati token kao odgovor na uspesnu autentifikaciju
 		return ResponseEntity.ok(new UserTokenState(jwt, expiresIn));
 	}
+
+	@PostMapping("/change-password")
+	public ResponseEntity<String> changePassword(@RequestBody JwtChangePasswordRequest changePasswordRequest) {
+		Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
+				changePasswordRequest.getUsername(), changePasswordRequest.getPassword()));
+	
+		User user = (User) authentication.getPrincipal();
+		user.setPassword(changePasswordRequest.getNewPassword());
+	
+		return ResponseEntity.ok("Success");
+	}
+	
+
 
 }
