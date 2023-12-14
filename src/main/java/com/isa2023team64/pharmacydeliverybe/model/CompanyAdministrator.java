@@ -74,20 +74,6 @@ public class CompanyAdministrator extends User {
         this.phoneNumber = phoneNumber;
     }
 
-    public String getWorkplace() {
-        return workplace;
-    }
 
-    public void setWorkplace(String workplace) {
-        this.workplace = workplace;
-    }
-
-    public String getCompanyName() {
-        return companyName;
-    }
-
-    public void setCompanyName(String companyName) {
-        this.companyName = companyName;
-    }
 
 }
