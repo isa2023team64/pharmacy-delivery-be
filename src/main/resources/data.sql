@@ -55,10 +55,10 @@ INSERT INTO public.company(
 			(5, '09:00:00', '21:00:00', 'Bulevar Cara Lazara', 'Zagreb', 'Croatia', 'New medical equipment', 'Jugolab', 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRFbfqI1nQ45HbWeck3T4se91ECBLsX42I0Fg&usqp=CAU');
 
 INSERT INTO app_user (email, password, first_name, last_name, active, last_password_reset_date)
-VALUES ('user1@example.com', 'password123', 'John', 'Doe', true, CURRENT_TIMESTAMP),
-       ('veljko@example.com', 'super', 'Veljko', 'Nikolic', true, CURRENT_TIMESTAMP),
-       ('nikolic@example.com', 'sifra', 'Veljko', 'Nikolic', true, CURRENT_TIMESTAMP),
-       ('milos@example.com', 'sifra', 'Milos', 'Djuric', true, CURRENT_TIMESTAMP);
+VALUES ('user1@example.com', '$2a$10$SQpuv4vt5DrH6KMm//V9oeRYzDU5lK02Esfcs9Xmd7RT8sL5.G/QK', 'John', 'Doe', true, CURRENT_TIMESTAMP),
+       ('veljko@example.com', '$2a$10$SQpuv4vt5DrH6KMm//V9oeRYzDU5lK02Esfcs9Xmd7RT8sL5.G/QK', 'Veljko', 'Nikolic', true, CURRENT_TIMESTAMP),
+       ('nikolic@example.com', '$2a$10$SQpuv4vt5DrH6KMm//V9oeRYzDU5lK02Esfcs9Xmd7RT8sL5.G/QK', 'Veljko', 'Nikolic', true, CURRENT_TIMESTAMP),
+       ('milos@example.com', 's$2a$10$SQpuv4vt5DrH6KMm//V9oeRYzDU5lK02Esfcs9Xmd7RT8sL5.G/QK', 'Milos', 'Djuric', true, CURRENT_TIMESTAMP);
 
 INSERT INTO public.registered_user(id, city, country, phone_number, workplace, company_name)
 VALUES (1, 'City', 'Country', '+123456789012', 'Workplace', 'Company'),
