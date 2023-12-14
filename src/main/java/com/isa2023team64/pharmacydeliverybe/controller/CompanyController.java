@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -247,7 +248,6 @@ public class CompanyController {
         return new ResponseEntity<>(companies, HttpStatus.OK);
     }
 
-
     @GetMapping(value = "/{companyId}/equipment", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<List<EquipmentResponseDTO>> getCompanyEquipment(@PathVariable Integer companyId) {
 
@@ -262,6 +262,21 @@ public class CompanyController {
 
         return new ResponseEntity<>(equipmentResponseDTOs, HttpStatus.OK);
     }
+
+    // @GetMapping(value = "/{companyId}/equipment", produces = MediaType.APPLICATION_JSON_VALUE)
+    // public ResponseEntity<List<EquipmentResponseDTO>> getCompanyEquipmentUnregisteredUser(@PathVariable Integer companyId) {
+
+    //     Company company = companyService.findOneWithEquipment(companyId);
+
+    //     List<Equipment> equipment = company.getEquipment();
+    //     List<EquipmentResponseDTO> equipmentResponseDTOs = new ArrayList<>();
+
+    //     for (Equipment e : equipment) {
+    //         equipmentResponseDTOs.add(new EquipmentResponseDTO(e));
+    //     }
+
+    //     return new ResponseEntity<>(equipmentResponseDTOs, HttpStatus.OK);
+    // }
 
     @GetMapping(value = "/search-by-equipment-filter", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<PagedResult<CompanyNoAdminDTO>> searchCompanyByEquipment(@ModelAttribute EquipmentSearchFilterDTO filter) {
