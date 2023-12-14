@@ -61,5 +61,9 @@ public class WorkingHours {
 
         return LocalTime.of(hours, minutes, seconds);
     }
+
+    public boolean isInside(LocalTime time) {
+        return (time.isAfter(openingTime) || time.equals(openingTime)) && (time.isBefore(closingTime) || time.equals(openingTime));
+    } 
     
 }

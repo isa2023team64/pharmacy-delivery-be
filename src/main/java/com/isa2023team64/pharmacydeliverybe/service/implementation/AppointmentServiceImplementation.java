@@ -14,6 +14,7 @@ import com.isa2023team64.pharmacydeliverybe.repository.AppointmentRepository;
 import com.isa2023team64.pharmacydeliverybe.repository.CompanyAdministratorRepository;
 import com.isa2023team64.pharmacydeliverybe.service.AppointmentService;
 import com.isa2023team64.pharmacydeliverybe.util.TimeSpan;
+import com.isa2023team64.pharmacydeliverybe.util.WorkingHours;
 
 @Service
 public class AppointmentServiceImplementation implements AppointmentService {
@@ -49,11 +50,18 @@ public class AppointmentServiceImplementation implements AppointmentService {
 
     @Override
     public Appointment makeAppointment(Appointment appointment) {
-        if (appointmentIsInFuture(appointment)) {
+
+        if (!isAppointmentInFuture(appointment)) {
             throw new IllegalArgumentException("Appointment must be in future");
         }
-
+        
         var companyAdministrator = companyAdministratorRepository.findById(appointment.getCompanyAdministrator().getId()).orElseThrow();
+        var company = companyAdministrator.getCompany();
+        
+        if (!isAppointmentInWorkingHours(appointment, company)) {
+            throw new IllegalArgumentException("Appointment must be in company working hours");
+        }
+
         Collection<Appointment> appointments = findByCompany(companyAdministrator.getCompany());
         for (Appointment a : appointments) {
             if (appointmentsOverlap(appointment, a)) {
@@ -81,9 +89,14 @@ public class AppointmentServiceImplementation implements AppointmentService {
         TimeSpan ts2 = TimeSpan.of(a2.getStartDateTime(), a2.getDuration());
         return ts1.overlaps(ts2);
     }
-
-    private boolean appointmentIsInFuture(Appointment appointment) {
+    
+    private boolean isAppointmentInFuture(Appointment appointment) {
         return appointment.getStartDateTime().isAfter(LocalDateTime.now());
+    }
+    
+    private boolean isAppointmentInWorkingHours(Appointment appointment, Company company) {
+        WorkingHours workingHours = WorkingHours.of(company.getOpeningTime(), company.getClosingTime());
+        return workingHours.isInside(appointment.getStartDateTime().toLocalTime()) && workingHours.isInside(appointment.getEndTime().toLocalTime());
     }
     
 }

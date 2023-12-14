@@ -1,7 +1,7 @@
 
 INSERT INTO public.company(
-	average_rating, closing_time, opening_time, address, city, country, description, name, image_url)
-	VALUES (0, '08:00:00', '20:00:00', 'Bulevar Oslobodjenja', 'Novi Sad', 'Serbia', 'Medical equipment', 'Hemofarm', 'https://seeklogo.com/images/M/medical-company-logo-A572E099DB-seeklogo.com.png'),
+	average_rating, opening_time, closing_time, address, city, country, description, name, image_url)
+	VALUES (0, '08:00:00', '23:00:00', 'Bulevar Oslobodjenja', 'Novi Sad', 'Serbia', 'Medical equipment', 'Hemofarm', 'https://seeklogo.com/images/M/medical-company-logo-A572E099DB-seeklogo.com.png'),
 			(4, '09:00:00', '20:00:00', 'Bulevar Cara Lazara', 'Zagreb', 'Serbia', 'New medical equipment', 'MediGroup', 'https://cdn.logojoy.com/wp-content/uploads/2018/05/30162353/1159.png'),
 			(3, '07:00:00', '21:00:00', 'Bulevar Cara Lazara', 'Belgrade', 'Serbia', 'New medical equipment', 'HealthHub', 'https://img.freepik.com/free-vector/flat-design-pharmacy-logo-template_23-2149510255.jpg'),
 			(4.6, '07:00:00', '18:00:00', 'Bulevar Cara Lazara', ' Belgrade', 'Serbia', 'New medical equipment', 'WellMed', 'https://marketplace.canva.com/EAE2x-ic0Gk/1/0/1600w/canva-caduceus-logo%2Chealth-logo%2Cmedical-logo-2lhCTZ-v9hc.jpg'),

@@ -38,8 +38,17 @@ public class TimeSpan {
                (timeSpan.getEndTime().isEqual(getEndTime()) && timeSpan.getStartTime().isBefore(startTime));
     }
 
+    public boolean isInside(TimeSpan timeSpan) {
+        return ((startTime.isAfter(timeSpan.getStartTime()) || startTime.isEqual(timeSpan.getStartTime())) && (startTime.isBefore(timeSpan.getEndTime()) || startTime.isEqual(timeSpan.getEndTime()))) &&
+               ((endTime.isAfter(timeSpan.getStartTime()) || startTime.isEqual(timeSpan.getStartTime())) && (endTime.isBefore(timeSpan.getEndTime()) || startTime.isEqual(timeSpan.getEndTime())));
+    }
+
     public boolean isInFuture() {
         return this.startTime.isAfter(LocalDateTime.now());
     }
+
+    // private boolean isLocalDateTimeInside(LocalDateTime dateTime) {
+    //     return dateTime
+    // }
 
 }
