@@ -59,7 +59,7 @@ public class AppointmentController {
         @ApiResponse(responseCode = "400", description = "Bad request.",
                      content = @Content(mediaType = "application/json", schema = @Schema(implementation = AppointmentResponseDTO.class)))
     })
-    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(path = "/new",consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<AppointmentResponseDTO> create(@RequestBody AppointmentRequestDTO requestDTO) {
         try {
             Appointment appointment = AppointmentDTOMapper.fromRequestDTO(requestDTO);
