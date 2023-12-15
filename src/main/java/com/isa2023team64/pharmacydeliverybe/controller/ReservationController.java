@@ -12,8 +12,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.isa2023team64.pharmacydeliverybe.dto.AppointmentResponseDTO;
+import com.isa2023team64.pharmacydeliverybe.dto.ExtraordinaryReservationRequestDTO;
 import com.isa2023team64.pharmacydeliverybe.dto.RegularReservationRequestDTO;
 import com.isa2023team64.pharmacydeliverybe.dto.RegularReservationResponseDTO;
+import com.isa2023team64.pharmacydeliverybe.mapper.AppointmentDTOMapper;
+import com.isa2023team64.pharmacydeliverybe.model.Appointment;
+import com.isa2023team64.pharmacydeliverybe.service.AppointmentService;
 import com.isa2023team64.pharmacydeliverybe.service.ReservationService;
 
 import io.swagger.v3.oas.annotations.Operation;
@@ -32,6 +36,9 @@ public class ReservationController {
     @Autowired
     private ReservationService reservationService;
 
+    @Autowired
+    private AppointmentService appointmentService;
+
     @Operation(summary = "Create a new reservation.", description = "Create a new reservation.", method = "Post")
     @ApiResponses(value = {
         @ApiResponse(responseCode = "201", description = "Reservation created successfully.",
@@ -41,7 +48,30 @@ public class ReservationController {
     @PostMapping(value = "/regular", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<RegularReservationResponseDTO> createRegular(@RequestBody RegularReservationRequestDTO dto) {
         try {
-            RegularReservationResponseDTO responseDTO = reservationService.createRegular(dto);
+            RegularReservationResponseDTO responseDTO = reservationService.create(dto.getUserId(), dto.getAppointmentId(), dto.getEquipmentIds());
+            return new ResponseEntity<>(responseDTO, HttpStatus.CREATED);
+        }
+        catch (NoSuchElementException e) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        catch (IllegalArgumentException e) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @Operation(summary = "Create a new reservation.", description = "Create a new reservation.", method = "Post")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "201", description = "Reservation created successfully.",
+                     content = @Content(mediaType = "application/json",
+                     array = @ArraySchema(schema = @Schema(implementation = AppointmentResponseDTO.class))))
+    })
+    @PostMapping(value = "/extraordinary", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<RegularReservationResponseDTO> createExtraordinary(@RequestBody ExtraordinaryReservationRequestDTO dto) {
+        try {
+            dto.getAppointment().setCompanyAdministratorFullName("Full Name");
+            Appointment appointment = AppointmentDTOMapper.fromRequestDTO(dto.getAppointment());
+            appointment = appointmentService.makeExtraordinaryAppointment(appointment);
+            RegularReservationResponseDTO responseDTO = reservationService.create(dto.getUserId(), appointment.getId(), dto.getEquipmentIds());
             return new ResponseEntity<>(responseDTO, HttpStatus.CREATED);
         }
         catch (NoSuchElementException e) {

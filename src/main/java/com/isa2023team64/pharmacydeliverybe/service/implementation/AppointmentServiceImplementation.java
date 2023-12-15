@@ -4,13 +4,16 @@ import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.isa2023team64.pharmacydeliverybe.model.Appointment;
 import com.isa2023team64.pharmacydeliverybe.model.Company;
+import com.isa2023team64.pharmacydeliverybe.model.CompanyAdministrator;
 import com.isa2023team64.pharmacydeliverybe.repository.AppointmentRepository;
+import com.isa2023team64.pharmacydeliverybe.repository.CompanyAdministratorRepository;
 import com.isa2023team64.pharmacydeliverybe.repository.CompanyRepository;
 import com.isa2023team64.pharmacydeliverybe.service.AppointmentService;
 import com.isa2023team64.pharmacydeliverybe.util.TimeSpan;
@@ -25,6 +28,9 @@ public class AppointmentServiceImplementation implements AppointmentService {
 
     @Autowired
     private CompanyRepository companyRepository;
+
+    @Autowired
+    private CompanyAdministratorRepository companyAdministratorRepository;
     
     @Override
     public List<Appointment> findAll() {
@@ -70,6 +76,39 @@ public class AppointmentServiceImplementation implements AppointmentService {
         }
 
         appointment.setStatus(AppointmentStatus.FREE);
+        Appointment savedAppointment = this.save(appointment);
+        return savedAppointment;
+    }
+
+    
+    public Appointment makeExtraordinaryAppointment(Appointment appointment)  {
+        Company company = companyRepository.findById(appointment.getCompany().getId()).orElseThrow();
+        List<CompanyAdministrator> admins = companyAdministratorRepository.findAll();
+        CompanyAdministrator admin = admins.get(0);
+        for (var a : admins) {
+            if(a.getCompany().getId() == company.getId()) {
+                admin = a;
+                break;
+            }
+        }
+        appointment.setCompanyAdministratorFullName(admin.getFullName());
+
+        if (!isAppointmentInFuture(appointment)) {
+            throw new IllegalArgumentException("Appointment must be in future");
+        }
+        
+        if (!isAppointmentInWorkingHours(appointment, company)) {
+            throw new IllegalArgumentException("Appointment must be in company working hours");
+        }
+
+        Collection<Appointment> appointments = findByCompany(company);
+        for (Appointment a : appointments) {
+            if (appointmentsOverlap(appointment, a)) {
+                throw new IllegalArgumentException("Appointments overlap");
+            }
+        }
+
+        appointment.setStatus(AppointmentStatus.RESERVED);
         Appointment savedAppointment = this.save(appointment);
         return savedAppointment;
     }

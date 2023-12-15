@@ -15,6 +15,7 @@ public interface AppointmentService {
     public Appointment update(Appointment appointment);
 
     public Appointment makeAppointment(Appointment appointment);
+    public Appointment makeExtraordinaryAppointment(Appointment appointment);
 
     public void reserveAppointment(Integer id);
 

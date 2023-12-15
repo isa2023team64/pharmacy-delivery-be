@@ -10,10 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.isa2023team64.pharmacydeliverybe.dto.AppointmentResponseDTO;
-import com.isa2023team64.pharmacydeliverybe.dto.CompanyNoAdminDTO;
 import com.isa2023team64.pharmacydeliverybe.dto.EquipmentResponseDTO;
 import com.isa2023team64.pharmacydeliverybe.dto.RegisteredUserResponseDTO;
-import com.isa2023team64.pharmacydeliverybe.dto.RegularReservationRequestDTO;
 import com.isa2023team64.pharmacydeliverybe.dto.RegularReservationResponseDTO;
 import com.isa2023team64.pharmacydeliverybe.model.Appointment;
 import com.isa2023team64.pharmacydeliverybe.model.Equipment;
@@ -51,19 +49,19 @@ public class ReservationServiceImplementation implements ReservationService {
     private EntityManager entityManager;
 
     @Transactional
-    public RegularReservationResponseDTO createRegular(RegularReservationRequestDTO dto) {
-        RegisteredUser user = userRepository.findById(dto.getUserId());
+    public RegularReservationResponseDTO create(int userId, int appointmentId, List<Integer> equipmentIds) {
+        RegisteredUser user = userRepository.findById(userId);
 
         List<Equipment> equipmentList = new ArrayList<>();
-        for (int id : dto.getEquipmentIds()) {
+        for (int id : equipmentIds) {
             Equipment equipment = equipmentRepository.findById(id).orElseThrow();
             if (equipment.getStockCount() <= 0)
                 throw new NoSuchElementException();
-            //equipment.setStockCount(equipment.getStockCount() - 1);
+            equipment.setStockCount(equipment.getStockCount() - 1);
             equipmentList.add(equipment);
         }
 
-        Appointment appointment = appointmentRepository.findById(dto.getAppointmentId()).orElseThrow();
+        Appointment appointment = appointmentRepository.findById(appointmentId).orElseThrow();
 
         Reservation reservation = new Reservation(false, false, false, appointment, user, equipmentList);
         user = entityManager.merge(user);
