@@ -17,5 +17,6 @@ public class AppointmentResponseDTO {
     private LocalDateTime startDateTime;
     private Integer duration;
     private String companyAdministratorFullName;
+    private CompanyInfoResponseDTO company;
 
 }

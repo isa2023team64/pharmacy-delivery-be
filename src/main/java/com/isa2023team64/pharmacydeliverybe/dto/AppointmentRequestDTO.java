@@ -15,6 +15,7 @@ public class AppointmentRequestDTO {
     
     private LocalDateTime startDateTime;
     private Integer duration;
-    private Integer companyAdministratorId;
+    private String companyAdministratorFullName;
+    private Integer companyId;
 
 }

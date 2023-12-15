@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
 import com.isa2023team64.pharmacydeliverybe.model.Appointment;
 import com.isa2023team64.pharmacydeliverybe.model.Company;
 import com.isa2023team64.pharmacydeliverybe.repository.AppointmentRepository;
-import com.isa2023team64.pharmacydeliverybe.repository.CompanyAdministratorRepository;
+import com.isa2023team64.pharmacydeliverybe.repository.CompanyRepository;
 import com.isa2023team64.pharmacydeliverybe.service.AppointmentService;
 import com.isa2023team64.pharmacydeliverybe.util.TimeSpan;
 import com.isa2023team64.pharmacydeliverybe.util.WorkingHours;
@@ -23,7 +23,7 @@ public class AppointmentServiceImplementation implements AppointmentService {
     private AppointmentRepository appointmentRepository;
 
     @Autowired
-    private CompanyAdministratorRepository companyAdministratorRepository;
+    private CompanyRepository companyRepository;
     
     @Override
     public List<Appointment> findAll() {
@@ -55,14 +55,13 @@ public class AppointmentServiceImplementation implements AppointmentService {
             throw new IllegalArgumentException("Appointment must be in future");
         }
         
-        var companyAdministrator = companyAdministratorRepository.findById(appointment.getCompanyAdministrator().getId()).orElseThrow();
-        var company = companyAdministrator.getCompany();
+        var company = companyRepository.findById(appointment.getCompany().getId()).orElseThrow();
         
         if (!isAppointmentInWorkingHours(appointment, company)) {
             throw new IllegalArgumentException("Appointment must be in company working hours");
         }
 
-        Collection<Appointment> appointments = findByCompany(companyAdministrator.getCompany());
+        Collection<Appointment> appointments = findByCompany(company);
         for (Appointment a : appointments) {
             if (appointmentsOverlap(appointment, a)) {
                 throw new IllegalArgumentException("Appointments overlap");
@@ -77,7 +76,7 @@ public class AppointmentServiceImplementation implements AppointmentService {
         var appointments = appointmentRepository.findAll();
         Collection<Appointment> filtered = new HashSet<>();
         for (var appointment : appointments) {
-            if (appointment.getCompanyAdministrator().getCompany().getId() == company.getId()) {
+            if (appointment.getCompany().getId() == company.getId()) {
                 filtered.add(appointment);
             }
         }
