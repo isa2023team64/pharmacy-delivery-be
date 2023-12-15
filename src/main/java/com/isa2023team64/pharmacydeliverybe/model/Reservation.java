@@ -31,13 +31,13 @@ public class Reservation extends GenericEntity {
     @NotEmpty
     private boolean equipmentTaken;
 
-    @OneToOne(cascade = CascadeType.PERSIST)
+    @OneToOne(cascade = CascadeType.ALL)
     private Appointment appointment;
 
-    @OneToOne(cascade = CascadeType.PERSIST)
+    @OneToOne(cascade = CascadeType.ALL)
     private RegisteredUser user;
 
-    @ManyToMany(cascade = CascadeType.PERSIST)
+    @ManyToMany(cascade = CascadeType.ALL)
     private List<Equipment> orderItems;
 
     public Reservation(boolean handovered, boolean expired, boolean equipmentTaken,

@@ -25,6 +25,10 @@ import com.isa2023team64.pharmacydeliverybe.repository.RegisteredUserRepository;
 import com.isa2023team64.pharmacydeliverybe.repository.ReservationRepository;
 import com.isa2023team64.pharmacydeliverybe.service.ReservationService;
 
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
+import jakarta.transaction.Transactional;
+
 @Service
 public class ReservationServiceImplementation implements ReservationService {
 
@@ -43,6 +47,10 @@ public class ReservationServiceImplementation implements ReservationService {
     @Autowired
     private ModelMapper modelMapper;
 
+    @PersistenceContext
+    private EntityManager entityManager;
+
+    @Transactional
     public RegularReservationResponseDTO createRegular(RegularReservationRequestDTO dto) {
         RegisteredUser user = userRepository.findById(dto.getUserId());
 
@@ -58,6 +66,11 @@ public class ReservationServiceImplementation implements ReservationService {
         Appointment appointment = appointmentRepository.findById(dto.getAppointmentId()).orElseThrow();
 
         Reservation reservation = new Reservation(false, false, false, appointment, user, equipmentList);
+        user = entityManager.merge(user);
+        equipmentList = equipmentList.stream()
+            .map(equipment -> entityManager.merge(equipment))
+            .collect(Collectors.toList());
+        appointment = entityManager.merge(appointment);
         reservation = reservationRepository.save(reservation);
 
         RegisteredUserResponseDTO userDTO = modelMapper.map(user, RegisteredUserResponseDTO.class);
