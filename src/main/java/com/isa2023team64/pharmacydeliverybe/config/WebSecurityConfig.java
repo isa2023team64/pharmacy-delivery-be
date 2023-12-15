@@ -106,7 +106,7 @@ public class WebSecurityConfig {
 			
 			// appointments
 			.requestMatchers("/api/appointments/new").permitAll()
-			// .requestMatchers("/api/appointments/reserve/*").permitAll()
+			.requestMatchers("/api/appointments/by-company-id/{id}").permitAll()
 			
 			// companz administrators
 			.requestMatchers("api/company-administrators").permitAll()
@@ -147,7 +147,8 @@ public class WebSecurityConfig {
     	// Dozvoljena POST metoda na ruti /auth/login, za svaki drugi tip HTTP metode greska je 401 Unauthorized
     	return (web) -> web.ignoring().requestMatchers(HttpMethod.POST, "/auth/*")
 				.requestMatchers(HttpMethod.PUT, "/api/registration/**")
-				.requestMatchers(HttpMethod.POST, "/api/appointments/*")
+				.requestMatchers(HttpMethod.POST, "/api/appointments/**")
+				.requestMatchers(HttpMethod.GET, "/api/appointments/*")
     			
     			
     			// Ovim smo dozvolili pristup statickim resursima aplikacije
