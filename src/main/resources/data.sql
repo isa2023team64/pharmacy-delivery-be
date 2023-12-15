@@ -80,17 +80,9 @@ INSERT INTO USER_ROLE (user_id, role_id) VALUES (2, 1); -- admin-u dodeljujemo r
 INSERT INTO USER_ROLE (user_id, role_id) VALUES (3, 3); -- user-u dodeljujemo rolu ADMIN
 INSERT INTO USER_ROLE (user_id, role_id) VALUES (4, 3); -- user-u dodeljujemo rolu ADMIN
 
-INSERT INTO public.equipment(name, description, type, average_rating)
+INSERT INTO public.equipment(name, description, type, company_id, stock_count, average_rating)
 	VALUES 
-	('Injekcija', 'Za vakcinisanje', 'TypeA', 4.5),
-	('Stetoskop', 'Za slusanje srca', 'TypeB', 3.8),
-	('Toplomer', 'Za merenje temperature', 'TypeC', 2.9),
-	('Cetka za zube', 'Za pranje zuba', 'TypeC', 3.5);
-
--- INSERT INTO company_uses_equipment(company_id, equipment_id)
--- VALUES 
---   (1, 1),
---   (1, 2),
---   (1, 3),
---   (2, 4),
---   (2, 2);
+	('Injekcija', 'Za vakcinisanje', 'TypeA', 1, 5, 4.5),
+	('Stetoskop', 'Za slusanje srca', 'TypeB', 1, 3, 3.8),
+	('Toplomer', 'Za merenje temperature', 'TypeC', 1, 2, 2.9),
+	('Cetka za zube', 'Za pranje zuba', 'TypeC', 1, 7, 3.5);

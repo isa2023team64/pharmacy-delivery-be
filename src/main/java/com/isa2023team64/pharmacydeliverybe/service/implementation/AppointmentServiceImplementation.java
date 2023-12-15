@@ -15,6 +15,7 @@ import com.isa2023team64.pharmacydeliverybe.repository.CompanyRepository;
 import com.isa2023team64.pharmacydeliverybe.service.AppointmentService;
 import com.isa2023team64.pharmacydeliverybe.util.TimeSpan;
 import com.isa2023team64.pharmacydeliverybe.util.WorkingHours;
+import com.isa2023team64.pharmacydeliverybe.util.enums.AppointmentStatus;
 
 @Service
 public class AppointmentServiceImplementation implements AppointmentService {
@@ -68,6 +69,7 @@ public class AppointmentServiceImplementation implements AppointmentService {
             }
         }
 
+        appointment.setStatus(AppointmentStatus.FREE);
         Appointment savedAppointment = this.save(appointment);
         return savedAppointment;
     }
@@ -96,6 +98,13 @@ public class AppointmentServiceImplementation implements AppointmentService {
     private boolean isAppointmentInWorkingHours(Appointment appointment, Company company) {
         WorkingHours workingHours = WorkingHours.of(company.getOpeningTime(), company.getClosingTime());
         return workingHours.isInside(appointment.getStartDateTime().toLocalTime()) && workingHours.isInside(appointment.getEndTime().toLocalTime());
+    }
+
+    @Override
+    public void reserveAppointment(Integer id) {
+        var appointment = appointmentRepository.findById(id).orElseThrow();
+        appointment.setStatus(AppointmentStatus.RESERVED);
+        appointmentRepository.save(null);
     }
     
 }

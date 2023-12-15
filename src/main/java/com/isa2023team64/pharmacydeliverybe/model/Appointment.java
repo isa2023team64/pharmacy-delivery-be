@@ -2,8 +2,11 @@ package com.isa2023team64.pharmacydeliverybe.model;
 
 import java.time.LocalDateTime;
 
+import com.isa2023team64.pharmacydeliverybe.util.enums.AppointmentStatus;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.ManyToOne;
 import jakarta.validation.constraints.NotEmpty;
@@ -27,6 +30,9 @@ public class Appointment extends GenericEntity {
     @Column
     @NotNull
     private Integer duration; // minutes
+
+    @Enumerated
+    private AppointmentStatus status;
     
     @ManyToOne(fetch = FetchType.EAGER)
     private Company company;

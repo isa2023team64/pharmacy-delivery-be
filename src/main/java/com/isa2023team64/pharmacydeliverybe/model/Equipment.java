@@ -6,6 +6,7 @@ import jakarta.persistence.FetchType;
 import jakarta.persistence.ManyToOne;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -14,6 +15,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
+@AllArgsConstructor
 public class Equipment extends GenericEntity {
     
     @Column(unique = true, nullable = false)
@@ -39,14 +41,5 @@ public class Equipment extends GenericEntity {
     @Column
     @NotNull
     private double averageRating;
-
-    public Equipment(Integer id, String name, String description, String type, Company company, Integer stockCount, double averageRating) {
-        super(id);
-        this.name = name;
-        this.description = description;
-        this.type = type;
-        this.stockCount = stockCount;
-        this.averageRating = averageRating;
-    }
 
 }

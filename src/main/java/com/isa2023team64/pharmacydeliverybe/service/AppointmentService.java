@@ -16,4 +16,6 @@ public interface AppointmentService {
 
     public Appointment makeAppointment(Appointment appointment);
 
+    public void reserveAppointment(Integer id);
+
 }
