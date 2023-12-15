@@ -1,6 +1,7 @@
 package com.isa2023team64.pharmacydeliverybe.controller;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +10,8 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.orm.jpa.JpaObjectRetrievalFailureException;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -68,6 +71,25 @@ public class AppointmentController {
         } catch (IllegalArgumentException e) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         } 
+    }
+
+    @Operation(summary = "Reserve an appointment", description = "Reserves an appointment.", method = "PATCH")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "Appointment reserved successfully.",
+                     content = @Content(mediaType = "application/json"))
+    })
+    @PatchMapping("/reserve/{id}")
+    public ResponseEntity<Void> reserve(@PathVariable Integer id) {
+        try {
+            appointmentService.reserveAppointment(id);
+            return new ResponseEntity<>(HttpStatus.OK);
+        }
+        catch (NoSuchElementException e) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        catch (IllegalArgumentException e) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
     }
     
 }

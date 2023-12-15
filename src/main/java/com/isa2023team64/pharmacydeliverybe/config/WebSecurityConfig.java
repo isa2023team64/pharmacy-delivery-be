@@ -106,6 +106,7 @@ public class WebSecurityConfig {
 			
 			// appointments
 			.requestMatchers("/api/appointments").permitAll()
+			.requestMatchers("/api/appointments/reserve/*").permitAll()
 			
 			// companz administrators
 			.requestMatchers("api/company-administrators").permitAll()

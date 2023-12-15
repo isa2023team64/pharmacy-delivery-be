@@ -103,8 +103,9 @@ public class AppointmentServiceImplementation implements AppointmentService {
     @Override
     public void reserveAppointment(Integer id) {
         var appointment = appointmentRepository.findById(id).orElseThrow();
+        if (appointment.getStatus() == AppointmentStatus.RESERVED) throw new IllegalArgumentException("Appointment already reserved.");
         appointment.setStatus(AppointmentStatus.RESERVED);
-        appointmentRepository.save(null);
+        appointmentRepository.save(appointment);
     }
     
 }
