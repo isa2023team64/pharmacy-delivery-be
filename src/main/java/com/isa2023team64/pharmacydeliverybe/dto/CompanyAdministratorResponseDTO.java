@@ -14,17 +14,21 @@ import lombok.Setter;
 public class CompanyAdministratorResponseDTO extends CompanyAdministratorRequestDTO{
     
     private Integer id;
+    private String fullName;
+    private Integer companyId;
 
     public CompanyAdministratorResponseDTO(CompanyAdministrator companyAdministrator){
         this(companyAdministrator.getId(), companyAdministrator.getEmail(), companyAdministrator.getPassword(), companyAdministrator.getFirstName(), 
         companyAdministrator.getLastName(),companyAdministrator.isActive(),companyAdministrator.getLastPasswordResetDate(),companyAdministrator.getCity(),
-        companyAdministrator.getCountry(),companyAdministrator.getPhoneNumber());
+        companyAdministrator.getCountry(),companyAdministrator.getPhoneNumber(),companyAdministrator.getWorkplace(),companyAdministrator.getCompanyName(), companyAdministrator.getFullName(), companyAdministrator.getCompany().getId());
     }
 
     public CompanyAdministratorResponseDTO(Integer id, String email, String password, String firstName, String lastName, 
-    Boolean active, Timestamp lastPasswordResetDate, String city, String country,String phoneNumber) {
-        super(email, password, firstName, lastName, city, country, phoneNumber);
-        this.id = id;        
+    Boolean active, Timestamp lastPasswordResetDate, String city, String country,String phoneNumber, String workplace, String company, String fullName, Integer companyId) {
+        super(email, password, firstName, lastName, city, country, phoneNumber, workplace, company);
+        this.id = id;
+        this.fullName = fullName;
+        this.companyId = companyId;
     }
 
 }

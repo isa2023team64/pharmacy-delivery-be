@@ -22,7 +22,6 @@ import jakarta.persistence.Table;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 
 @Entity
 @Table(name = "app_user")
@@ -140,4 +139,9 @@ public abstract class User extends GenericEntity implements UserDetails {
     public boolean isEnabled() {
         return this.active;
     }
+
+    public String getFullName() {
+        return this.firstName + " " + this.lastName;
+    }
+
 }

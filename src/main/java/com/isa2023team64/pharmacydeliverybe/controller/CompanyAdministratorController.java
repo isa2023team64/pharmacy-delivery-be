@@ -58,7 +58,7 @@ public class CompanyAdministratorController {
     @ApiResponses(value = {
         @ApiResponse(responseCode = "200", description = "Company administrator fetched successfully.",
                      content = @Content(mediaType = "application/json",
-                     schema = @Schema(implementation = CompanyAdministrator.class))),
+                     schema = @Schema(implementation = CompanyAdministratorResponseDTO.class))),
         @ApiResponse(responseCode = "404", description = "Registered user not found.", content = @Content)
     })
     @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)

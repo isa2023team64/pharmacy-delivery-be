@@ -1,7 +1,12 @@
 package com.isa2023team64.pharmacydeliverybe.model;
 
+import java.time.LocalDateTime;
+
+import com.isa2023team64.pharmacydeliverybe.util.enums.AppointmentStatus;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.ManyToOne;
 import jakarta.validation.constraints.NotEmpty;
@@ -16,30 +21,28 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class Equipment extends GenericEntity {
+public class Appointment extends GenericEntity {
     
-    @Column(unique = true, nullable = false)
-    @NotEmpty
-    private String name;
-
     @Column
     @NotNull
-    private String description;
-
+    private LocalDateTime startDateTime;
+    
     @Column
     @NotNull
-    private String type;
+    private Integer duration; // minutes
+
+    @Enumerated
+    private AppointmentStatus status;
     
-    @ManyToOne(fetch = FetchType.LAZY)
-    @NotNull
+    @ManyToOne(fetch = FetchType.EAGER)
     private Company company;
-    
-    @Column
-    @NotNull
-    private Integer stockCount;
 
     @Column
-    @NotNull
-    private double averageRating;
+    @NotEmpty
+    private String companyAdministratorFullName;
+
+    public LocalDateTime getEndTime() {
+        return startDateTime.plusMinutes(duration);
+    }
 
 }
