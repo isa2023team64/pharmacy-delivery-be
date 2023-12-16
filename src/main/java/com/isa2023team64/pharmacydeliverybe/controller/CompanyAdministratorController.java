@@ -88,6 +88,8 @@ public class CompanyAdministratorController {
         companyAdministrator.setCity(companyAdministratorRequestDTO.getCity());
         companyAdministrator.setCountry(companyAdministratorRequestDTO.getCountry());
         companyAdministrator.setPhoneNumber(companyAdministratorRequestDTO.getPhoneNumber());
+        companyAdministrator.setWorkplace(companyAdministratorRequestDTO.getWorkplace());
+        companyAdministrator.setCompanyName(companyAdministratorRequestDTO.getCompanyName());
 
         companyAdministrator = CompanyAdministratorService.register(companyAdministrator);
         return new ResponseEntity<>(new CompanyAdministratorResponseDTO(companyAdministrator), HttpStatus.CREATED);
@@ -114,6 +116,8 @@ public class CompanyAdministratorController {
         companyAdministrator.setCity(companyAdministratorRequestDTO.getCity());
         companyAdministrator.setCountry(companyAdministratorRequestDTO.getCountry());
         companyAdministrator.setPhoneNumber(companyAdministratorRequestDTO.getPhoneNumber());
+        companyAdministrator.setWorkplace(companyAdministratorRequestDTO.getWorkplace());
+        companyAdministrator.setCompanyName(companyAdministratorRequestDTO.getCompanyName());
 
         companyAdministrator = CompanyAdministratorService.register(companyAdministrator);
         return new ResponseEntity<>(new CompanyAdministratorResponseDTO(companyAdministrator), HttpStatus.CREATED);
