@@ -6,8 +6,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.isa2023team64.pharmacydeliverybe.model.Equipment;
+import com.isa2023team64.pharmacydeliverybe.model.Reservation;
 import com.isa2023team64.pharmacydeliverybe.repository.AppointmentRepository;
 import com.isa2023team64.pharmacydeliverybe.repository.EquipmentRepository;
+import com.isa2023team64.pharmacydeliverybe.repository.ReservationRepository;
 import com.isa2023team64.pharmacydeliverybe.service.EquipmentService;
 
 @Service
@@ -17,7 +19,7 @@ public class EquipmentServiceImplementation implements EquipmentService {
     private EquipmentRepository equipmentRepository;
     
     @Autowired
-    private AppointmentRepository appointmentRepository;
+    private ReservationRepository reservationRepository;
 
     @Override
     public List<Equipment> findAll() {
@@ -46,6 +48,12 @@ public class EquipmentServiceImplementation implements EquipmentService {
 
     @Override
     public void delete(Equipment equipment) {
+        var reservations = reservationRepository.findAll();
+        for (Reservation reservation : reservations) {
+            if (reservation.getOrderItems().contains(equipment)) {
+                return;
+            }
+        }
         equipmentRepository.delete(equipment);
     }
 }
