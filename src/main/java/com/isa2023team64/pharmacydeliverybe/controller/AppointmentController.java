@@ -1,5 +1,6 @@
 package com.isa2023team64.pharmacydeliverybe.controller;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
@@ -59,7 +60,7 @@ public class AppointmentController {
         @ApiResponse(responseCode = "400", description = "Bad request.",
                      content = @Content(mediaType = "application/json", schema = @Schema(implementation = AppointmentResponseDTO.class)))
     })
-    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(path = "/new",consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<AppointmentResponseDTO> create(@RequestBody AppointmentRequestDTO requestDTO) {
         try {
             Appointment appointment = AppointmentDTOMapper.fromRequestDTO(requestDTO);
@@ -89,6 +90,17 @@ public class AppointmentController {
         }
         catch (IllegalArgumentException e) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @GetMapping("/by-company-id/{id}")
+    public ResponseEntity<Collection<AppointmentResponseDTO>> findByCompanyId(@PathVariable Integer id) {
+        try {
+            var appointments = appointmentService.findByCompanyId(id);
+            var dtos = appointments.stream().map(AppointmentDTOMapper::toResponseDTO).collect(Collectors.toList());
+            return new ResponseEntity<>(dtos, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
     
