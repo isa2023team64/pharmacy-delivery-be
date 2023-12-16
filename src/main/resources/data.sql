@@ -67,14 +67,9 @@ VALUES (1, 'City', 'Country', '+123456789012', 'Workplace', 'Company'),
 	   (5, 'Novi Sad', 'Serbia', '+321321321432', 'System Admin', 'Medspress');
 
 INSERT INTO public.company_administrator(
-	company_id, id, city, country, phone_number)
-	VALUES (1, 3, 'Novi Sad', 'Serbia', '+381603080177'),
-		   (1, 4, 'Novi Sad', 'Serbia', '+381123123789');
-
-
-INSERT INTO public.system_administrator(
-	id, city, country, phone_number, first_logged)
-	VALUES (5, 'Novi Sad', 'Serbia', '+381631687177', true);
+	company_id, id, city, country, phone_number, workplace, company_name, first_login)
+	VALUES (1, 3, 'Novi Sad', 'Serbia', '+381603080177', 'Administrator', 'Hemofarm', TRUE),
+			(1, 4, 'Novi Sad', 'Serbia', '+381123123789', 'Administrator', 'Hemofarm', FALSE);
 
 INSERT INTO ROLE (name) VALUES ('ROLE_USER');
 INSERT INTO ROLE (name) VALUES ('ROLE_SYSTEM_ADMIN');

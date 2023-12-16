@@ -38,7 +38,6 @@ public class Appointment extends GenericEntity {
     private Company company;
 
     @Column
-    @NotEmpty
     private String companyAdministratorFullName;
 
     public LocalDateTime getEndTime() {

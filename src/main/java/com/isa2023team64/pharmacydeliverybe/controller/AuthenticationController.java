@@ -55,6 +55,9 @@ public class AuthenticationController {
 	@Autowired
 	private SystemAdministratorService systemAdministratorService;
 	
+	@Autowired
+	private CompanyAdministratorService companyAdministratorService;
+	
 	// Prvi endpoint koji pogadja korisnik kada se loguje.
 	// Tada zna samo svoje korisnicko ime i lozinku i to prosledjuje na backend.
 	@PostMapping("/login")
@@ -94,6 +97,7 @@ public class AuthenticationController {
 		List<Role> roles = roleService.findByUserId(user.getId());
 
 		boolean isSystemAdministrator = false;
+		boolean isCompanyAdministrator = false;
 
 
     	System.out.println("USER:");		
@@ -106,17 +110,26 @@ public class AuthenticationController {
 
 		for (Role role : roles) {
         	System.out.println("ROLES:");
-        	System.out.println(role.getName());						
+        	System.out.println(role.getName());
 			if ("ROLE_SYSTEM_ADMIN".equals(role.getName())) {
 				isSystemAdministrator = true;
 				break;
 			}
+			if ("ROLE_COMPANY_ADMIN".equals(role.getName())) {
+				isCompanyAdministrator = true;
+				break;
+			}
 		}
 		
-		if(isSystemAdministrator){
+		if (isSystemAdministrator) {
 			SystemAdministrator systemAdministrator = systemAdministratorService.findByEmail(changePasswordRequest.getUsername());
 			systemAdministrator.setFirstLogged(false);
 			systemAdministratorService.update(systemAdministrator);
+		}
+		else if (isCompanyAdministrator) {
+			CompanyAdministrator companyAdministrator = companyAdministratorService.findByEmail(changePasswordRequest.getUsername());
+			companyAdministrator.setFirstLogin(false);
+			companyAdministratorService.update(companyAdministrator);
 		}
 
 		// CompanyAdministrator companyAdministrator = companyAdministratorService.findByUserId(user.getId());

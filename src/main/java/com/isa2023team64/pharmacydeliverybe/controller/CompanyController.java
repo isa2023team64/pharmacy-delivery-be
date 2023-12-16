@@ -251,16 +251,20 @@ public class CompanyController {
     @GetMapping(value = "/{companyId}/equipment", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<List<EquipmentResponseDTO>> getCompanyEquipment(@PathVariable Integer companyId) {
 
-        Company company = companyService.findOneWithEquipment(companyId);
-
-        List<Equipment> equipment = company.getEquipment();
         List<EquipmentResponseDTO> equipmentResponseDTOs = new ArrayList<>();
-
-        for (Equipment e : equipment) {
-            equipmentResponseDTOs.add(new EquipmentResponseDTO(e));
+        try {
+            Company company = companyService.findOneWithEquipment(companyId);
+    
+            List<Equipment> equipment = company.getEquipment();
+    
+            for (Equipment e : equipment) {
+                equipmentResponseDTOs.add(new EquipmentResponseDTO(e));
+            }
+            
+            return new ResponseEntity<>(equipmentResponseDTOs, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(equipmentResponseDTOs, HttpStatus.OK);
         }
-
-        return new ResponseEntity<>(equipmentResponseDTOs, HttpStatus.OK);
     }
 
     // @GetMapping(value = "/{companyId}/equipment", produces = MediaType.APPLICATION_JSON_VALUE)

@@ -15,4 +15,6 @@ public interface EquipmentService {
     public Equipment update(Equipment equipment);
 
     public Equipment add(Equipment equipment);
+
+    public void delete(Equipment equipment);
 }

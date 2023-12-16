@@ -27,11 +27,16 @@ public class CompanyAdministratorService {
     }
 
     public CompanyAdministrator register(CompanyAdministrator companyAdministrator) {
+        companyAdministrator.setFirstLogin(true);
         companyAdministrator.setPassword(passwordEncoder.encode(companyAdministrator.getPassword()));
         return companyAdministratorRepository.save(companyAdministrator);
     }
 
     public CompanyAdministrator update(CompanyAdministrator companyAdministrator) {
         return companyAdministratorRepository.save(companyAdministrator);
+    }
+
+    public CompanyAdministrator findByEmail(String email) {
+        return companyAdministratorRepository.findByEmail(email);
     }
 }
