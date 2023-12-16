@@ -63,7 +63,8 @@ VALUES ('user1@example.com', '$2a$10$SQpuv4vt5DrH6KMm//V9oeRYzDU5lK02Esfcs9Xmd7R
 
 INSERT INTO public.registered_user(id, city, country, phone_number, workplace, company_name)
 VALUES (1, 'City', 'Country', '+123456789012', 'Workplace', 'Company'),
-       (2, 'Novi Sad', 'Serbia', '+123456789012', 'Doctor', 'Poliklinika');
+       (2, 'Novi Sad', 'Serbia', '+123456789012', 'Doctor', 'Poliklinika'),
+	   (5, 'Novi Sad', 'Serbia', '+321321321432', 'System Admin', 'Medspress');
 
 INSERT INTO public.company_administrator(
 	company_id, id, city, country, phone_number)
@@ -84,6 +85,7 @@ INSERT INTO USER_ROLE (user_id, role_id) VALUES (2, 1); -- admin-u dodeljujemo r
 INSERT INTO USER_ROLE (user_id, role_id) VALUES (3, 3); -- user-u dodeljujemo rolu ADMIN
 INSERT INTO USER_ROLE (user_id, role_id) VALUES (4, 3); -- user-u dodeljujemo rolu ADMIN
 INSERT INTO USER_ROLE (user_id, role_id) VALUES (5, 2); -- user-u dodeljujemo rolu SYSTEM ADMIN
+INSERT INTO USER_ROLE (user_id, role_id) VALUES (5, 1); -- user-u dodeljujemo rolu SYSTEM ADMIN
 
 INSERT INTO public.equipment(name, description, type, company_id, stock_count, average_rating)
 	VALUES 
