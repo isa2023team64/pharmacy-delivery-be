@@ -115,6 +115,7 @@ public class WebSecurityConfig {
 			// reservations
 			.requestMatchers("api/reservations/regular").permitAll()
 			.requestMatchers("api/reservations/extraordinary").permitAll()
+			.requestMatchers("api/reservations/user-appointments/*").permitAll()
 
 			.requestMatchers("/api/registration").permitAll()
 			.requestMatchers("/api/registration/activate/*").permitAll()

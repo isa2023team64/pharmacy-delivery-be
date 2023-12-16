@@ -59,9 +59,6 @@ public class ReservationServiceImplementation implements ReservationService {
 	@Autowired
 	private EmailService emailService;
 
-    @Autowired
-	private QRCodeGenerator qrCodeGenerator;
-
     @Transactional
     public RegularReservationResponseDTO create(int userId, int appointmentId, List<Integer> equipmentIds) {
         RegisteredUser user = userRepository.findById(userId);
@@ -97,7 +94,7 @@ public class ReservationServiceImplementation implements ReservationService {
         
         try {
 			System.out.println("Thread id for reservation info sending: " + Thread.currentThread().getId());
-            byte[] qrCodeBytes = qrCodeGenerator.generateQRCode(reservationInfo);
+            byte[] qrCodeBytes = QRCodeGenerator.generateQRCode(reservationInfo);
 			emailService.sendReservationInfoAsync(user,qrCodeBytes);
 		}catch( Exception e ){
 			logger.info("Greska prilikom slanja emaila za rezervaciju: " + e.getMessage());
@@ -124,4 +121,20 @@ public class ReservationServiceImplementation implements ReservationService {
         return infoBuilder.toString();
     }
     
+    @Override
+    public List<Appointment> findAllUserAppointments(int userId) {
+
+        //dobavim sve rezervacije od usera sa tim id i onda sve te appointmente od tih rezervacija dodam u novu listu
+        List<Appointment> appointments = new ArrayList<>();
+
+        List<Reservation> userReservations = reservationRepository.findAll().stream()
+        .filter(reservation -> reservation.getUser().getId() ==  userId)
+        .collect(Collectors.toList());
+
+        for (Reservation reservation : userReservations) {
+            appointments.add(reservation.getAppointment());
+        }        
+
+        return appointments;
+    }
 }
