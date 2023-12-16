@@ -158,8 +158,7 @@ public class CompanyController {
                 companyAdministrator.setCity(companyAdministratorDTO.getCity());
                 companyAdministrator.setCountry(companyAdministratorDTO.getCountry());
                 companyAdministrator.setPhoneNumber(companyAdministratorDTO.getPhoneNumber());
-                companyAdministrator.setWorkplace(companyAdministratorDTO.getWorkplace());
-                companyAdministrator.setCompanyName(companyAdministratorDTO.getCompanyName());
+
 
                 companyAdministrator.setCompany(company);
                 
@@ -181,7 +180,7 @@ public class CompanyController {
 			@ApiResponse(responseCode = "201", description = "Created",
 					     content = { @Content(mediaType = "application/json", schema = @Schema(implementation = Company.class)) })
 	})
-    @PostMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(value = "/admin/{id}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<CompanyResponseDTO> registerCompanyAdministrator(@PathVariable Integer id, @RequestBody CompanyAdministratorRequestDTO companyAdministratorRequestDTO) {
         
         Company company = companyService.findById(id);
@@ -198,8 +197,6 @@ public class CompanyController {
         companyAdministrator.setCity(companyAdministratorRequestDTO.getCity());
         companyAdministrator.setCountry(companyAdministratorRequestDTO.getCountry());
         companyAdministrator.setPhoneNumber(companyAdministratorRequestDTO.getPhoneNumber());
-        companyAdministrator.setWorkplace(companyAdministratorRequestDTO.getWorkplace());
-        companyAdministrator.setCompanyName(companyAdministratorRequestDTO.getCompanyName());
         companyAdministrator.setActive(true);
 
         companyAdministrators.add(companyAdministrator);        

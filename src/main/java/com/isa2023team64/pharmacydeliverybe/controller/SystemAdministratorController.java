@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -71,6 +72,24 @@ public class SystemAdministratorController {
         return new ResponseEntity<>(new SystemAdministratorResponseDTO(systemAdministrator), HttpStatus.OK);
     }
 
+    @Operation(summary = "Get system administrator by email", description = "Gets system administrator by email", method = "GET")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "System administrator fetched successfully.",
+                     content = @Content(mediaType = "application/json",
+                     schema = @Schema(implementation = SystemAdministrator.class))),
+        @ApiResponse(responseCode = "404", description = "Registered user not found.", content = @Content)
+    })
+    @PutMapping(value = "/by-email", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<SystemAdministratorResponseDTO> getCompanyAdministratorByEmail(@RequestBody String email) {
+        SystemAdministrator systemAdministrator = systemAdministratorService.findByEmail(email);
+
+        if (systemAdministrator == null) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
+        return new ResponseEntity<>(new SystemAdministratorResponseDTO(systemAdministrator), HttpStatus.OK);
+    }
+
     @Operation(summary = "Register new system administrator", description = "Registers new system administrator", method = "POST")
 	@ApiResponses(value = {
 		@ApiResponse(responseCode = "201", description = "Created",
@@ -87,8 +106,7 @@ public class SystemAdministratorController {
         systemAdministrator.setCity(systemAdministratorRequestDTO.getCity());
         systemAdministrator.setCountry(systemAdministratorRequestDTO.getCountry());
         systemAdministrator.setPhoneNumber(systemAdministratorRequestDTO.getPhoneNumber());
-        systemAdministrator.setWorkplace(systemAdministratorRequestDTO.getWorkplace());
-        systemAdministrator.setCompanyName(systemAdministratorRequestDTO.getCompanyName());
+        systemAdministrator.setFirstLogged(systemAdministratorRequestDTO.getFirstLogged());
 
         systemAdministrator = systemAdministratorService.register(systemAdministrator);
         return new ResponseEntity<>(new SystemAdministratorResponseDTO(systemAdministrator), HttpStatus.CREATED);
