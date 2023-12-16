@@ -71,6 +71,11 @@ INSERT INTO public.company_administrator(
 	VALUES (1, 3, 'Novi Sad', 'Serbia', '+381603080177', 'Administrator', 'Hemofarm', TRUE),
 			(1, 4, 'Novi Sad', 'Serbia', '+381123123789', 'Administrator', 'Hemofarm', FALSE);
 
+INSERT INTO public.system_administrator(
+	id, city, country, phone_number, first_logged)
+	VALUES 
+	(5, 'Novi Sad', 'Serbia', '+381543543432', true);
+
 INSERT INTO ROLE (name) VALUES ('ROLE_USER');
 INSERT INTO ROLE (name) VALUES ('ROLE_SYSTEM_ADMIN');
 INSERT INTO ROLE (name) VALUES ('ROLE_COMPANY_ADMIN');

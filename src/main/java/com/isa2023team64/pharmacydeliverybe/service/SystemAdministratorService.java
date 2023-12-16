@@ -33,7 +33,7 @@ public class SystemAdministratorService {
     }
 
     public SystemAdministrator update(SystemAdministrator systemAdministrator) {
-        systemAdministrator.setPassword(passwordEncoder.encode(systemAdministrator.getPassword()));
+        // systemAdministrator.setPassword(passwordEncoder.encode(systemAdministrator.getPassword()));
         return systemAdministratorRepository.save(systemAdministrator);
     }
 
