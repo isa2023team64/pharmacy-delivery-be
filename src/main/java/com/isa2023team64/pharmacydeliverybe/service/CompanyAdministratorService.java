@@ -35,4 +35,8 @@ public class CompanyAdministratorService {
     public CompanyAdministrator update(CompanyAdministrator companyAdministrator) {
         return companyAdministratorRepository.save(companyAdministrator);
     }
+
+    public CompanyAdministrator findByEmail(String email) {
+        return companyAdministratorRepository.findByEmail(email);
+    }
 }
