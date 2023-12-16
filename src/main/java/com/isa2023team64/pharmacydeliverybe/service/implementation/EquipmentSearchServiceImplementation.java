@@ -65,7 +65,7 @@ public class EquipmentSearchServiceImplementation implements EquipmentSearchServ
 
         Company company = companyService.findCompanyByAdministratorId(companyAdministratorId);
         
-        List<Equipment> equipments = equipmentRepository.findEquipmentByCompanyId(company.getId());
+        List<Equipment> equipments = equipmentRepository.findByCompanyId(company.getId());
 
         // EquipmentSearchFilter searchFilter = new EquipmentSearchFilter(
         //     filter.getName(), filter.getDescription(), filter.getType(), filter.getMinRating(), filter.getMaxRating());

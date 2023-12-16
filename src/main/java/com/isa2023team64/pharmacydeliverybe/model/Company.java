@@ -10,15 +10,10 @@ import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.JoinTable;
-import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToMany;
 import jakarta.validation.constraints.NotEmpty;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-
-
 
 @Entity
 @Getter
@@ -59,32 +54,25 @@ public class Company extends GenericEntity{
 
     @OneToMany(mappedBy = "company", cascade = CascadeType.ALL)
     private List<CompanyAdministrator> companyAdministrators;
-    
-    @ManyToMany( fetch = FetchType.EAGER, cascade = {CascadeType.PERSIST,CascadeType.MERGE,CascadeType.DETACH})
-	@JoinTable(name = "company_uses_equipment", joinColumns = @JoinColumn(name = "company_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "equipment_id", referencedColumnName = "id"))
+
+    @OneToMany(mappedBy = "company", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private List<Equipment> equipment;
 
-    public Company(Integer id, String name, String address, String description, double averageRating, String imageURL){
+    public Company(Integer id, String name, String address, String description, List<Equipment> equipment, double averageRating, String imageURL){
         super(id);
         this.name = name;
         this.address = address;
         this.description = description;
+        this.equipment = equipment;
         this.averageRating = averageRating;
         this.imageURL = imageURL;
         this.companyAdministrators = new ArrayList<CompanyAdministrator>();
-    }   
+    }
 
-    public Company(Integer id, String name, String address, String description, double averageRating, String imageURL, List<CompanyAdministrator> companyAdministrators) {
-        super(id);
-        this.name = name;
-        this.address = address;
-        this.description = description;
-        this.averageRating = averageRating;
-        this.imageURL = imageURL;
+    public Company(Integer id, String name, String address, String description, List<Equipment> equipment, double averageRating, String imageURL, List<CompanyAdministrator> companyAdministrators) {
+        this(id, name, address, description, equipment, averageRating, imageURL);
         this.companyAdministrators = companyAdministrators;
-        if (companyAdministrators != null) {
-            companyAdministrators.forEach(companyAdministrator -> companyAdministrator.setCompany(this));
-        }
+        this.setCompanyAdministrators(companyAdministrators);
     }
 
     public void setName(String name) {
@@ -93,10 +81,6 @@ public class Company extends GenericEntity{
 
     public void setAddress(String address) {
         this.address = address;
-    }
-
-    public String getCity() {
-        return city;
     }
 
     public void setCity(String city) {
