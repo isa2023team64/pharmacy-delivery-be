@@ -108,13 +108,13 @@ public class WebSecurityConfig {
 			.requestMatchers("/api/appointments/new").permitAll()
 			.requestMatchers("/api/appointments/by-company-id/{id}").permitAll()
 			
-			// companz administrators
+			// company administrators
 			.requestMatchers("api/company-administrators").permitAll()
 			.requestMatchers("api/company-administrators/{id}").permitAll()
 
 			// reservations
-			.requestMatchers("api/reservations/regular").permitAll()
-			.requestMatchers("api/reservations/extraordinary").permitAll()
+			.requestMatchers("api/reservations/regular").hasAuthority("ROLE_USER")
+			.requestMatchers("api/reservations/extraordinary").hasAuthority("ROLE_USER")
 
 			.requestMatchers("/api/registration").permitAll()
 			.requestMatchers("/api/registration/activate/*").permitAll()
