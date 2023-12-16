@@ -27,6 +27,7 @@ import com.isa2023team64.pharmacydeliverybe.repository.ReservationRepository;
 import com.isa2023team64.pharmacydeliverybe.service.EmailService;
 import com.isa2023team64.pharmacydeliverybe.service.QRCodeGenerator;
 import com.isa2023team64.pharmacydeliverybe.service.ReservationService;
+import com.isa2023team64.pharmacydeliverybe.util.enums.AppointmentStatus;
 
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
@@ -75,6 +76,7 @@ public class ReservationServiceImplementation implements ReservationService {
         }
 
         Appointment appointment = appointmentRepository.findById(appointmentId).orElseThrow();
+        appointment.setStatus(AppointmentStatus.RESERVED);
 
         Reservation reservation = new Reservation(false, false, false, appointment, user, equipmentList);
         user = entityManager.merge(user);

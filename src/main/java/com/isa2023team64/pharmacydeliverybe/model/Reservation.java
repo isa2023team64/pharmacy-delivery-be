@@ -6,6 +6,8 @@ import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.ManyToMany;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.validation.constraints.NotEmpty;
 import lombok.Getter;
@@ -33,7 +35,7 @@ public class Reservation extends GenericEntity {
     @OneToOne(cascade = CascadeType.ALL)
     private Appointment appointment;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.ALL)
     private RegisteredUser user;
 
     @ManyToMany(cascade = CascadeType.ALL)

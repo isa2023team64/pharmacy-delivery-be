@@ -145,5 +145,12 @@ public class AppointmentServiceImplementation implements AppointmentService {
         appointment.setStatus(AppointmentStatus.RESERVED);
         appointmentRepository.save(appointment);
     }
+
+    @Override
+    public Collection<Appointment> findByCompanyId(Integer companyId) {
+        var company = companyRepository.findById(companyId).orElseThrow();
+        var appointments = appointmentRepository.findByCompany(company);
+        return appointments;
+    }    
     
 }

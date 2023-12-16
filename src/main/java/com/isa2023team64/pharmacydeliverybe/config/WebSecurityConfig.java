@@ -105,8 +105,8 @@ public class WebSecurityConfig {
 			.requestMatchers("/api/equipment/not-owned-by-company/{companyId}").permitAll()
 			
 			// appointments
-			.requestMatchers("/api/appointments").permitAll()
-			.requestMatchers("/api/appointments/reserve/*").permitAll()
+			.requestMatchers("/api/appointments/new").permitAll()
+			.requestMatchers("/api/appointments/by-company-id/{id}").permitAll()
 			
 			// companz administrators
 			.requestMatchers("api/company-administrators").permitAll()
@@ -153,6 +153,8 @@ public class WebSecurityConfig {
 				.requestMatchers(HttpMethod.PUT, "/api/registration/**")
 				.requestMatchers(HttpMethod.POST, "/api/appointments/*")
 				.requestMatchers(HttpMethod.POST, "/api/reservations/*")
+				.requestMatchers(HttpMethod.POST, "/api/appointments/**")
+				.requestMatchers(HttpMethod.GET, "/api/appointments/*")
     			
     			
     			// Ovim smo dozvolili pristup statickim resursima aplikacije
