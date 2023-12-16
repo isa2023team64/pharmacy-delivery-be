@@ -125,6 +125,10 @@ public class WebSecurityConfig {
 			.requestMatchers("api/company-administrators").permitAll()
 			.requestMatchers("api/company-administrators/{id}").permitAll()
 
+			// reservations
+			.requestMatchers("api/reservations/regular").permitAll()
+			.requestMatchers("api/reservations/extraordinary").permitAll()
+
 			.requestMatchers("/api/registration").permitAll()
 			.requestMatchers("/api/registration/activate/*").permitAll()
 			.requestMatchers("/api/registered-users/by-id/*").permitAll()
@@ -160,6 +164,8 @@ public class WebSecurityConfig {
     	// Dozvoljena POST metoda na ruti /auth/login, za svaki drugi tip HTTP metode greska je 401 Unauthorized
     	return (web) -> web.ignoring().requestMatchers(HttpMethod.POST, "/auth/*")
 				.requestMatchers(HttpMethod.PUT, "/api/registration/**")
+				.requestMatchers(HttpMethod.POST, "/api/appointments/*")
+				.requestMatchers(HttpMethod.POST, "/api/reservations/*")
 				.requestMatchers(HttpMethod.POST, "/api/appointments/**")
 				.requestMatchers(HttpMethod.GET, "/api/appointments/*")
     			
