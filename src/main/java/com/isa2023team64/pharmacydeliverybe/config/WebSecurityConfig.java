@@ -96,6 +96,7 @@ public class WebSecurityConfig {
 			.requestMatchers("/api/companies/search").permitAll()
 			.requestMatchers("/api/companies/search-by-equipment-filter").permitAll()
 			.requestMatchers("/api/companies/by-equipment/{id}").permitAll()
+			// .requestMatchers("/api/companies/{id}").hasAuthority("ROLE_SYSTEM_ADMIN")
 
 			//.requestMatchers("/api/companies/**").hasAuthority("ROLE_USER")
 
@@ -103,6 +104,9 @@ public class WebSecurityConfig {
 			.requestMatchers("/api/equipment/{search}/equipment").permitAll()
 			.requestMatchers("/api/equipment/{id}").permitAll()
 			.requestMatchers("/api/equipment/not-owned-by-company/{companyId}").permitAll()
+
+			.requestMatchers("/api/system-administrators/*").permitAll()
+			// .requestMatchers("/api/system-administrators/*").hasAuthority("ROLE_SYSTEM_ADMIN")
 
 
 			.requestMatchers("/api/registration").permitAll()

@@ -18,13 +18,13 @@ public class SystemAdministratorResponseDTO extends SystemAdministratorRequestDT
     public SystemAdministratorResponseDTO(SystemAdministrator systemAdministrator){
         this(systemAdministrator.getId(), systemAdministrator.getEmail(), systemAdministrator.getPassword(), systemAdministrator.getFirstName(), 
         systemAdministrator.getLastName(),systemAdministrator.isActive(),systemAdministrator.getLastPasswordResetDate(),systemAdministrator.getCity(),
-        systemAdministrator.getCountry(),systemAdministrator.getPhoneNumber());
+        systemAdministrator.getCountry(),systemAdministrator.getPhoneNumber(), systemAdministrator.getFirstLogged());
     }
 
     public SystemAdministratorResponseDTO(Integer id, String email, String password, String firstName, String lastName, 
-    Boolean active, Timestamp lastPasswordResetDate, String city, String country,String phoneNumber) {
+    Boolean active, Timestamp lastPasswordResetDate, String city, String country,String phoneNumber, boolean firstLogged) {
         
-        super(email, password, firstName, lastName, city, country, phoneNumber);
+        super(email, password, firstName, lastName, city, country, phoneNumber, firstLogged);
         this.id = id;        
     }
     

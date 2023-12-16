@@ -180,7 +180,7 @@ public class CompanyController {
 			@ApiResponse(responseCode = "201", description = "Created",
 					     content = { @Content(mediaType = "application/json", schema = @Schema(implementation = Company.class)) })
 	})
-    @PostMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(value = "/admin/{id}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<CompanyResponseDTO> registerCompanyAdministrator(@PathVariable Integer id, @RequestBody CompanyAdministratorRequestDTO companyAdministratorRequestDTO) {
         
         Company company = companyService.findById(id);

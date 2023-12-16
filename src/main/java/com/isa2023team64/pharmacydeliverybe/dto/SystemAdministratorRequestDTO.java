@@ -20,9 +20,18 @@ public class SystemAdministratorRequestDTO {
     private String city;
     private String country;
     private String phoneNumber;
+    private boolean firstLogged;
 
     public SystemAdministratorRequestDTO(SystemAdministrator systemAdministrator ){
-        this(systemAdministrator.getEmail(), systemAdministrator.getPassword(), systemAdministrator.getFirstName(), systemAdministrator.getLastName(),systemAdministrator.getCity(),systemAdministrator.getCountry(),systemAdministrator.getPhoneNumber());
+        this(systemAdministrator.getEmail(), systemAdministrator.getPassword(), systemAdministrator.getFirstName(), systemAdministrator.getLastName(),systemAdministrator.getCity(),systemAdministrator.getCountry(),systemAdministrator.getPhoneNumber(), systemAdministrator.getFirstLogged());
+    }
+
+    public boolean getFirstLogged(){
+        return this.firstLogged;
+    }
+
+    public void setFirstLogged(boolean firstLogged){
+        this.firstLogged = firstLogged;
     }
 
 }
