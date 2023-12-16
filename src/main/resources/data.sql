@@ -91,3 +91,8 @@ INSERT INTO public.equipment(name, description, type, company_id, stock_count, a
 	('Stetoskop', 'Za slusanje srca', 'TypeB', 1, 3, 3.8),
 	('Toplomer', 'Za merenje temperature', 'TypeC', 1, 2, 2.9),
 	('Cetka za zube', 'Za pranje zuba', 'TypeC', 1, 7, 3.5);
+
+-- INSERT INTO public.appointment(company_id, duration, id, status, start_date_time, company_administrator_full_name)
+-- 	VALUES
+-- 	(1, 30, 1, 0, '2023-12-31T4:30:00', 'Veljko Nikolic'),
+-- 	(1, 45, 2, 0, '2023-12-31T14:30:00', 'Veljko Nikolic');	
