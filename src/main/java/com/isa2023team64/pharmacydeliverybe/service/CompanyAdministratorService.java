@@ -23,6 +23,7 @@ public class CompanyAdministratorService {
     }
 
     public CompanyAdministrator register(CompanyAdministrator companyAdministrator) {
+        companyAdministrator.setFirstLogin(true);
         return companyAdministratorRepository.save(companyAdministrator);
     }
 

@@ -23,7 +23,11 @@ public class CompanyAdministratorRequestDTO {
     private String companyName;
 
     public CompanyAdministratorRequestDTO(CompanyAdministrator companyAdministrator){
-        this(companyAdministrator.getEmail(), companyAdministrator.getPassword(), companyAdministrator.getFirstName(), companyAdministrator.getLastName(),companyAdministrator.getCity(),companyAdministrator.getCountry(),companyAdministrator.getPhoneNumber(),companyAdministrator.getWorkplace(),companyAdministrator.getCompanyName());
+        this(companyAdministrator.getEmail(), companyAdministrator.getPassword(),
+             companyAdministrator.getFirstName(), companyAdministrator.getLastName(),
+             companyAdministrator.getCity(),companyAdministrator.getCountry(),
+             companyAdministrator.getPhoneNumber(),companyAdministrator.getWorkplace(),
+             companyAdministrator.getCompanyName());
     }
 
 }

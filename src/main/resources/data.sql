@@ -60,16 +60,16 @@ INSERT INTO app_user (email, password, first_name, last_name, active, last_passw
 VALUES ('user1@example.com', '$2a$10$SQpuv4vt5DrH6KMm//V9oeRYzDU5lK02Esfcs9Xmd7RT8sL5.G/QK', 'John', 'Doe', true, CURRENT_TIMESTAMP),
        ('veljko@example.com', '$2a$10$SQpuv4vt5DrH6KMm//V9oeRYzDU5lK02Esfcs9Xmd7RT8sL5.G/QK', 'Veljko', 'Nikolic', true, CURRENT_TIMESTAMP),
        ('nikolic@example.com', '$2a$10$SQpuv4vt5DrH6KMm//V9oeRYzDU5lK02Esfcs9Xmd7RT8sL5.G/QK', 'Veljko', 'Nikolic', true, CURRENT_TIMESTAMP),
-       ('milos@example.com', 's$2a$10$SQpuv4vt5DrH6KMm//V9oeRYzDU5lK02Esfcs9Xmd7RT8sL5.G/QK', 'Milos', 'Djuric', true, CURRENT_TIMESTAMP);
+       ('milos@example.com', '$2a$10$SQpuv4vt5DrH6KMm//V9oeRYzDU5lK02Esfcs9Xmd7RT8sL5.G/QK', 'Milos', 'Djuric', true, CURRENT_TIMESTAMP);
 
 INSERT INTO public.registered_user(id, city, country, phone_number, workplace, company_name)
 VALUES (1, 'City', 'Country', '+123456789012', 'Workplace', 'Company'),
        (2, 'Novi Sad', 'Serbia', '+123456789012', 'Doctor', 'Poliklinika');
 
 INSERT INTO public.company_administrator(
-	company_id, id, city, country, phone_number, workplace, company_name)
-	VALUES (1, 3, 'Novi Sad', 'Serbia', '+381603080177', 'Administrator', 'Hemofarm'),
-			(1, 4, 'Novi Sad', 'Serbia', '+381123123789', 'Administrator', 'Hemofarm');
+	company_id, id, city, country, phone_number, workplace, company_name, first_login)
+	VALUES (1, 3, 'Novi Sad', 'Serbia', '+381603080177', 'Administrator', 'Hemofarm', TRUE),
+			(1, 4, 'Novi Sad', 'Serbia', '+381123123789', 'Administrator', 'Hemofarm', FALSE);
 
 INSERT INTO ROLE (name) VALUES ('ROLE_USER');
 INSERT INTO ROLE (name) VALUES ('ROLE_SYSTEM_ADMIN');
