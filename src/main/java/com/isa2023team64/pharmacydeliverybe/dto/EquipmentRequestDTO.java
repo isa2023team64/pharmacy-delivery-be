@@ -16,10 +16,11 @@ public class EquipmentRequestDTO {
     private String name;
     private String description;
     private String type;
-    private double averageRating;
+    private Integer stockCount;
+    private Integer companyId;
 
     public EquipmentRequestDTO(Equipment equipment) {
-        this(equipment.getName(), equipment.getDescription(), equipment.getType(), equipment.getAverageRating());
+        this(equipment.getName(), equipment.getDescription(), equipment.getType(), equipment.getStockCount(), equipment.getCompany().getId());
     }
 
 }

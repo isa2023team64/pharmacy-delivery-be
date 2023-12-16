@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.isa2023team64.pharmacydeliverybe.dto.EquipmentRequestDTO;
 import com.isa2023team64.pharmacydeliverybe.dto.EquipmentResponseDTO;
 import com.isa2023team64.pharmacydeliverybe.dto.EquipmentSearchFilterDTO;
+import com.isa2023team64.pharmacydeliverybe.mapper.EquipmentDTOMapper;
 import com.isa2023team64.pharmacydeliverybe.model.Company;
 import com.isa2023team64.pharmacydeliverybe.model.Equipment;
 import com.isa2023team64.pharmacydeliverybe.service.CompanyService;
@@ -125,14 +127,9 @@ public class EquipmentController {
 	})
 	@PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<EquipmentResponseDTO> registerEquipment(@RequestBody EquipmentRequestDTO dto) {
-        Equipment equipment = new Equipment();
-
-        equipment.setName(dto.getName());
-        equipment.setDescription(dto.getDescription());
-        equipment.setType(dto.getType());
-
+        Equipment equipment = EquipmentDTOMapper.fromRequestDTO(dto);
+        equipment.setId(null);
         equipmentService.save(equipment);
-
         return new ResponseEntity<>(new EquipmentResponseDTO(equipment), HttpStatus.CREATED);
     }
 
@@ -152,6 +149,7 @@ public class EquipmentController {
         equipment.setName(dto.getName());
         equipment.setDescription(dto.getDescription());
         equipment.setType(dto.getType());
+        equipment.setStockCount(dto.getStockCount());
 
         equipmentService.save(equipment);
 
@@ -172,5 +170,19 @@ public class EquipmentController {
         }
 
         return new ResponseEntity<>(new EquipmentResponseDTO(equipment), HttpStatus.CREATED);
+    }
+
+    @Operation(summary = "Delete equipment by id", description = "Delete equipment by id", method = "DELETE")
+	@ApiResponses(value = {
+			@ApiResponse(responseCode = "200", description = "OK")})
+	@DeleteMapping(value = "/delete/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Void> deleteById(@PathVariable int id) {
+        try {
+            Equipment equipment = equipmentService.findById(id);
+            equipmentService.delete(equipment);
+            return new ResponseEntity<>(HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
     }
 }

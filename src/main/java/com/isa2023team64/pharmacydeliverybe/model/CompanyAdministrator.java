@@ -41,57 +41,38 @@ public class CompanyAdministrator extends User {
     @NotEmpty
     private String companyName;
 
+    @Column
+    private boolean firstLogin;
+
     public CompanyAdministrator(Integer id, String username, String email, String password, String firstName, String lastName, boolean active, @NotEmpty String city, @NotEmpty String country, @NotEmpty @Pattern (regexp = "\\+\\d{12}", message = "Phone number must start with '+' and be followed by 12 digits") 
-            String phoneNumber, @NotEmpty String workplace, @NotEmpty String companyName) {
+            String phoneNumber, @NotEmpty String workplace, @NotEmpty String companyName, boolean firstLogin) {
         super(id, email, password, firstName, lastName,active);
         this.city=city;
         this.country=country;
         this.companyName=companyName;
         this.workplace=workplace;
         this.phoneNumber=phoneNumber;
-    }
-
-    public Company getCompanyEntity(){
-        return this.company;
+        this.firstLogin = firstLogin;
     }
 
     public void setCompanyEntity(Company company){
         this.company = company;
-    }
-    public String getCity() {
-        return city;
     }
 
     public void setCity(String city) {
         this.city = city;
     }
 
-    public String getCountry() {
-        return country;
-    }
-
     public void setCountry(String country) {
         this.country = country;
-    }
-
-    public String getPhoneNumber() {
-        return phoneNumber;
     }
 
     public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
     }
 
-    public String getWorkplace() {
-        return workplace;
-    }
-
     public void setWorkplace(String workplace) {
         this.workplace = workplace;
-    }
-
-    public String getCompanyName() {
-        return companyName;
     }
 
     public void setCompanyName(String companyName) {
