@@ -5,7 +5,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -214,7 +213,7 @@ public class CompanyController {
                      content = { @Content(mediaType = "application/json", schema = @Schema(implementation = Company.class)) }),
         @ApiResponse(responseCode = "404", description = "Company not found.", content = @Content)
 	})
-	@PutMapping(value = "/{id}",consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+	@PutMapping(value = "update/{id}",consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<CompanyInfoResponseDTO> updateCompanyInfo(@PathVariable Integer id, @RequestBody CompanyInfoRequestDTO companyRequestDTO) {
         Company company = companyService.findById(id);
 

@@ -110,7 +110,7 @@ public class CompanyAdministratorController {
         }
 
         companyAdministrator.setEmail(companyAdministratorRequestDTO.getEmail());
-        companyAdministrator.setPassword(companyAdministratorRequestDTO.getPassword());
+        // companyAdministrator.setPassword(companyAdministratorRequestDTO.getPassword());
         companyAdministrator.setFirstName(companyAdministratorRequestDTO.getFirstName());
         companyAdministrator.setLastName(companyAdministratorRequestDTO.getLastName());
         companyAdministrator.setCity(companyAdministratorRequestDTO.getCity());
@@ -119,7 +119,7 @@ public class CompanyAdministratorController {
         companyAdministrator.setWorkplace(companyAdministratorRequestDTO.getWorkplace());
         companyAdministrator.setCompanyName(companyAdministratorRequestDTO.getCompanyName());
 
-        companyAdministrator = CompanyAdministratorService.register(companyAdministrator);
+        companyAdministrator = CompanyAdministratorService.update(companyAdministrator);
         return new ResponseEntity<>(new CompanyAdministratorResponseDTO(companyAdministrator), HttpStatus.CREATED);
     }
 }
