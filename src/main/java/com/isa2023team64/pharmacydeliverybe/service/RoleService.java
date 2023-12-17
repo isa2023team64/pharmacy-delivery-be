@@ -7,4 +7,5 @@ import com.isa2023team64.pharmacydeliverybe.model.Role;
 public interface RoleService {
 	Role findById(Long id);
 	List<Role> findByName(String name);
+	public List<Role> findByUserId(int id);
 }

@@ -157,8 +157,7 @@ public class CompanyController {
                 companyAdministrator.setCity(companyAdministratorDTO.getCity());
                 companyAdministrator.setCountry(companyAdministratorDTO.getCountry());
                 companyAdministrator.setPhoneNumber(companyAdministratorDTO.getPhoneNumber());
-                companyAdministrator.setWorkplace(companyAdministratorDTO.getWorkplace());
-                companyAdministrator.setCompanyName(companyAdministratorDTO.getCompanyName());
+
 
                 companyAdministrator.setCompany(company);
                 
@@ -180,7 +179,7 @@ public class CompanyController {
 			@ApiResponse(responseCode = "201", description = "Created",
 					     content = { @Content(mediaType = "application/json", schema = @Schema(implementation = Company.class)) })
 	})
-    @PostMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(value = "/admin/{id}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<CompanyResponseDTO> registerCompanyAdministrator(@PathVariable Integer id, @RequestBody CompanyAdministratorRequestDTO companyAdministratorRequestDTO) {
         
         Company company = companyService.findById(id);
@@ -197,8 +196,6 @@ public class CompanyController {
         companyAdministrator.setCity(companyAdministratorRequestDTO.getCity());
         companyAdministrator.setCountry(companyAdministratorRequestDTO.getCountry());
         companyAdministrator.setPhoneNumber(companyAdministratorRequestDTO.getPhoneNumber());
-        companyAdministrator.setWorkplace(companyAdministratorRequestDTO.getWorkplace());
-        companyAdministrator.setCompanyName(companyAdministratorRequestDTO.getCompanyName());
         companyAdministrator.setActive(true);
 
         companyAdministrators.add(companyAdministrator);        
@@ -216,7 +213,7 @@ public class CompanyController {
                      content = { @Content(mediaType = "application/json", schema = @Schema(implementation = Company.class)) }),
         @ApiResponse(responseCode = "404", description = "Company not found.", content = @Content)
 	})
-	@PutMapping(value = "/{id}",consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+	@PutMapping(value = "update/{id}",consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<CompanyInfoResponseDTO> updateCompanyInfo(@PathVariable Integer id, @RequestBody CompanyInfoRequestDTO companyRequestDTO) {
         Company company = companyService.findById(id);
 
@@ -253,16 +250,20 @@ public class CompanyController {
     @GetMapping(value = "/{companyId}/equipment", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<List<EquipmentResponseDTO>> getCompanyEquipment(@PathVariable Integer companyId) {
 
-        Company company = companyService.findOneWithEquipment(companyId);
-
-        List<Equipment> equipment = company.getEquipment();
         List<EquipmentResponseDTO> equipmentResponseDTOs = new ArrayList<>();
-
-        for (Equipment e : equipment) {
-            equipmentResponseDTOs.add(new EquipmentResponseDTO(e));
+        try {
+            Company company = companyService.findOneWithEquipment(companyId);
+    
+            List<Equipment> equipment = company.getEquipment();
+    
+            for (Equipment e : equipment) {
+                equipmentResponseDTOs.add(new EquipmentResponseDTO(e));
+            }
+            
+            return new ResponseEntity<>(equipmentResponseDTOs, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(equipmentResponseDTOs, HttpStatus.OK);
         }
-
-        return new ResponseEntity<>(equipmentResponseDTOs, HttpStatus.OK);
     }
 
     // @GetMapping(value = "/{companyId}/equipment", produces = MediaType.APPLICATION_JSON_VALUE)
