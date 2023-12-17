@@ -85,7 +85,6 @@ INSERT INTO USER_ROLE (user_id, role_id) VALUES (2, 1); -- admin-u dodeljujemo r
 INSERT INTO USER_ROLE (user_id, role_id) VALUES (3, 3); -- user-u dodeljujemo rolu ADMIN
 INSERT INTO USER_ROLE (user_id, role_id) VALUES (4, 3); -- user-u dodeljujemo rolu ADMIN
 INSERT INTO USER_ROLE (user_id, role_id) VALUES (5, 2); -- user-u dodeljujemo rolu SYSTEM ADMIN
-INSERT INTO USER_ROLE (user_id, role_id) VALUES (5, 1); -- user-u dodeljujemo rolu SYSTEM ADMIN
 
 INSERT INTO public.equipment(name, description, type, company_id, stock_count, average_rating)
 	VALUES 
@@ -94,7 +93,43 @@ INSERT INTO public.equipment(name, description, type, company_id, stock_count, a
 	('Toplomer', 'Za merenje temperature', 'TypeC', 1, 2, 2.9),
 	('Cetka za zube', 'Za pranje zuba', 'TypeC', 1, 7, 3.5);
 
--- INSERT INTO public.appointment(company_id, duration, id, status, start_date_time, company_administrator_full_name)
--- 	VALUES
--- 	(1, 30, 1, 0, '2023-12-31T4:30:00', 'Veljko Nikolic'),
--- 	(1, 45, 2, 0, '2023-12-31T14:30:00', 'Veljko Nikolic');	
+INSERT INTO public.appointment (company_id, duration,status,start_date_time, company_administrator_full_name) 
+VALUES  (1, 30,0,'2024-01-01T10:15:00', 'Veljko Nikolic'),
+		(1, 15,0,'2024-01-01T09:00:00', 'Milos Djuric'),
+		(1, 15,0,'2024-01-01T10:00:00', 'Veljko Nikolic'),
+		(1, 10,1,'2024-01-01T10:10:00', 'Veljko Nikolic'),
+		(1, 10,1,'2024-01-01T10:20:00', 'Veljko Nikolic');
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+		
+
+-- INSERT INTO public.reservation (appointment_id, equipment_taken, expired, handovered, user_id) 
+-- VALUES  (4, true, false, true, 1),
+-- 		(5, true, false, true, 1);
+
+-- INSERT INTO public.reservation_order_items(order_items_id, reservation_id)
+-- 	VALUES (1, 1),(1, 2),(2, 1),(2, 2);
