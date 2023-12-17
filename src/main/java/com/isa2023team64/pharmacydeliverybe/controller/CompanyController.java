@@ -110,7 +110,7 @@ public class CompanyController {
 			@ApiResponse(responseCode = "201", description = "Created",
 					     content = { @Content(mediaType = "application/json", schema = @Schema(implementation = Company.class)) })
 	})
-	@PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+	@PostMapping(value = "/register", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<CompanyResponseDTO> registerCompany(@RequestBody CompanyRequestDTO companyRequestDTO) {
         Company company = new Company();
 
