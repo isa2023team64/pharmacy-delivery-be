@@ -126,6 +126,7 @@ public class WebSecurityConfig {
 			.requestMatchers("api/company-administrators/{id}").permitAll()
 
 			// reservations
+			.requestMatchers("api/reservations/user-appointments/*").hasAuthority("ROLE_USER")
 			.requestMatchers("api/reservations/regular").hasAuthority("ROLE_USER")
 			.requestMatchers("api/reservations/extraordinary").hasAuthority("ROLE_USER")
 

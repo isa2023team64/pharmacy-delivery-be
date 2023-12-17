@@ -95,12 +95,12 @@ public class CompanyController {
     public ResponseEntity<CompanyResponseDTO> getCompanyById(@PathVariable Integer id) {
         Company company = companyService.findById(id);
                  
-        List<CompanyAdministrator> companyAdministrators = companyService.findCompanyAdministratorsByCompanyId(company.getId());
-        company.setCompanyAdministrators(companyAdministrators);
-
         if (company == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
+
+        List<CompanyAdministrator> companyAdministrators = companyService.findCompanyAdministratorsByCompanyId(company.getId());
+        company.setCompanyAdministrators(companyAdministrators);
 
         return new ResponseEntity<>(new CompanyResponseDTO(company), HttpStatus.OK);
     }

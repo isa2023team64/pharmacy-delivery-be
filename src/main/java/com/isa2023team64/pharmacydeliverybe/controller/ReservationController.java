@@ -1,11 +1,15 @@
 package com.isa2023team64.pharmacydeliverybe.controller;
 
+import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -80,6 +84,19 @@ public class ReservationController {
         catch (IllegalArgumentException e) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
+    }
+    
+    @Operation(summary = "Retrive all user reservation appointments.", description = "\"Retrive all user reservation appointments.", method = "Get")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "201", description = "Appointments retrived successfully.",
+                     content = @Content(mediaType = "application/json",
+                     array = @ArraySchema(schema = @Schema(implementation = AppointmentResponseDTO.class))))
+    })
+    @GetMapping(value = "/user-appointments/{id}",produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<List<AppointmentResponseDTO>> getUserAppointments(@PathVariable Integer id) {
+        List<Appointment> appointments = reservationService.findAllUserAppointments(id);
+        List<AppointmentResponseDTO> dtos = appointments.stream().map(AppointmentDTOMapper::toResponseDTO).collect(Collectors.toList());
+        return new ResponseEntity<>(dtos, HttpStatus.OK);
     }
 
 }
