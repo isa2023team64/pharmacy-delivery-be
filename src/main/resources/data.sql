@@ -100,9 +100,36 @@ VALUES  (1, 30,0,'2024-01-01T10:15:00', 'Veljko Nikolic'),
 		(1, 10,1,'2024-01-01T10:10:00', 'Veljko Nikolic'),
 		(1, 10,1,'2024-01-01T10:20:00', 'Veljko Nikolic');
 
-INSERT INTO public.reservation (appointment_id, equipment_taken, expired, handovered, user_id) 
-VALUES  (4, true, false, true, 1),
-		(5, true, false, true, 1);
 
-INSERT INTO public.reservation_order_items(order_items_id, reservation_id)
-	VALUES (1, 1),(1, 2),(2, 1),(2, 2);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+		
+
+-- INSERT INTO public.reservation (appointment_id, equipment_taken, expired, handovered, user_id) 
+-- VALUES  (4, true, false, true, 1),
+-- 		(5, true, false, true, 1);
+
+-- INSERT INTO public.reservation_order_items(order_items_id, reservation_id)
+-- 	VALUES (1, 1),(1, 2),(2, 1),(2, 2);
