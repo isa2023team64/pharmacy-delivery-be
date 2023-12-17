@@ -96,7 +96,7 @@ public class WebSecurityConfig {
 			.requestMatchers("/api/companies/search").permitAll()
 			.requestMatchers("/api/companies/search-by-equipment-filter").permitAll()
 			.requestMatchers("/api/companies/by-equipment/{id}").permitAll()
-			// .requestMatchers("/api/companies/{id}").hasAuthority("ROLE_SYSTEM_ADMIN")
+			// .requestMatchers("/api/companies/{id}").hasAuthority("ROLE_SYSTEMADMIN")
 
 			//.requestMatchers("/api/companies/**").hasAuthority("ROLE_USER")
 
@@ -106,11 +106,11 @@ public class WebSecurityConfig {
 			.requestMatchers("/api/equipment/not-owned-by-company/{companyId}").permitAll()
 
 			.requestMatchers("/api/system-administrators/*").permitAll()
-			// .requestMatchers("/api/system-administrators/*").hasAuthority("ROLE_SYSTEM_ADMIN")
+			// .requestMatchers("/api/system-administrators/*").hasAuthority("ROLE_SYSTEMADMIN")
 
 			
 			// appointments
-			.requestMatchers("/api/appointments/new").permitAll()
+			.requestMatchers("/api/appointments/new").hasAuthority("ROLE_COMPANYADMIN")
 			.requestMatchers("/api/auth/change-password").permitAll()
 			
 			// equipment
@@ -164,10 +164,10 @@ public class WebSecurityConfig {
     	// Dozvoljena POST metoda na ruti /auth/login, za svaki drugi tip HTTP metode greska je 401 Unauthorized
     	return (web) -> web.ignoring().requestMatchers(HttpMethod.POST, "/auth/*")
 				.requestMatchers(HttpMethod.PUT, "/api/registration/**")
-				.requestMatchers(HttpMethod.POST, "/api/appointments/*")
-				.requestMatchers(HttpMethod.POST, "/api/reservations/*")
-				.requestMatchers(HttpMethod.POST, "/api/appointments/**")
-				.requestMatchers(HttpMethod.GET, "/api/appointments/*")
+				// .requestMatchers(HttpMethod.POST, "/api/appointments/*")
+				// .requestMatchers(HttpMethod.POST, "/api/reservations/*")
+				// .requestMatchers(HttpMethod.POST, "/api/appointments/**")
+				// .requestMatchers(HttpMethod.GET, "/api/appointments/*")
     			
     			
     			// Ovim smo dozvolili pristup statickim resursima aplikacije

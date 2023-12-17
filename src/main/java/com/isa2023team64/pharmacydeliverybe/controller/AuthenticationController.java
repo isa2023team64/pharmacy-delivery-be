@@ -111,11 +111,11 @@ public class AuthenticationController {
 		for (Role role : roles) {
         	System.out.println("ROLES:");
         	System.out.println(role.getName());
-			if ("ROLE_SYSTEM_ADMIN".equals(role.getName())) {
+			if ("ROLE_SYSTEMADMIN".equals(role.getName())) {
 				isSystemAdministrator = true;
 				break;
 			}
-			if ("ROLE_COMPANY_ADMIN".equals(role.getName())) {
+			if ("ROLE_COMPANYADMIN".equals(role.getName())) {
 				isCompanyAdministrator = true;
 				break;
 			}
