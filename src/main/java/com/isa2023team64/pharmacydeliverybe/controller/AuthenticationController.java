@@ -12,6 +12,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -57,7 +58,10 @@ public class AuthenticationController {
 	
 	@Autowired
 	private CompanyAdministratorService companyAdministratorService;
-	
+
+	@Autowired
+	private PasswordEncoder passwordEncoder;
+
 	// Prvi endpoint koji pogadja korisnik kada se loguje.
 	// Tada zna samo svoje korisnicko ime i lozinku i to prosledjuje na backend.
 	@PostMapping("/login")
@@ -91,7 +95,8 @@ public class AuthenticationController {
                 changePasswordRequest.getUsername(), changePasswordRequest.getPassword()));
 
         User user = (User) authentication.getPrincipal();
-        user.setPassword(changePasswordRequest.getNewPassword());
+
+        user.setPassword(passwordEncoder.encode(changePasswordRequest.getNewPassword()));
 
         user = userService.update(user);
 		List<Role> roles = roleService.findByUserId(user.getId());
@@ -99,10 +104,7 @@ public class AuthenticationController {
 		boolean isSystemAdministrator = false;
 		boolean isCompanyAdministrator = false;
 
-
-    	System.out.println("USER:");		
-    	System.out.println(user.getEmail());
-		System.out.println(user.getId());
+	
 
 		if(roles.isEmpty()){
         	System.out.println("ROLES ARE EMPTY!");
