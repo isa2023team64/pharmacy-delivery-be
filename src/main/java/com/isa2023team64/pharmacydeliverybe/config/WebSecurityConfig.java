@@ -101,6 +101,8 @@ public class WebSecurityConfig {
 			.requestMatchers("/api/companies/search").permitAll()
 			.requestMatchers("/api/companies/search-by-equipment-filter").permitAll()
 			.requestMatchers("/api/companies/by-equipment/{id}").permitAll()
+			.requestMatchers("/api/companies/update/{id}").permitAll()
+			.requestMatchers("/api/companies/register").hasAuthority("ROLE_SYSTEMADMIN")
 			// .requestMatchers("/api/companies/{id}").hasAuthority("ROLE_SYSTEMADMIN")
 
 
