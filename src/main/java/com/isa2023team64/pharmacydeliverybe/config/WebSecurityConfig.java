@@ -91,6 +91,11 @@ public class WebSecurityConfig {
 			.requestMatchers("/h2-console/*").permitAll()	// /h2-console/** ako se koristi H2 baza)
 			.requestMatchers("/api/foo").permitAll()
 			
+			// reservations
+			.requestMatchers("api/reservations/user-appointments/*").hasAuthority("ROLE_USER")
+			.requestMatchers("api/reservations/regular").hasAuthority("ROLE_USER")
+			.requestMatchers("api/reservations/extraordinary").hasAuthority("ROLE_USER")
+
 			.requestMatchers("/api/companies/{id}").permitAll()
 			.requestMatchers("/api/companies/{companyId}/equipment").permitAll()
 			.requestMatchers("/api/companies/search").permitAll()
@@ -98,7 +103,6 @@ public class WebSecurityConfig {
 			.requestMatchers("/api/companies/by-equipment/{id}").permitAll()
 			// .requestMatchers("/api/companies/{id}").hasAuthority("ROLE_SYSTEMADMIN")
 
-			//.requestMatchers("/api/companies/**").hasAuthority("ROLE_USER")
 
 			.requestMatchers("/api/equipment").permitAll()
 			.requestMatchers("/api/equipment/{search}/equipment").permitAll()
@@ -110,7 +114,7 @@ public class WebSecurityConfig {
 
 			
 			// appointments
-			.requestMatchers("/api/appointments/new").hasAuthority("ROLE_COMPANYADMIN")
+			.requestMatchers("/api/appointments/new").permitAll()
 			.requestMatchers("/api/auth/change-password").permitAll()
 			
 			// equipment
@@ -124,11 +128,6 @@ public class WebSecurityConfig {
 			// company administrators
 			.requestMatchers("api/company-administrators").permitAll()
 			.requestMatchers("api/company-administrators/{id}").permitAll()
-
-			// reservations
-			.requestMatchers("api/reservations/user-appointments/*").hasAuthority("ROLE_USER")
-			.requestMatchers("api/reservations/regular").hasAuthority("ROLE_USER")
-			.requestMatchers("api/reservations/extraordinary").hasAuthority("ROLE_USER")
 
 			.requestMatchers("/api/registration").permitAll()
 			.requestMatchers("/api/registration/activate/*").permitAll()
