@@ -36,14 +36,19 @@ public class RegisteredUser extends User {
     @NotEmpty
     private String companyName;
 
+    @Column
+    @NotEmpty
+    private int penaltyPoints;
+
     public RegisteredUser(Integer id, String username, String email, String password, String firstName, String lastName, boolean active, @NotEmpty String city, @NotEmpty String country, @NotEmpty @Pattern (regexp = "\\+\\d{12}", message = "Phone number must start with '+' and be followed by 12 digits") 
-            String phoneNumber, @NotEmpty String workplace, @NotEmpty String companyName) {
+            String phoneNumber, @NotEmpty String workplace, @NotEmpty String companyName, @NotEmpty int penaltyPoints) {
         super(id, email, password, firstName, lastName,active);
         this.city=city;
         this.country=country;
         this.companyName=companyName;
         this.workplace=workplace;
         this.phoneNumber=phoneNumber;
+        this.penaltyPoints = penaltyPoints;
     }
 
 }

@@ -21,9 +21,10 @@ public class RegisteredUserRequestDTO {
     private String phoneNumber;
     private String workplace;
     private String companyName;
+    private int penaltyPoints;
 
     public RegisteredUserRequestDTO(RegisteredUser registeredUser) {
-        this(registeredUser.getEmail(), registeredUser.getPassword(), registeredUser.getFirstName(), registeredUser.getLastName(),registeredUser.getCity(),registeredUser.getCountry(),registeredUser.getPhoneNumber(),registeredUser.getWorkplace(),registeredUser.getCompanyName());
+        this(registeredUser.getEmail(), registeredUser.getPassword(), registeredUser.getFirstName(), registeredUser.getLastName(),registeredUser.getCity(),registeredUser.getCountry(),registeredUser.getPhoneNumber(),registeredUser.getWorkplace(),registeredUser.getCompanyName(),registeredUser.getPenaltyPoints());
     }
 
 }

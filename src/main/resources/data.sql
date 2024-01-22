@@ -61,10 +61,10 @@ VALUES ('user1@example.com', '$2a$10$SQpuv4vt5DrH6KMm//V9oeRYzDU5lK02Esfcs9Xmd7R
        ('milos@example.com', '$2a$10$SQpuv4vt5DrH6KMm//V9oeRYzDU5lK02Esfcs9Xmd7RT8sL5.G/QK', 'Milos', 'Djuric', true, CURRENT_TIMESTAMP),
        ('sysadmin@example.com', '$2a$10$SQpuv4vt5DrH6KMm//V9oeRYzDU5lK02Esfcs9Xmd7RT8sL5.G/QK', 'Sys', 'Admin', true, CURRENT_TIMESTAMP);
 
-INSERT INTO public.registered_user(id, city, country, phone_number, workplace, company_name)
-VALUES (1, 'City', 'Country', '+123456789012', 'Workplace', 'Company'),
-       (2, 'Novi Sad', 'Serbia', '+123456789012', 'Doctor', 'Poliklinika'),
-	   (5, 'Novi Sad', 'Serbia', '+321321321432', 'System Admin', 'Medspress');
+INSERT INTO public.registered_user(id, city, country, phone_number, workplace, company_name, penalty_points)
+VALUES (1, 'City', 'Country', '+123456789012', 'Workplace', 'Company',0),
+       (2, 'Novi Sad', 'Serbia', '+123456789012', 'Doctor', 'Poliklinika',0),
+	   (5, 'Novi Sad', 'Serbia', '+321321321432', 'System Admin', 'Medspress',0);
 
 INSERT INTO public.company_administrator(
 	company_id, id, city, country, phone_number, workplace, company_name, first_login)

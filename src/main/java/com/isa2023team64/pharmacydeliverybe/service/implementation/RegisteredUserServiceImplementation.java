@@ -47,6 +47,7 @@ public class RegisteredUserServiceImplementation implements RegisteredUserServic
         u.setLastPasswordResetDate(new Timestamp(new Date().getTime()));
         u.setWorkplace(user.getWorkplace());
         u.setCompanyName(user.getCompanyName());
+        u.setPenaltyPoints(0);
         List<Role> roles = roleService.findByName("ROLE_USER");
 		u.setRoles(roles);
 		
@@ -99,8 +100,25 @@ public class RegisteredUserServiceImplementation implements RegisteredUserServic
         user.setPhoneNumber(updatedUser.getPhoneNumber());
         user.setWorkplace(updatedUser.getWorkplace());
         user.setCompanyName(updatedUser.getCompanyName());
+        user.setPenaltyPoints(updatedUser.getPenaltyPoints());
         registeredUserRepository.save(user);
 
+        return user;
+    }
+
+    @Override
+    public RegisteredUser addPenaltyPoints(int id, boolean dayBefore) {
+        RegisteredUser user = registeredUserRepository.findById(id);
+        if(user == null) {
+            throw new EntityNotFoundException("User not found.");
+        }
+        if(dayBefore){
+            user.setPenaltyPoints(user.getPenaltyPoints()+2);
+        }
+        else{
+            user.setPenaltyPoints(user.getPenaltyPoints()+1);
+        }
+        registeredUserRepository.save(user);
         return user;
     }
     

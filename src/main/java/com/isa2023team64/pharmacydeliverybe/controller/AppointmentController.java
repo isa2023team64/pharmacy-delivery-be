@@ -103,5 +103,24 @@ public class AppointmentController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
+
+    @Operation(summary = "Cancles an appointment", description = "Cancles an appointment.", method = "PATCH")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "Appointment cancled successfully.",
+                     content = @Content(mediaType = "application/json"))
+    })
+    @PatchMapping("/cancle/{id}")
+    public ResponseEntity<Void> cancle(@PathVariable Integer id) {
+        try {
+            appointmentService.cancleAppointment(id);
+            return new ResponseEntity<>(HttpStatus.OK);
+        }
+        catch (NoSuchElementException e) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        catch (IllegalArgumentException e) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+    }
     
 }

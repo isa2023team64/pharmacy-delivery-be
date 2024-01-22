@@ -20,4 +20,6 @@ public interface RegisteredUserService {
     public RegisteredUser activateRegisteredUser(int id);
 
     public RegisteredUser update(int id, RegisteredUserUpdateDTO updatedUser);
+
+    public RegisteredUser addPenaltyPoints(int id, boolean dayBefore);
 }

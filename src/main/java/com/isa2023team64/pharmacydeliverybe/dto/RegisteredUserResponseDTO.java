@@ -21,11 +21,11 @@ public class RegisteredUserResponseDTO extends RegisteredUserRequestDTO {
     private List<Role> roles;
 
     public RegisteredUserResponseDTO(RegisteredUser registeredUser) {
-        this(registeredUser.getId(), registeredUser.getEmail(), registeredUser.getPassword(), registeredUser.getFirstName(), registeredUser.getLastName(),registeredUser.isActive(),registeredUser.getLastPasswordResetDate(),registeredUser.getCity(),registeredUser.getCountry(),registeredUser.getPhoneNumber(),registeredUser.getWorkplace(),registeredUser.getCompanyName(), registeredUser.getRoles());
+        this(registeredUser.getId(), registeredUser.getEmail(), registeredUser.getPassword(), registeredUser.getFirstName(), registeredUser.getLastName(),registeredUser.isActive(),registeredUser.getLastPasswordResetDate(),registeredUser.getCity(),registeredUser.getCountry(),registeredUser.getPhoneNumber(),registeredUser.getWorkplace(),registeredUser.getCompanyName(), registeredUser.getRoles(), registeredUser.getPenaltyPoints());
     }
 
-    public RegisteredUserResponseDTO(Integer id, String email, String password, String firstName, String lastName, Boolean active, Timestamp lastPasswordResetDate, String city, String country,String phoneNumber, String workplace, String company, List<Role> roles) {
-        super(email, password, firstName, lastName, city, country, phoneNumber, workplace, company);
+    public RegisteredUserResponseDTO(Integer id, String email, String password, String firstName, String lastName, Boolean active, Timestamp lastPasswordResetDate, String city, String country,String phoneNumber, String workplace, String company, List<Role> roles, int penaltyPoints) {
+        super(email, password, firstName, lastName, city, country, phoneNumber, workplace, company, penaltyPoints);
 
         this.id = id;
         this.active = active;

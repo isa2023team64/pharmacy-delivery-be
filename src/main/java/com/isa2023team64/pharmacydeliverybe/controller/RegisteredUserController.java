@@ -65,7 +65,6 @@ public class RegisteredUserController {
     @GetMapping(value = "/by-id/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<RegisteredUserResponseDTO> getRegisteredUserById(@PathVariable int id) {
         RegisteredUser registeredUser = registeredUserService.findById(id);
-        System.out.println("Hello, World, HIII!");
         if (registeredUser == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
@@ -83,7 +82,6 @@ public class RegisteredUserController {
     @GetMapping(value = "/by-email/{email}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<RegisteredUserResponseDTO> getRegisteredUserByEmail(@PathVariable String email) {
         RegisteredUser registeredUser = registeredUserService.findByEmail(email);
-        System.out.println("Hello, World, HIII!");
         if (registeredUser == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
@@ -110,6 +108,25 @@ public class RegisteredUserController {
             return new ResponseEntity<>(user, HttpStatus.OK);
         } catch (IllegalArgumentException exception) {
             return new ResponseEntity<>("Password and confirmation don't match.", HttpStatus.BAD_REQUEST);
+        } catch (EntityNotFoundException exception) {
+            return new ResponseEntity<>("User not found.", HttpStatus.NOT_FOUND);
+        }
+    }
+
+    @Operation(summary = "Update user penalty points.", description = "Update user penalty points.", method = "PUT")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "User penalty points updated successfully.",
+                     content = @Content(mediaType = "application/json",
+                     schema = @Schema(implementation = RegisteredUser.class))),
+        @ApiResponse(responseCode = "404", description = "User not found.",
+                     content = @Content(mediaType = "application/json", 
+                     schema = @Schema(implementation = String.class)))
+    })
+    @PutMapping(value = "/penaltyPoints/{id}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> addPenaltyPoints(@PathVariable int id, @RequestBody boolean dayBefore) {
+        try {
+            RegisteredUser user = registeredUserService.addPenaltyPoints(id, dayBefore);
+            return new ResponseEntity<>(user, HttpStatus.OK);
         } catch (EntityNotFoundException exception) {
             return new ResponseEntity<>("User not found.", HttpStatus.NOT_FOUND);
         }

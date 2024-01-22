@@ -133,6 +133,10 @@ public class WebSecurityConfig {
 
 			.requestMatchers("/api/registration").permitAll()
 			.requestMatchers("/api/registration/activate/*").permitAll()
+
+			.requestMatchers("/api/registered-users*").permitAll()
+			.requestMatchers("/api/appointments/*").permitAll()
+
 			.requestMatchers("/api/registered-users/by-id/*").permitAll()
 			.requestMatchers("/v3/api-docs").permitAll()		// /api/foo
 			// ukoliko ne zelimo da koristimo @PreAuthorize anotacije nad metodama kontrolera, moze se iskoristiti hasRole() metoda da se ogranici
@@ -167,7 +171,7 @@ public class WebSecurityConfig {
     	return (web) -> web.ignoring().requestMatchers(HttpMethod.POST, "/auth/*")
 				.requestMatchers(HttpMethod.PUT, "/api/registration/**")
 				.requestMatchers(HttpMethod.POST, "/api/appointments/**")
-    			
+    			.requestMatchers(HttpMethod.PUT, "/api/registered-users/**")
     			
     			// Ovim smo dozvolili pristup statickim resursima aplikacije
     			.requestMatchers(HttpMethod.GET, "/", "/swagger-ui/*","/v3/api-docs/*", "/webjars/*", "/*.html", "favicon.ico",
