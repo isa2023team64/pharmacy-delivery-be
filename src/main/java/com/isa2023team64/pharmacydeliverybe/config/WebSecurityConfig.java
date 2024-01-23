@@ -92,15 +92,11 @@ public class WebSecurityConfig {
 			.requestMatchers("/api/foo").permitAll()
 			
 			// reservations
-			//.requestMatchers("api/reservations/user-appointments/*").hasAuthority("ROLE_USER")
-			//.requestMatchers("api/reservations/regular").hasAuthority("ROLE_USER")
-			//.requestMatchers("api/reservations/extraordinary").hasAuthority("ROLE_USER")
-			.requestMatchers("api/reservations/regular").permitAll()
-			.requestMatchers("api/reservations/user-appointments/*").permitAll()
-			.requestMatchers("api/reservations/extraordinary").permitAll()
-			.requestMatchers("api/reservations/deleteReservation/*").permitAll()
+			.requestMatchers("api/reservations/user-appointments/*").hasAuthority("ROLE_USER")
+			.requestMatchers("api/reservations/regular").hasAuthority("ROLE_USER")
+			.requestMatchers("api/reservations/extraordinary").hasAuthority("ROLE_USER")
+			.requestMatchers("api/reservations/deleteReservation/*").hasAuthority("ROLE_USER")
 			.requestMatchers("api/appointments/cancle/**").permitAll()
-
 
 			.requestMatchers("/api/companies/{id}").permitAll()
 			.requestMatchers("/api/companies/{companyId}/equipment").permitAll()
@@ -137,12 +133,11 @@ public class WebSecurityConfig {
 			.requestMatchers("api/company-administrators").permitAll()
 			.requestMatchers("api/company-administrators/{id}").permitAll()
 
+			//registered users
+			.requestMatchers("api/registered-users/penaltyPoints/{id}").permitAll()
+
 			.requestMatchers("/api/registration").permitAll()
 			.requestMatchers("/api/registration/activate/*").permitAll()
-
-			.requestMatchers("/api/registered-users*").permitAll()
-			.requestMatchers("/api/appointments/*").permitAll()
-
 			.requestMatchers("/api/registered-users/by-id/*").permitAll()
 			.requestMatchers("/v3/api-docs").permitAll()		// /api/foo
 			// ukoliko ne zelimo da koristimo @PreAuthorize anotacije nad metodama kontrolera, moze se iskoristiti hasRole() metoda da se ogranici
@@ -177,8 +172,10 @@ public class WebSecurityConfig {
     	return (web) -> web.ignoring().requestMatchers(HttpMethod.POST, "/auth/*")
 				.requestMatchers(HttpMethod.PUT, "/api/registration/**")
 				.requestMatchers(HttpMethod.POST, "/api/appointments/**")
-    			.requestMatchers(HttpMethod.PUT, "/api/registered-users/**")
-				.requestMatchers(HttpMethod.DELETE,"api/reservations/**")
+				.requestMatchers(HttpMethod.GET, "/api/reservations/**")
+				.requestMatchers(HttpMethod.POST, "/api/reservations/**")
+				.requestMatchers(HttpMethod.DELETE, "/api/reservations/**")
+    			
     			
     			// Ovim smo dozvolili pristup statickim resursima aplikacije
     			.requestMatchers(HttpMethod.GET, "/", "/swagger-ui/*","/v3/api-docs/*", "/webjars/*", "/*.html", "favicon.ico",
