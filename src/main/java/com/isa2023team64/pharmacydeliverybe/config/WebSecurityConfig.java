@@ -92,9 +92,15 @@ public class WebSecurityConfig {
 			.requestMatchers("/api/foo").permitAll()
 			
 			// reservations
-			.requestMatchers("api/reservations/user-appointments/*").hasAuthority("ROLE_USER")
-			.requestMatchers("api/reservations/regular").hasAuthority("ROLE_USER")
-			.requestMatchers("api/reservations/extraordinary").hasAuthority("ROLE_USER")
+			//.requestMatchers("api/reservations/user-appointments/*").hasAuthority("ROLE_USER")
+			//.requestMatchers("api/reservations/regular").hasAuthority("ROLE_USER")
+			//.requestMatchers("api/reservations/extraordinary").hasAuthority("ROLE_USER")
+			.requestMatchers("api/reservations/regular").permitAll()
+			.requestMatchers("api/reservations/user-appointments/*").permitAll()
+			.requestMatchers("api/reservations/extraordinary").permitAll()
+			.requestMatchers("api/reservations/deleteReservation/*").permitAll()
+			.requestMatchers("api/appointments/cancle/**").permitAll()
+
 
 			.requestMatchers("/api/companies/{id}").permitAll()
 			.requestMatchers("/api/companies/{companyId}/equipment").permitAll()
@@ -172,6 +178,7 @@ public class WebSecurityConfig {
 				.requestMatchers(HttpMethod.PUT, "/api/registration/**")
 				.requestMatchers(HttpMethod.POST, "/api/appointments/**")
     			.requestMatchers(HttpMethod.PUT, "/api/registered-users/**")
+				.requestMatchers(HttpMethod.DELETE,"api/reservations/**")
     			
     			// Ovim smo dozvolili pristup statickim resursima aplikacije
     			.requestMatchers(HttpMethod.GET, "/", "/swagger-ui/*","/v3/api-docs/*", "/webjars/*", "/*.html", "favicon.ico",

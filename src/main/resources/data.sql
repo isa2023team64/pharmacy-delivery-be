@@ -94,11 +94,11 @@ INSERT INTO public.equipment(name, description, type, company_id, stock_count, a
 	('Cetka za zube', 'Za pranje zuba', 'TypeC', 1, 7, 3.5);
 
 INSERT INTO public.appointment (company_id, duration,status,start_date_time, company_administrator_full_name) 
-VALUES  (1, 30,0,'2024-01-01T10:15:00', 'Veljko Nikolic'),
-		(1, 15,0,'2024-01-01T09:00:00', 'Milos Djuric'),
-		(1, 15,0,'2024-01-01T10:00:00', 'Veljko Nikolic'),
-		(1, 10,1,'2024-01-01T10:10:00', 'Veljko Nikolic'),
-		(1, 10,1,'2024-01-01T10:20:00', 'Veljko Nikolic');
+VALUES  (1, 30,0,'2024-02-01T10:15:00', 'Veljko Nikolic'),
+		(1, 15,0,'2024-02-01T09:00:00', 'Milos Djuric'),
+		(1, 15,0,'2024-02-01T10:00:00', 'Veljko Nikolic'),
+		(1, 10,1,'2024-02-01T10:10:00', 'Veljko Nikolic'),
+		(1, 10,1,'2024-02-01T10:20:00', 'Veljko Nikolic');
 
 
 

@@ -103,6 +103,32 @@ public class ReservationServiceImplementation implements ReservationService {
         return reservationDTO;
     }
 
+    @Transactional
+    public void deleteReservation(int appointmentId) {
+        
+        Reservation reservation = reservationRepository.findByAppointmentId(appointmentId).orElseThrow(() -> new NoSuchElementException("Reservation not found"));
+        System.out.println("RESERVATION FOR DELETE: " + reservation);
+
+
+        List<Equipment> equipmentList = reservation.getOrderItems();
+        for (Equipment equipment : equipmentList) {
+            equipment.setStockCount(equipment.getStockCount() + 1);
+            entityManager.merge(equipment);
+        }
+
+        Appointment appointment = reservation.getAppointment();
+        appointment.setStatus(AppointmentStatus.FREE);
+        entityManager.merge(appointment);
+        Appointment freedAppointment= new Appointment();
+        freedAppointment.setCompany(appointment.getCompany());
+        freedAppointment.setCompanyAdministratorFullName(appointment.getCompanyAdministratorFullName());
+        freedAppointment.setDuration(appointment.getDuration());
+        freedAppointment.setStartDateTime(appointment.getStartDateTime());
+        freedAppointment.setStatus(AppointmentStatus.CANCLED);
+        reservation.setAppointment(freedAppointment);
+        reservationRepository.save(reservation);
+    }
+
     private String generateReservationInfo(Reservation reservation) {
         StringBuilder infoBuilder = new StringBuilder();
         

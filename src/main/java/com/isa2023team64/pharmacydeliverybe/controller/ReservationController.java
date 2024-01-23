@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -97,6 +98,26 @@ public class ReservationController {
         List<Appointment> appointments = reservationService.findAllUserAppointments(id);
         List<AppointmentResponseDTO> dtos = appointments.stream().map(AppointmentDTOMapper::toResponseDTO).collect(Collectors.toList());
         return new ResponseEntity<>(dtos, HttpStatus.OK);
+    }
+    
+    @Operation(summary = "Delete Reservation.", description = "Cancel an appointment and delete the associated reservation.", method = "Delete")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "204", description = "Reservation canceled successfully."),
+        @ApiResponse(responseCode = "404", description = "Appointment or reservation not found."),
+        @ApiResponse(responseCode = "400", description = "Invalid request.")
+    })
+    @DeleteMapping(value = "/deleteReservation/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Void> cancelExtraordinary(@PathVariable int id) {
+        try {
+            // Call the delete function to cancel the appointment and associated reservation
+            reservationService.deleteReservation(id);
+            
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        } catch (NoSuchElementException e) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        } catch (IllegalArgumentException e) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
     }
 
 }

@@ -7,5 +7,6 @@ import com.isa2023team64.pharmacydeliverybe.model.Appointment;
 
 public interface ReservationService {
     public RegularReservationResponseDTO create(int userId, int appointmentId, List<Integer> equipmentIds);
-     public List<Appointment> findAllUserAppointments(int userId);
+    public List<Appointment> findAllUserAppointments(int userId);
+    public void deleteReservation(int reservationId);
 }
