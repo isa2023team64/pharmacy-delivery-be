@@ -20,6 +20,6 @@ public class Contract extends GenericEntity {
     public Hospital hospital;
 
     @OneToMany
-    public Collection<Equipment> equipments;
+    public Collection<ContractItem> orders;
 
 }
