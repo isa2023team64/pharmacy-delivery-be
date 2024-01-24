@@ -150,6 +150,13 @@
 			<artifactId>spring-kafka</artifactId>
 		</dependency>
 
+		<!-- WebFlux for WebClient Communication -->
+		<dependency>
+        <groupId>org.springframework.boot</groupId>
+    	    <artifactId>spring-boot-starter-webflux</artifactId>
+	    </dependency>
+
+		
 
 	</dependencies>
 

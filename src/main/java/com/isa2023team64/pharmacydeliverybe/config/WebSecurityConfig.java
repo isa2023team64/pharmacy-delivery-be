@@ -114,7 +114,10 @@ public class WebSecurityConfig {
 			.requestMatchers("/api/system-administrators/*").permitAll()
 			// .requestMatchers("/api/system-administrators/*").hasAuthority("ROLE_SYSTEMADMIN")
 
-			
+			// coordinates
+			.requestMatchers("/api/coordinates/*").permitAll()
+
+
 			// appointments
 			.requestMatchers("/api/appointments/new").permitAll()
 			.requestMatchers("/api/auth/change-password").permitAll()
