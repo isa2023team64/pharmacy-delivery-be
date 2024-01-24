@@ -1,7 +1,9 @@
 package com.isa2023team64.pharmacydeliverybe.model;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.ManyToOne;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -10,11 +12,13 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
+@AllArgsConstructor
 public class ContractItem extends GenericEntity {
-    @ManyToOne
+
+    @ManyToOne(fetch = FetchType.LAZY)
     private Contract contract;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     private Equipment equipment;
 
     private int quantity;
