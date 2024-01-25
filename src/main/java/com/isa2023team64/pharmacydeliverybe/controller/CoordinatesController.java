@@ -55,7 +55,6 @@ public class CoordinatesController {
 
 
 
-
     @Operation(summary = "Get coordinates by id", description = "Gets coordinates by id", method = "GET")
     @ApiResponses(value = {
         @ApiResponse(responseCode = "200", description = "Coordinates fetched successfully.",

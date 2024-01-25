@@ -3,6 +3,7 @@ package com.isa2023team64.pharmacydeliverybe.service;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;
 
 import com.isa2023team64.pharmacydeliverybe.model.Coordinates;
@@ -14,6 +15,12 @@ public class CoordinatesService{
  
     @Autowired
     private CoordinatesRepository coordinatesRepository;
+
+    private final SimpMessagingTemplate messagingTemplate;
+
+    public CoordinatesService(SimpMessagingTemplate messagingTemplate) {
+        this.messagingTemplate = messagingTemplate;
+    }
 
     public List<Coordinates> findAll() {
         return coordinatesRepository.findAll();
@@ -30,4 +37,11 @@ public class CoordinatesService{
     public Coordinates update(Coordinates coordinates) {
         return coordinatesRepository.save(coordinates);
     }
+
+    public void sendCoordinatesWebSocket(List<Coordinates> updatedCoordinates) {
+        
+        messagingTemplate.convertAndSend("/topic/coordinates", updatedCoordinates);
+    }
+
+
 }
