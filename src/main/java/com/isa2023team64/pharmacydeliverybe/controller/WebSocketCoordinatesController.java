@@ -12,8 +12,10 @@ import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.web.reactive.socket.WebSocketMessage;
 
 import java.util.List;
+import java.io.IOException;
 import java.net.URI;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.isa2023team64.pharmacydeliverybe.model.Coordinates;
 
 @Controller
@@ -25,56 +27,73 @@ public class WebSocketCoordinatesController {
 
     
     @MessageMapping("/delivery")
-    public String handleDelivery(String message){
+    public List<Coordinates> handleDelivery(String message){
 
-        System.out.println("RADI WEBSOCKETTTTTTTTTTTT");
+        System.out.println("RADI WEBSOCKET " + message);
         try{
-            // String locationSimulatorUrl = "http://localhost:8001";
 
-            // WebClient webClient = WebClient.create();
+            List<Coordinates> coordinates = parseMessage(message);
 
-            // URI locationSimulatorURI = new URI(locationSimulatorUrl + "/delivery");
+            String locationSimulatorUrl = "http://localhost:8001";
 
-            // webClient.method(HttpMethod.POST).uri(locationSimulatorURI).bodyValue(coordinatesList).retrieve().toBodilessEntity().block();
+            WebClient webClient = WebClient.create();
+
+            URI locationSimulatorURI = new URI(locationSimulatorUrl + "/delivery");
+
+            webClient.method(HttpMethod.POST).uri(locationSimulatorURI).bodyValue(coordinates).retrieve().toBodilessEntity().block();
 
 
-            messagingTemplate.convertAndSend("/ws-publisher", "Delivery successful");
+            // messagingTemplate.convertAndSend("/ws-publisher", coordinates);
 
-            return message;
+            return coordinates;
         }
         catch (Exception e){
             e.printStackTrace();
 
             messagingTemplate.convertAndSend("/ws-publisher", "Error in delivery: " + e.getMessage());
-            return("Error in delivery: " + e.getMessage());
+            return null;
         }
     }
 
-    @MessageMapping("/info")
-    public String handleInfo(){
+    @SuppressWarnings("unchecked")
+	private List<Coordinates> parseMessage(String message) {
+		ObjectMapper mapper = new ObjectMapper();
+		List<Coordinates> retVal;
 
-        System.out.println("RADI INFOO WEBSOCKETTTTTTTTTTTT");
-        try{
-            // String locationSimulatorUrl = "http://localhost:8001";
+		try {
+			retVal = mapper.readValue(message, List.class); // parsiranje JSON stringa
+		} catch (IOException e) {
+			retVal = null;
+		}
 
-            // WebClient webClient = WebClient.create();
+		return retVal;
+	}
 
-            // URI locationSimulatorURI = new URI(locationSimulatorUrl + "/delivery");
+    // @MessageMapping("/info")
+    // public String handleInfo(){
 
-            // webClient.method(HttpMethod.POST).uri(locationSimulatorURI).bodyValue(coordinatesList).retrieve().toBodilessEntity().block();
+    //     System.out.println("RADI INFOO WEBSOCKETTTTTTTTTTTT");
+    //     try{
+    //         // String locationSimulatorUrl = "http://localhost:8001";
+
+    //         // WebClient webClient = WebClient.create();
+
+    //         // URI locationSimulatorURI = new URI(locationSimulatorUrl + "/delivery");
+
+    //         // webClient.method(HttpMethod.POST).uri(locationSimulatorURI).bodyValue(coordinatesList).retrieve().toBodilessEntity().block();
 
 
-            messagingTemplate.convertAndSend("/ws-publisher", "Delivery Info successful");
+    //         messagingTemplate.convertAndSend("/ws-publisher", "Delivery Info successful");
 
-            return "Info Hello";
-        }
-        catch (Exception e){
-            e.printStackTrace();
+    //         return "Info Hello";
+    //     }
+    //     catch (Exception e){
+    //         e.printStackTrace();
 
-            messagingTemplate.convertAndSend("/ws-publisher", "Error in delivery: " + e.getMessage());
-            return("Error in delivery: " + e.getMessage());
-        }
-    }
+    //         messagingTemplate.convertAndSend("/ws-publisher", "Error in delivery: " + e.getMessage());
+    //         return("Error in delivery: " + e.getMessage());
+    //     }
+    // }
 
     
 }

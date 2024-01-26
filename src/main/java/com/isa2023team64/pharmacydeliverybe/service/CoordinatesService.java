@@ -40,7 +40,9 @@ public class CoordinatesService{
 
     public void sendCoordinatesWebSocket(List<Coordinates> updatedCoordinates) {
         
-        messagingTemplate.convertAndSend("/topic/coordinates", updatedCoordinates);
+        System.out.println("RADI WEBSOCKET SERVIS" + updatedCoordinates.size());
+
+        messagingTemplate.convertAndSend("/ws-publisher", updatedCoordinates);
     }
 
 
