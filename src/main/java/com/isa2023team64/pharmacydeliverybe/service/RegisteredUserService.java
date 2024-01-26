@@ -22,4 +22,6 @@ public interface RegisteredUserService {
     public RegisteredUser update(int id, RegisteredUserUpdateDTO updatedUser);
 
     public RegisteredUser addPenaltyPoints(int id, boolean dayBefore);
+    
+    public void removePenaltyPoints();
 }

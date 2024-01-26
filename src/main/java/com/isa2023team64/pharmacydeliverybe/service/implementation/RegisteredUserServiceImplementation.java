@@ -1,10 +1,13 @@
 package com.isa2023team64.pharmacydeliverybe.service.implementation;
 
 import java.sql.Timestamp;
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.EnableScheduling;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -20,6 +23,7 @@ import com.isa2023team64.pharmacydeliverybe.service.RoleService;
 import jakarta.persistence.EntityNotFoundException;
 
 @Service
+@EnableScheduling
 public class RegisteredUserServiceImplementation implements RegisteredUserService {
 
     @Autowired
@@ -122,6 +126,19 @@ public class RegisteredUserServiceImplementation implements RegisteredUserServic
         }
         registeredUserRepository.save(user);
         return user;
+    }
+
+    @Override
+    @Scheduled(fixedRate = 1000 * 60 * 60 * 24)
+    public void removePenaltyPoints() {
+        int currentDateDay = LocalDate.now().getDayOfMonth();
+        if(currentDateDay != 1) return;
+
+        List<RegisteredUser> users = registeredUserRepository.findAll();
+        for(var user : users) {
+            user.setPenaltyPoints(0);
+            registeredUserRepository.save(user);
+        }
     }
     
 }
