@@ -130,6 +130,7 @@ public class WebSecurityConfig {
 			// company administrators
 			.requestMatchers("api/company-administrators").permitAll()
 			.requestMatchers("api/company-administrators/{id}").permitAll()
+			.requestMatchers("api/hospital").permitAll()
 
 			.requestMatchers("/api/registration").permitAll()
 			.requestMatchers("/api/registration/activate/*").permitAll()
