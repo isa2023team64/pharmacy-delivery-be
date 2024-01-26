@@ -111,7 +111,7 @@ public class WebSecurityConfig {
 			.requestMatchers("/api/equipment/{id}").permitAll()
 			.requestMatchers("/api/equipment/not-owned-by-company/{companyId}").permitAll()
 
-			.requestMatchers("/api/system-administrators/*").permitAll()
+
 			// .requestMatchers("/api/system-administrators/*").hasAuthority("ROLE_SYSTEMADMIN")
 
 			
@@ -167,7 +167,7 @@ public class WebSecurityConfig {
     	return (web) -> web.ignoring().requestMatchers(HttpMethod.POST, "/auth/*")
 				.requestMatchers(HttpMethod.PUT, "/api/registration/**")
 				.requestMatchers(HttpMethod.POST, "/api/appointments/**")
-    			
+				.requestMatchers("/api/system-administrators/**")
     			
     			// Ovim smo dozvolili pristup statickim resursima aplikacije
     			.requestMatchers(HttpMethod.GET, "/", "/swagger-ui/*","/v3/api-docs/*", "/webjars/*", "/*.html", "favicon.ico",
