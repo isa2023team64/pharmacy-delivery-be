@@ -54,6 +54,16 @@ INSERT INTO public.company(
 			(4.25, '08:00:00', '21:00:00', 'Bulevar Cara Lazara', 'Zagreb', 'Croatia', 'New medical equipment', 'WellnessPulse Diagnostics', 'https://cdn.logojoy.com/wp-content/uploads/2018/05/30162353/1159.png'),
 			(5, '09:00:00', '21:00:00', 'Bulevar Cara Lazara', 'Zagreb', 'Croatia', 'New medical equipment', 'Jugolab', 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRFbfqI1nQ45HbWeck3T4se91ECBLsX42I0Fg&usqp=CAU');
 
+INSERT INTO hospital (name, longitude, latitude)
+VALUES
+	('Bolnica 1', 10.0, 10.0),
+	('Bolnica 2', 10.0, 10.0),
+	('Bolnica 3', 10.0, 10.0),
+	('Bolnica 4', 10.0, 10.0),
+	('Bolnica 5', 10.0, 10.0),
+	('Bolnica 6', 10.0, 10.0),
+	('Bolnica 7', 10.0, 10.0);
+
 INSERT INTO app_user (email, password, first_name, last_name, active, last_password_reset_date)
 VALUES ('user1@example.com', '$2a$10$SQpuv4vt5DrH6KMm//V9oeRYzDU5lK02Esfcs9Xmd7RT8sL5.G/QK', 'John', 'Doe', true, CURRENT_TIMESTAMP),
        ('veljko@example.com', '$2a$10$SQpuv4vt5DrH6KMm//V9oeRYzDU5lK02Esfcs9Xmd7RT8sL5.G/QK', 'Veljko', 'Nikolic', true, CURRENT_TIMESTAMP),
@@ -61,10 +71,10 @@ VALUES ('user1@example.com', '$2a$10$SQpuv4vt5DrH6KMm//V9oeRYzDU5lK02Esfcs9Xmd7R
        ('milos@example.com', '$2a$10$SQpuv4vt5DrH6KMm//V9oeRYzDU5lK02Esfcs9Xmd7RT8sL5.G/QK', 'Milos', 'Djuric', true, CURRENT_TIMESTAMP),
        ('sysadmin@example.com', '$2a$10$SQpuv4vt5DrH6KMm//V9oeRYzDU5lK02Esfcs9Xmd7RT8sL5.G/QK', 'Sys', 'Admin', true, CURRENT_TIMESTAMP);
 
-INSERT INTO public.registered_user(id, city, country, phone_number, workplace, company_name, penalty_points)
-VALUES (1, 'City', 'Country', '+123456789012', 'Workplace', 'Company',0),
-       (2, 'Novi Sad', 'Serbia', '+123456789012', 'Doctor', 'Poliklinika',0),
-	   (5, 'Novi Sad', 'Serbia', '+321321321432', 'System Admin', 'Medspress',0);
+INSERT INTO public.registered_user(id, city, country, phone_number, workplace, hospital_id, penalty_points)
+VALUES (1, 'City', 'Country', '+123456789012', 'Workplace', 1, 0),
+       (2, 'Novi Sad', 'Serbia', '+123456789012', 'Doctor', 2, 0),
+	   (5, 'Novi Sad', 'Serbia', '+321321321432', 'System Admin', 3, 0);
 
 INSERT INTO public.company_administrator(
 	company_id, id, city, country, phone_number, workplace, company_name, first_login)
@@ -88,10 +98,10 @@ INSERT INTO USER_ROLE (user_id, role_id) VALUES (5, 2); -- user-u dodeljujemo ro
 
 INSERT INTO public.equipment(name, description, type, company_id, stock_count, average_rating)
 	VALUES 
-	('Injekcija', 'Za vakcinisanje', 'TypeA', 1, 5, 4.5),
-	('Stetoskop', 'Za slusanje srca', 'TypeB', 1, 3, 3.8),
-	('Toplomer', 'Za merenje temperature', 'TypeC', 1, 2, 2.9),
-	('Cetka za zube', 'Za pranje zuba', 'TypeC', 1, 7, 3.5);
+	('Injekcija', 'Za vakcinisanje', 'TypeA', 1, 50, 4.5),
+	('Stetoskop', 'Za slusanje srca', 'TypeB', 1, 30, 3.8),
+	('Toplomer', 'Za merenje temperature', 'TypeC', 1, 20, 2.9),
+	('Cetka za zube', 'Za pranje zuba', 'TypeC', 1, 70, 3.5);
 
 INSERT INTO public.appointment (company_id, duration,status,start_date_time, company_administrator_full_name) 
 VALUES  (1, 30,0,'2024-02-01T10:15:00', 'Veljko Nikolic'),
@@ -100,32 +110,25 @@ VALUES  (1, 30,0,'2024-02-01T10:15:00', 'Veljko Nikolic'),
 		(1, 10,1,'2024-02-01T10:10:00', 'Veljko Nikolic'),
 		(1, 10,1,'2024-02-01T10:20:00', 'Veljko Nikolic');
 
+INSERT INTO public.contract (hospital_id, day)
+VALUES 
+	(1, 25),
+	(2, 15),
+	(3, 28);
 
 
+INSERT INTO public.contract_item(contract_id, equipment_id, quantity)
+VALUES
+	(1, 1, 10),
+	(1, 2, 5),
+	(2, 1, 4),
+	(3, 1, 7);
 
+INSERT INTO public.delivery(delivery_date, hospital_id, latitude, longitude, status)
+VALUES
+	('2024-01-25', 1, 10.0, 10.0, 0),
+	('2024-01-25', 1, 10.0, 10.0, 1);
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-		
 
 -- INSERT INTO public.reservation (appointment_id, equipment_taken, expired, handovered, user_id) 
 -- VALUES  (4, true, false, true, 1),

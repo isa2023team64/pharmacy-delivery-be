@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import com.isa2023team64.pharmacydeliverybe.dto.RegisteredUserRequestDTO;
 import com.isa2023team64.pharmacydeliverybe.dto.RegisteredUserUpdateDTO;
+import com.isa2023team64.pharmacydeliverybe.model.Hospital;
 import com.isa2023team64.pharmacydeliverybe.model.RegisteredUser;
 import com.isa2023team64.pharmacydeliverybe.model.Role;
 import com.isa2023team64.pharmacydeliverybe.repository.RegisteredUserRepository;
@@ -46,7 +47,9 @@ public class RegisteredUserServiceImplementation implements RegisteredUserServic
         u.setPhoneNumber(user.getPhoneNumber());
         u.setLastPasswordResetDate(new Timestamp(new Date().getTime()));
         u.setWorkplace(user.getWorkplace());
-        u.setCompanyName(user.getCompanyName());
+
+        Hospital hospital = new Hospital(user.getCompanyName(), user.getLongitude(), user.getLatitude());
+        u.setHospital(hospital);
         u.setPenaltyPoints(0);
         List<Role> roles = roleService.findByName("ROLE_USER");
 		u.setRoles(roles);
@@ -99,7 +102,6 @@ public class RegisteredUserServiceImplementation implements RegisteredUserServic
         user.setCountry(updatedUser.getCountry());
         user.setPhoneNumber(updatedUser.getPhoneNumber());
         user.setWorkplace(updatedUser.getWorkplace());
-        user.setCompanyName(updatedUser.getCompanyName());
         user.setPenaltyPoints(updatedUser.getPenaltyPoints());
         registeredUserRepository.save(user);
 
