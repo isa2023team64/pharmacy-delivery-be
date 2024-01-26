@@ -37,7 +37,7 @@ public class ContractServiceImplementation implements ContractService {
 
         Contract contract = new Contract();
 
-        // try {
+        try {
             Hospital hospital = hospitalRepository.findById(contractRequestDTO.getHospitalId()).orElseThrow();
 
 
@@ -61,10 +61,10 @@ public class ContractServiceImplementation implements ContractService {
             contractRepository.save(contract);
 
             return contract;
-        // } catch (Exception e) {
-        //     System.out.println("Requested items don't exist.");
-        //     return null;
-        // }
+        } catch (Exception e) {
+            System.out.println("Requested items don't exist.");
+            return null;
+        }
     }
 
     @Transactional

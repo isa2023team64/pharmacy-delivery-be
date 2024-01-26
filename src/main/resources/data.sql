@@ -98,10 +98,10 @@ INSERT INTO USER_ROLE (user_id, role_id) VALUES (5, 2); -- user-u dodeljujemo ro
 
 INSERT INTO public.equipment(name, description, type, company_id, stock_count, average_rating)
 	VALUES 
-	('Injekcija', 'Za vakcinisanje', 'TypeA', 1, 5, 4.5),
-	('Stetoskop', 'Za slusanje srca', 'TypeB', 1, 3, 3.8),
-	('Toplomer', 'Za merenje temperature', 'TypeC', 1, 2, 2.9),
-	('Cetka za zube', 'Za pranje zuba', 'TypeC', 1, 7, 3.5);
+	('Injekcija', 'Za vakcinisanje', 'TypeA', 1, 50, 4.5),
+	('Stetoskop', 'Za slusanje srca', 'TypeB', 1, 30, 3.8),
+	('Toplomer', 'Za merenje temperature', 'TypeC', 1, 20, 2.9),
+	('Cetka za zube', 'Za pranje zuba', 'TypeC', 1, 70, 3.5);
 
 INSERT INTO public.appointment (company_id, duration,status,start_date_time, company_administrator_full_name) 
 VALUES  (1, 30,0,'2024-01-01T10:15:00', 'Veljko Nikolic'),
@@ -110,32 +110,25 @@ VALUES  (1, 30,0,'2024-01-01T10:15:00', 'Veljko Nikolic'),
 		(1, 10,1,'2024-01-01T10:10:00', 'Veljko Nikolic'),
 		(1, 10,1,'2024-01-01T10:20:00', 'Veljko Nikolic');
 
+INSERT INTO public.contract (hospital_id, day)
+VALUES 
+	(1, 25),
+	(2, 15),
+	(3, 28);
 
 
+INSERT INTO public.contract_item(contract_id, equipment_id, quantity)
+VALUES
+	(1, 1, 10),
+	(1, 2, 5),
+	(2, 1, 4),
+	(3, 1, 7);
 
+INSERT INTO public.delivery(delivery_date, hospital_id, latitude, longitude, status)
+VALUES
+	('2024-01-25', 1, 10.0, 10.0, 0),
+	('2024-01-25', 1, 10.0, 10.0, 1);
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-		
 
 -- INSERT INTO public.reservation (appointment_id, equipment_taken, expired, handovered, user_id) 
 -- VALUES  (4, true, false, true, 1),
