@@ -20,6 +20,7 @@ import com.isa2023team64.pharmacydeliverybe.model.Appointment;
 import com.isa2023team64.pharmacydeliverybe.model.Equipment;
 import com.isa2023team64.pharmacydeliverybe.model.RegisteredUser;
 import com.isa2023team64.pharmacydeliverybe.model.Reservation;
+import com.isa2023team64.pharmacydeliverybe.model.ReservationItem;
 import com.isa2023team64.pharmacydeliverybe.repository.AppointmentRepository;
 import com.isa2023team64.pharmacydeliverybe.repository.EquipmentRepository;
 import com.isa2023team64.pharmacydeliverybe.repository.RegisteredUserRepository;
@@ -60,22 +61,27 @@ public class ReservationServiceImplementation implements ReservationService {
 	private EmailService emailService;
 
     @Transactional
-    public RegularReservationResponseDTO create(int userId, int appointmentId, List<Integer> equipmentIds) {
+    public RegularReservationResponseDTO create(int userId, int appointmentId, List<Integer> equipmentIds, List<Integer> quantities) {
         RegisteredUser user = userRepository.findById(userId);
-
-        List<Equipment> equipmentList = new ArrayList<>();
-        for (int id : equipmentIds) {
-            Equipment equipment = equipmentRepository.findById(id).orElseThrow();
-            if (equipment.getStockCount() <= 0)
-                throw new NoSuchElementException();
-            equipment.setStockCount(equipment.getStockCount() - 1);
-            equipmentList.add(equipment);
-        }
+        if(user.getPenaltyPoints() >= 3) throw new IllegalArgumentException();
 
         Appointment appointment = appointmentRepository.findById(appointmentId).orElseThrow();
         appointment.setStatus(AppointmentStatus.RESERVED);
 
-        Reservation reservation = new Reservation(false, false, false, appointment, user, equipmentList);
+        List<Equipment> equipmentList = new ArrayList<>();
+        List<ReservationItem> reservationItems = new ArrayList<>();
+        Reservation reservation = new Reservation(false, false, false, appointment, user, reservationItems);
+        int i = -1;
+        for (int id : equipmentIds) {
+            i++;
+            Equipment equipment = equipmentRepository.findById(id).orElseThrow();
+            if (equipment.getStockCount() <= 0)
+                throw new NoSuchElementException();
+            equipment.setStockCount(equipment.getStockCount() - quantities.get(i));
+            equipmentList.add(equipment);
+            reservationItems.add(new ReservationItem(reservation, equipment, quantities.get(i)));
+        }
+
         user = entityManager.merge(user);
         equipmentList = equipmentList.stream()
             .map(equipment -> entityManager.merge(equipment))
@@ -110,9 +116,9 @@ public class ReservationServiceImplementation implements ReservationService {
         System.out.println("RESERVATION FOR DELETE: " + reservation);
 
 
-        List<Equipment> equipmentList = reservation.getOrderItems();
-        for (Equipment equipment : equipmentList) {
-            equipment.setStockCount(equipment.getStockCount() + 1);
+        List<ReservationItem> equipmentList = reservation.getOrderItems();
+        for (ReservationItem equipment : equipmentList) {
+            equipment.getEquipment().setStockCount(equipment.getEquipment().getStockCount() + equipment.getQuantity());
             entityManager.merge(equipment);
         }
 
@@ -137,8 +143,8 @@ public class ReservationServiceImplementation implements ReservationService {
         infoBuilder.append("Customer: ").append(reservation.getUser().getFullName()).append("\n");
         infoBuilder.append("Order Items:\n");
         
-        for (Equipment equipment : reservation.getOrderItems()) {
-            infoBuilder.append(equipment.getName()).append("\n");
+        for (ReservationItem equipment : reservation.getOrderItems()) {
+            infoBuilder.append(equipment.getEquipment().getName()).append("\n");
         }
         
         infoBuilder.append("Appointment: ").append(reservation.getAppointment().getStartDateTime()).append("\n");

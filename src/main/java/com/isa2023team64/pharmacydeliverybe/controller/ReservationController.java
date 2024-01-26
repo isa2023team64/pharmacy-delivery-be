@@ -53,7 +53,7 @@ public class ReservationController {
     @PostMapping(value = "/regular", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<RegularReservationResponseDTO> createRegular(@RequestBody RegularReservationRequestDTO dto) {
         try {
-            RegularReservationResponseDTO responseDTO = reservationService.create(dto.getUserId(), dto.getAppointmentId(), dto.getEquipmentIds());
+            RegularReservationResponseDTO responseDTO = reservationService.create(dto.getUserId(), dto.getAppointmentId(), dto.getEquipmentIds(), dto.getEquipmentQuantities());
             return new ResponseEntity<>(responseDTO, HttpStatus.CREATED);
         }
         catch (NoSuchElementException e) {
@@ -76,7 +76,7 @@ public class ReservationController {
             dto.getAppointment().setCompanyAdministratorFullName("Full Name");
             Appointment appointment = AppointmentDTOMapper.fromRequestDTO(dto.getAppointment());
             appointment = appointmentService.makeExtraordinaryAppointment(appointment);
-            RegularReservationResponseDTO responseDTO = reservationService.create(dto.getUserId(), appointment.getId(), dto.getEquipmentIds());
+            RegularReservationResponseDTO responseDTO = reservationService.create(dto.getUserId(), appointment.getId(), dto.getEquipmentIds(), dto.getEquipmentQuantities());
             return new ResponseEntity<>(responseDTO, HttpStatus.CREATED);
         }
         catch (NoSuchElementException e) {
