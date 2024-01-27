@@ -159,6 +159,6 @@ public class AppointmentServiceImplementation implements AppointmentService {
         if (appointment.getStatus() == AppointmentStatus.FREE) throw new IllegalArgumentException("Appointment already reserved.");
         appointment.setStatus(AppointmentStatus.FREE);
         appointmentRepository.save(appointment);
-    }    
+    }  
     
 }

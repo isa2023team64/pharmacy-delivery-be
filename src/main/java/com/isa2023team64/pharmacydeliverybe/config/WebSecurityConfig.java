@@ -134,6 +134,11 @@ public class WebSecurityConfig {
 			
 			// auth change password
 			.requestMatchers("/api/appointments/by-company-id/{id}").permitAll()
+			.requestMatchers("/api/appointments/by-company-id-not-free/{id}").permitAll()
+			.requestMatchers("/api/appointments/mark-as-taken/{id}").permitAll()
+
+			// reservations
+			.requestMatchers("/api/reservations/mark-as-taken/{id}").permitAll()
 			
 			// company administrators
 			.requestMatchers("api/company-administrators").permitAll()

@@ -1,6 +1,7 @@
 package com.isa2023team64.pharmacydeliverybe.service.implementation;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
@@ -25,11 +26,13 @@ import com.isa2023team64.pharmacydeliverybe.model.ReservationItem;
 import com.isa2023team64.pharmacydeliverybe.repository.AppointmentRepository;
 import com.isa2023team64.pharmacydeliverybe.repository.EquipmentRepository;
 import com.isa2023team64.pharmacydeliverybe.repository.RegisteredUserRepository;
+import com.isa2023team64.pharmacydeliverybe.repository.ReservationItemRepository;
 import com.isa2023team64.pharmacydeliverybe.repository.ReservationRepository;
 import com.isa2023team64.pharmacydeliverybe.service.EmailService;
 import com.isa2023team64.pharmacydeliverybe.service.QRCodeGenerator;
 import com.isa2023team64.pharmacydeliverybe.service.ReservationService;
 import com.isa2023team64.pharmacydeliverybe.util.enums.AppointmentStatus;
+import com.isa2023team64.pharmacydeliverybe.util.enums.ReservationStatus;
 
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
@@ -42,6 +45,9 @@ public class ReservationServiceImplementation implements ReservationService {
     private ReservationRepository reservationRepository;
 
     @Autowired
+    private ReservationItemRepository reservationItemRepository;
+
+    @Autowired
     private AppointmentRepository appointmentRepository;
 
     @Autowired
@@ -51,15 +57,18 @@ public class ReservationServiceImplementation implements ReservationService {
     private EquipmentRepository equipmentRepository;
 
     @Autowired
+    private RegisteredUserRepository registeredUserRepository;
+
+    @Autowired
     private ModelMapper modelMapper;
+
+	@Autowired
+	private EmailService emailService;
 
     @PersistenceContext
     private EntityManager entityManager;
 
     private Logger logger = LoggerFactory.getLogger(RegisteredUserController.class);
-
-	@Autowired
-	private EmailService emailService;
 
     @Transactional
     public RegularReservationResponseDTO create(int userId, int appointmentId, List<Integer> equipmentIds, List<Integer> quantities) {
@@ -71,17 +80,17 @@ public class ReservationServiceImplementation implements ReservationService {
 
         List<Equipment> equipmentList = new ArrayList<>();
         List<ReservationItem> reservationItems = new ArrayList<>();
-        Reservation reservation = new Reservation(false, false, false, appointment, user, reservationItems);
-        int i = -1;
-        for (int id : equipmentIds) {
-            i++;
-            Equipment equipment = equipmentRepository.findById(id).orElseThrow();
-            if (equipment.getStockCount() <= 0)
-                throw new NoSuchElementException();
-            equipment.setStockCount(equipment.getStockCount() - quantities.get(i));
-            equipmentList.add(equipment);
-            reservationItems.add(new ReservationItem(reservation, equipment, quantities.get(i)));
-        }
+        Reservation reservation = new Reservation(ReservationStatus.PENDING, appointment, user, reservationItems);
+        // int i = -1;
+        // for (int id : equipmentIds) {
+        //     i++;
+        //     Equipment equipment = equipmentRepository.findById(id).orElseThrow();
+        //     if (equipment.getStockCount() <= 0)
+        //         throw new NoSuchElementException();
+        //     equipment.setStockCount(equipment.getStockCount() - quantities.get(i));
+        //     equipmentList.add(equipment);
+        //     reservationItems.add(new ReservationItem(reservation, equipment, quantities.get(i)));
+        // }
 
         user = entityManager.merge(user);
         equipmentList = equipmentList.stream()
@@ -119,11 +128,11 @@ public class ReservationServiceImplementation implements ReservationService {
         System.out.println("RESERVATION FOR DELETE: " + reservation);
 
 
-        List<ReservationItem> equipmentList = reservation.getOrderItems();
-        for (ReservationItem equipment : equipmentList) {
-            equipment.getEquipment().setStockCount(equipment.getEquipment().getStockCount() + equipment.getQuantity());
-            entityManager.merge(equipment);
-        }
+        // List<ReservationItem> equipmentList = reservation.getOrderItems();
+        // for (ReservationItem equipment : equipmentList) {
+        //     equipment.getEquipment().setStockCount(equipment.getEquipment().getStockCount() + equipment.getQuantity());
+        //     entityManager.merge(equipment);
+        // }
 
         Appointment appointment = reservation.getAppointment();
         appointment.setStatus(AppointmentStatus.FREE);
@@ -133,7 +142,7 @@ public class ReservationServiceImplementation implements ReservationService {
         freedAppointment.setCompanyAdministrator(appointment.getCompanyAdministrator());
         freedAppointment.setDuration(appointment.getDuration());
         freedAppointment.setStartDateTime(appointment.getStartDateTime());
-        freedAppointment.setStatus(AppointmentStatus.CANCLED);
+        freedAppointment.setStatus(AppointmentStatus.CANCELED);
         reservation.setAppointment(freedAppointment);
         reservationRepository.save(reservation);
     }
@@ -181,5 +190,34 @@ public class ReservationServiceImplementation implements ReservationService {
         }   
 
         return dtos;
+    }
+
+    @Override
+    public Collection<Reservation> getPendingByCompanyId(int companyId) {
+        var reservations = reservationRepository.findAll().stream().filter(r -> r.getAppointment().getCompany().getId().equals(companyId) && r.getStatus().equals(ReservationStatus.PENDING)).toList();
+        return reservations;
+    }
+
+    @Override
+    public void markReservationAsTaken(int reservationId) {
+        var reservation = reservationRepository.findById(reservationId).orElseThrow();
+        var reservationItems = reservationItemRepository.findAll().stream().filter(ri -> ri.getReservation().equals(reservation)).toList();
+        if (reservation.getStatus() != ReservationStatus.PENDING) throw new IllegalArgumentException("Resrvation expired or taken.");
+        reservation.setStatus(ReservationStatus.TAKEN);
+        // update lagera
+        for (var orderItem : reservationItems) {
+            var equipment = orderItem.getEquipment();
+            equipment.setStockCount(equipment.getStockCount() - orderItem.getQuantity());
+            equipmentRepository.save(equipment);
+        }
+        reservationRepository.save(reservation);
+
+        var registeredUser = reservation.getUser();
+
+        try {
+            emailService.sendAppointmentTakenEmail(registeredUser);
+        } catch (Exception e) {
+            System.out.println("Puklo kod slanja mejlova.");
+        }
     }
 }

@@ -1,8 +1,9 @@
 package com.isa2023team64.pharmacydeliverybe.controller;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.NoSuchElementException;
-import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -10,6 +11,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -20,8 +22,10 @@ import com.isa2023team64.pharmacydeliverybe.dto.AppointmentResponseDTO;
 import com.isa2023team64.pharmacydeliverybe.dto.ExtraordinaryReservationRequestDTO;
 import com.isa2023team64.pharmacydeliverybe.dto.RegularReservationRequestDTO;
 import com.isa2023team64.pharmacydeliverybe.dto.RegularReservationResponseDTO;
+import com.isa2023team64.pharmacydeliverybe.dto.ReservationResponseDTO;
 import com.isa2023team64.pharmacydeliverybe.mapper.AppointmentDTOMapper;
 import com.isa2023team64.pharmacydeliverybe.model.Appointment;
+import com.isa2023team64.pharmacydeliverybe.model.Reservation;
 import com.isa2023team64.pharmacydeliverybe.service.AppointmentService;
 import com.isa2023team64.pharmacydeliverybe.service.ReservationService;
 
@@ -97,6 +101,43 @@ public class ReservationController {
     public ResponseEntity<List<AppointmentResponseDTO>> getUserAppointments(@PathVariable Integer id) {
         List<AppointmentResponseDTO> appointments = reservationService.findAllUserAppointments(id);
         return new ResponseEntity<>(appointments, HttpStatus.OK);
+    }
+
+    @Operation(summary = "Mark a reservation as taken", description = "Marks a reservation as taken.", method = "PATCH")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "Reservation taken successfully.",
+                     content = @Content(mediaType = "application/json"))
+    })
+    @PatchMapping("/mark-as-taken/{id}")
+    public ResponseEntity<Void> markAsTaken(@PathVariable Integer id) {
+        try {
+            reservationService.markReservationAsTaken(id);
+            return new ResponseEntity<>(HttpStatus.OK);
+        }
+        catch (NoSuchElementException e) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        catch (IllegalArgumentException e) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+    }
+    
+    @Operation(summary = "Retrive all user reservations by company.", description = "Retrive all user reservations by company.", method = "Get")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "201", description = "Appointments retrived successfully.",
+                     content = @Content(mediaType = "application/json",
+                     array = @ArraySchema(schema = @Schema(implementation = AppointmentResponseDTO.class))))
+    })
+    @GetMapping(value = "/by-company/{id}",produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Collection<ReservationResponseDTO>> getReservationsByCompany(@PathVariable Integer id) {
+        Collection<Reservation> reservations = reservationService.getPendingByCompanyId(id);
+
+        Collection<ReservationResponseDTO> dtos = new ArrayList<>();
+        for (var reservation : reservations) {
+            dtos.add(new ReservationResponseDTO(reservation));
+        }
+
+        return new ResponseEntity<>(dtos, HttpStatus.OK);
     }
     
     @Operation(summary = "Delete Reservation.", description = "Cancel an appointment and delete the associated reservation.", method = "Delete")
