@@ -23,6 +23,7 @@ public class RegisteredUserRequestDTO {
     private String companyName;
     private double longitude;
     private double latitude;
+    private int penaltyPoints;
 
     public RegisteredUserRequestDTO(RegisteredUser registeredUser) {
         this(registeredUser.getEmail(), 
@@ -35,7 +36,8 @@ public class RegisteredUserRequestDTO {
              registeredUser.getWorkplace(),
              registeredUser.getHospital().getName(),
              registeredUser.getHospital().getLongitude(),
-             registeredUser.getHospital().getLatitude());
+             registeredUser.getHospital().getLatitude(),
+             registeredUser.getPenaltyPoints());
     }
 
 }

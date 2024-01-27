@@ -28,6 +28,7 @@ public class RegisteredUserResponseDTO {
     private String phoneNumber;
     private String workplace;
     private String companyName;
+    private int penaltyPoints;
 
     public RegisteredUserResponseDTO(RegisteredUser registeredUser) {
         this(registeredUser.getId(),
@@ -42,10 +43,11 @@ public class RegisteredUserResponseDTO {
              registeredUser.getPhoneNumber(),
              registeredUser.getWorkplace(),
              registeredUser.getHospital().getName(),
-             registeredUser.getRoles());
+             registeredUser.getRoles(),
+             registeredUser.getPenaltyPoints());
     }
 
-    public RegisteredUserResponseDTO(Integer id, String email, String password, String firstName, String lastName, Boolean active, Timestamp lastPasswordResetDate, String city, String country,String phoneNumber, String workplace, String company, List<Role> roles) {
+    public RegisteredUserResponseDTO(Integer id, String email, String password, String firstName, String lastName, Boolean active, Timestamp lastPasswordResetDate, String city, String country,String phoneNumber, String workplace, String company, List<Role> roles, int penaltyPoints) {
         this.id = id;
         this.email = email;
         this.password = password;
@@ -59,6 +61,7 @@ public class RegisteredUserResponseDTO {
         this.workplace = workplace;
         this.companyName = company;
         this.roles= roles;
+        this.penaltyPoints = penaltyPoints;
     }
 
     public Integer getId() {

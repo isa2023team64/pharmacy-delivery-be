@@ -71,10 +71,10 @@ VALUES ('user1@example.com', '$2a$10$SQpuv4vt5DrH6KMm//V9oeRYzDU5lK02Esfcs9Xmd7R
        ('milos@example.com', '$2a$10$SQpuv4vt5DrH6KMm//V9oeRYzDU5lK02Esfcs9Xmd7RT8sL5.G/QK', 'Milos', 'Djuric', true, CURRENT_TIMESTAMP),
        ('sysadmin@example.com', '$2a$10$SQpuv4vt5DrH6KMm//V9oeRYzDU5lK02Esfcs9Xmd7RT8sL5.G/QK', 'Sys', 'Admin', true, CURRENT_TIMESTAMP);
 
-INSERT INTO public.registered_user(id, city, country, phone_number, workplace, hospital_id)
-VALUES (1, 'City', 'Country', '+123456789012', 'Workplace', 1),
-       (2, 'Novi Sad', 'Serbia', '+123456789012', 'Doctor', 2),
-	   (5, 'Novi Sad', 'Serbia', '+321321321432', 'System Admin', 3);
+INSERT INTO public.registered_user(id, city, country, phone_number, workplace, hospital_id, penalty_points)
+VALUES (1, 'City', 'Country', '+123456789012', 'Workplace', 1, 0),
+       (2, 'Novi Sad', 'Serbia', '+123456789012', 'Doctor', 2, 0),
+	   (5, 'Novi Sad', 'Serbia', '+321321321432', 'System Admin', 3, 0);
 
 INSERT INTO public.company_administrator(
 	company_id, id, city, country, phone_number, workplace, company_name, first_login)
@@ -104,11 +104,11 @@ INSERT INTO public.equipment(name, description, type, company_id, stock_count, a
 	('Cetka za zube', 'Za pranje zuba', 'TypeC', 1, 70, 3.5);
 
 INSERT INTO public.appointment (company_id, duration,status,start_date_time, company_administrator_full_name) 
-VALUES  (1, 30,0,'2024-01-01T10:15:00', 'Veljko Nikolic'),
-		(1, 15,0,'2024-01-01T09:00:00', 'Milos Djuric'),
-		(1, 15,0,'2024-01-01T10:00:00', 'Veljko Nikolic'),
-		(1, 10,1,'2024-01-01T10:10:00', 'Veljko Nikolic'),
-		(1, 10,1,'2024-01-01T10:20:00', 'Veljko Nikolic');
+VALUES  (1, 30,0,'2024-02-01T10:15:00', 'Veljko Nikolic'),
+		(1, 15,0,'2024-02-01T09:00:00', 'Milos Djuric'),
+		(1, 15,0,'2024-02-01T10:00:00', 'Veljko Nikolic'),
+		(1, 10,1,'2024-02-01T10:10:00', 'Veljko Nikolic'),
+		(1, 10,1,'2024-02-01T10:20:00', 'Veljko Nikolic');
 
 INSERT INTO public.contract (hospital_id, day)
 VALUES 

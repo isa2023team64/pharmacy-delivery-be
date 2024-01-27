@@ -14,6 +14,7 @@ import lombok.Setter;
 public class RegularReservationRequestDTO {
     
     private List<Integer> equipmentIds;
+    private List<Integer> equipmentQuantities;
     private int appointmentId;
     private int userId;
 }

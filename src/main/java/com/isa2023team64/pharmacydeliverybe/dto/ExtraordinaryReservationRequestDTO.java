@@ -15,5 +15,6 @@ public class ExtraordinaryReservationRequestDTO {
     private AppointmentRequestDTO appointment;
     
     private List<Integer> equipmentIds;
+    private List<Integer> equipmentQuantities;
     private int userId;
 }

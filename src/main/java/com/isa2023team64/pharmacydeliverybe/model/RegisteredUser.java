@@ -37,14 +37,19 @@ public class RegisteredUser extends User {
     @OneToOne(cascade = CascadeType.ALL)
     private Hospital hospital;
 
+    @Column
+    @NotEmpty
+    private int penaltyPoints;
+
     public RegisteredUser(Integer id, String username, String email, String password, String firstName, String lastName, boolean active, @NotEmpty String city, @NotEmpty String country, @NotEmpty @Pattern (regexp = "\\+\\d{12}", message = "Phone number must start with '+' and be followed by 12 digits") 
-            String phoneNumber, @NotEmpty String workplace, @NotEmpty Hospital hospital) {
+            String phoneNumber, @NotEmpty String workplace, @NotEmpty Hospital hospital, @NotEmpty int penaltyPoints) {
         super(id, email, password, firstName, lastName,active);
         this.city=city;
         this.country=country;
         this.hospital=hospital;
         this.workplace=workplace;
         this.phoneNumber=phoneNumber;
+        this.penaltyPoints = penaltyPoints;
     }
 
 }
