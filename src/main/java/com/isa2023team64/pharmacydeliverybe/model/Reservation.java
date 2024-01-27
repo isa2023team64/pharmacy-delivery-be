@@ -41,6 +41,9 @@ public class Reservation extends GenericEntity {
     @OneToMany(cascade = CascadeType.ALL)
     private List<ReservationItem> orderItems;
 
+    @Column
+    private String qrCode;
+
     public Reservation(boolean handovered, boolean expired, boolean equipmentTaken,
             Appointment appointment, RegisteredUser user, List<ReservationItem> orderItems) {
         this.handovered = handovered;

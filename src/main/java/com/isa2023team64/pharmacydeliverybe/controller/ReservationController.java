@@ -95,9 +95,8 @@ public class ReservationController {
     })
     @GetMapping(value = "/user-appointments/{id}",produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<List<AppointmentResponseDTO>> getUserAppointments(@PathVariable Integer id) {
-        List<Appointment> appointments = reservationService.findAllUserAppointments(id);
-        List<AppointmentResponseDTO> dtos = appointments.stream().map(AppointmentDTOMapper::toResponseDTO).collect(Collectors.toList());
-        return new ResponseEntity<>(dtos, HttpStatus.OK);
+        List<AppointmentResponseDTO> appointments = reservationService.findAllUserAppointments(id);
+        return new ResponseEntity<>(appointments, HttpStatus.OK);
     }
     
     @Operation(summary = "Delete Reservation.", description = "Cancel an appointment and delete the associated reservation.", method = "Delete")

@@ -21,5 +21,6 @@ public class AppointmentResponseDTO {
     private AppointmentStatus status;
     private String companyAdministratorFullName;
     private CompanyInfoResponseDTO company;
+    private String qrCode;
 
 }
