@@ -21,8 +21,9 @@ public class RegularReservationResponseDTO {
     private AppointmentResponseDTO appointment;
     private RegisteredUserResponseDTO user;
     private List<EquipmentResponseDTO> orderItems;
+    private String qrCode;
 
-    public RegularReservationResponseDTO(Reservation reservation, AppointmentResponseDTO appointment, RegisteredUserResponseDTO user, List<EquipmentResponseDTO> orderItems) {
+    public RegularReservationResponseDTO(Reservation reservation, AppointmentResponseDTO appointment, RegisteredUserResponseDTO user, List<EquipmentResponseDTO> orderItems, String qrCode) {
         this.id = reservation.getId();
         this.handovered = reservation.isHandovered();
         this.expired = reservation.isExpired();
@@ -30,5 +31,6 @@ public class RegularReservationResponseDTO {
         this.appointment = appointment;
         this.user = user;
         this.orderItems = orderItems;
+        this.qrCode = qrCode;
     }
 }

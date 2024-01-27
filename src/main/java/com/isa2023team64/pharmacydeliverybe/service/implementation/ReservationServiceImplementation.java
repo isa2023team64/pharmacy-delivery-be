@@ -16,6 +16,7 @@ import com.isa2023team64.pharmacydeliverybe.dto.AppointmentResponseDTO;
 import com.isa2023team64.pharmacydeliverybe.dto.EquipmentResponseDTO;
 import com.isa2023team64.pharmacydeliverybe.dto.RegisteredUserResponseDTO;
 import com.isa2023team64.pharmacydeliverybe.dto.RegularReservationResponseDTO;
+import com.isa2023team64.pharmacydeliverybe.mapper.AppointmentDTOMapper;
 import com.isa2023team64.pharmacydeliverybe.model.Appointment;
 import com.isa2023team64.pharmacydeliverybe.model.Equipment;
 import com.isa2023team64.pharmacydeliverybe.model.RegisteredUser;
@@ -89,14 +90,16 @@ public class ReservationServiceImplementation implements ReservationService {
         appointment = entityManager.merge(appointment);
         reservation = reservationRepository.save(reservation);
 
+        String reservationInfo = generateReservationInfo(reservation);
+        reservation.setQrCode(reservationInfo);
+        reservation = reservationRepository.save(reservation);
+
         RegisteredUserResponseDTO userDTO = modelMapper.map(user, RegisteredUserResponseDTO.class);
         AppointmentResponseDTO appointmentDTO = modelMapper.map(appointment, AppointmentResponseDTO.class);
         List<EquipmentResponseDTO> equipmentDTO = equipmentList.stream()
                 .map(equipment -> modelMapper.map(equipment, EquipmentResponseDTO.class))
                 .collect(Collectors.toList());
-        RegularReservationResponseDTO reservationDTO = new RegularReservationResponseDTO(reservation, appointmentDTO, userDTO, equipmentDTO);
-
-        String reservationInfo = generateReservationInfo(reservation);
+        RegularReservationResponseDTO reservationDTO = new RegularReservationResponseDTO(reservation, appointmentDTO, userDTO, equipmentDTO, reservationInfo);
         
         try {
 			System.out.println("Thread id for reservation info sending: " + Thread.currentThread().getId());
@@ -144,7 +147,7 @@ public class ReservationServiceImplementation implements ReservationService {
         infoBuilder.append("Order Items:\n");
         
         for (ReservationItem equipment : reservation.getOrderItems()) {
-            infoBuilder.append(equipment.getEquipment().getName()).append("\n");
+            infoBuilder.append(equipment.getEquipment().getName()).append(" - " + equipment.getQuantity()).append("\n");
         }
         
         infoBuilder.append("Appointment: ").append(reservation.getAppointment().getStartDateTime()).append("\n");
@@ -154,7 +157,7 @@ public class ReservationServiceImplementation implements ReservationService {
     }
     
     @Override
-    public List<Appointment> findAllUserAppointments(int userId) {
+    public List<AppointmentResponseDTO> findAllUserAppointments(int userId) {
 
         //dobavim sve rezervacije od usera sa tim id i onda sve te appointmente od tih rezervacija dodam u novu listu
         List<Appointment> appointments = new ArrayList<>();
@@ -167,6 +170,16 @@ public class ReservationServiceImplementation implements ReservationService {
             appointments.add(reservation.getAppointment());
         }        
 
-        return appointments;
+        List<AppointmentResponseDTO> dtos = appointments.stream().map(AppointmentDTOMapper::toResponseDTO).collect(Collectors.toList());
+        for (AppointmentResponseDTO dto : dtos) {
+            for (Reservation reservation : userReservations) {
+                if(reservation.getAppointment().getId() == dto.getId()) {
+                    dto.setQrCode(reservation.getQrCode());
+                    break;
+                }
+            }  
+        }   
+
+        return dtos;
     }
 }
