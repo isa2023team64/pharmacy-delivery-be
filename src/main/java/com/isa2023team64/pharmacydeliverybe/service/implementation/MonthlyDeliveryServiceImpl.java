@@ -83,6 +83,7 @@ public class MonthlyDeliveryServiceImpl implements MonthlyDeliveryService {
             kafkaTemplate.send("hospital", message);
             deliveryRepository.save(delivery);
             // TODO: poslati location simulatoru poruku da zapocne slanje lokacija
+            
         }
     }
 

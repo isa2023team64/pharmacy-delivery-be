@@ -46,7 +46,7 @@ public class EquipmentController {
     @Autowired
     private CompanyService companyService;
 
-        @Autowired
+    @Autowired
     private EquipmentSearchService searchService;
 
     @Operation(summary = "Get all equipment", description = "Gets all equipment.", method = "GET")

@@ -3,6 +3,7 @@ package com.isa2023team64.pharmacydeliverybe.service;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;
 
@@ -15,6 +16,11 @@ public class CoordinatesService{
  
     @Autowired
     private CoordinatesRepository coordinatesRepository;
+
+    @Autowired
+    private KafkaTemplate<String, String> kafkaTemplate;
+
+    private int counter = 0;
 
     private final SimpMessagingTemplate messagingTemplate;
 
@@ -43,6 +49,11 @@ public class CoordinatesService{
         System.out.println("RADI WEBSOCKET SERVIS" + updatedCoordinates.size());
 
         messagingTemplate.convertAndSend("/ws-publisher", updatedCoordinates);
+        counter++;
+
+        if (counter == 3) {
+            kafkaTemplate.send("hospital", "Delivery has finished successfully.");
+        }
     }
 
 

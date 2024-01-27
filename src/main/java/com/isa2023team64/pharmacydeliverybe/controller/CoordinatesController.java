@@ -70,7 +70,6 @@ public class CoordinatesController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 
-
         return new ResponseEntity<>(new CoordinatesResponseDTO(coordinates), HttpStatus.OK);
     }
 
