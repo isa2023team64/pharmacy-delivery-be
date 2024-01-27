@@ -25,7 +25,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 
 @Tag(name = "Delivery controller", description = "Equipment API")
 @RestController
-@RequestMapping(value = "api/delivery")
+@RequestMapping(value = "api/deliveries")
 public class DeliveryController {
 
     @Autowired

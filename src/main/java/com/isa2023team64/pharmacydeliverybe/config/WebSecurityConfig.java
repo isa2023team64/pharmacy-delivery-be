@@ -142,6 +142,9 @@ public class WebSecurityConfig {
 
 			//registered users
 			.requestMatchers("api/registered-users/penaltyPoints/{id}").permitAll()
+			
+			//deliveries
+			.requestMatchers("api/deliveries/**").permitAll()
 
 			.requestMatchers("/api/registration").permitAll()
 			.requestMatchers("/api/registration/activate/*").permitAll()
