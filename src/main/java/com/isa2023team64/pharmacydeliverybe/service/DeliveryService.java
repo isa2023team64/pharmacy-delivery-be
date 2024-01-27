@@ -10,4 +10,6 @@ public interface DeliveryService {
 
     public Collection<Delivery> findUndelivered();
 
+    public void finishDelivery(int deliveryId);
+
 }

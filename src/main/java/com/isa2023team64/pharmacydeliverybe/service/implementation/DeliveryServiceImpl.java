@@ -5,6 +5,7 @@ import java.util.Collection;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.isa2023team64.pharmacydeliverybe.model.Coordinates;
 import com.isa2023team64.pharmacydeliverybe.model.Delivery;
 import com.isa2023team64.pharmacydeliverybe.repository.DeliveryRepository;
 import com.isa2023team64.pharmacydeliverybe.service.DeliveryService;
@@ -24,6 +25,13 @@ public class DeliveryServiceImpl implements DeliveryService {
     @Override
     public Collection<Delivery> findUndelivered() {
         return deliveryRepository.findAll().stream().filter(d -> d.getStatus() != DeliveryStatus.DELIVERED).toList();
+    }
+
+    @Override
+    public void finishDelivery(int deliveryId) {
+        Delivery delivery = deliveryRepository.findById(deliveryId).orElseThrow();
+        delivery.setStatus(DeliveryStatus.DELIVERED);
+        deliveryRepository.save(delivery);
     }
     
 }

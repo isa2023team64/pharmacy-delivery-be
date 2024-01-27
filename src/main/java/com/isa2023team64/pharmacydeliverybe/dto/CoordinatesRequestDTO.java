@@ -15,9 +15,10 @@ public class CoordinatesRequestDTO {
     
     private double latitude;
     private double longitude;
+    private int deliveryId;
 
     public CoordinatesRequestDTO(Coordinates coordinates){
-        this(coordinates.getLatitude(), coordinates.getLongitude());
+        this(coordinates.getLatitude(), coordinates.getLongitude(), coordinates.getDeliveryId());
     }
 
 }

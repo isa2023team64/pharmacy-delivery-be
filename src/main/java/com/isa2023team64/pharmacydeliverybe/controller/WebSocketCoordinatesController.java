@@ -17,6 +17,7 @@ import java.net.URI;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.isa2023team64.pharmacydeliverybe.model.Coordinates;
+import com.isa2023team64.pharmacydeliverybe.service.DeliveryService;
 
 @Controller
 @CrossOrigin(origins="http://localhost:4200")
@@ -24,6 +25,9 @@ public class WebSocketCoordinatesController {
 
     @Autowired
     private SimpMessagingTemplate messagingTemplate;
+
+    @Autowired
+    private DeliveryService deliveryService;
 
     
     @MessageMapping("/delivery")
@@ -33,6 +37,10 @@ public class WebSocketCoordinatesController {
         try{
 
             List<Coordinates> coordinates = parseMessage(message);
+
+            int deliveryId = parseDeliveryId(message);
+
+            deliveryService.finishDelivery(deliveryId);
 
             String locationSimulatorUrl = "http://localhost:8001";
 
@@ -68,6 +76,12 @@ public class WebSocketCoordinatesController {
 
 		return retVal;
 	}
+
+    private int parseDeliveryId(String message) {
+        String[] parts = message.split(":");
+        String part = parts[3].split("\"")[1];
+        return Integer.parseInt(part);
+    }
 
     // @MessageMapping("/info")
     // public String handleInfo(){

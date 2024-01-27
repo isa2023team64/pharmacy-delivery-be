@@ -11,15 +11,12 @@ import lombok.Setter;
 @NoArgsConstructor
 public class CoordinatesResponseDTO extends CoordinatesRequestDTO{
 
-    private Integer id;
-
     public CoordinatesResponseDTO(Coordinates coordinates) {
-        this(coordinates.getId(), coordinates.getLatitude(), coordinates.getLongitude());
+        this(coordinates.getLatitude(), coordinates.getLongitude(), coordinates.getDeliveryId());
     }
 
-    public CoordinatesResponseDTO(Integer id, double latitude, double longitude) {
-        super(latitude, longitude);
-        this.id = id;
+    public CoordinatesResponseDTO(double latitude, double longitude, int deliveryId) {
+        super(latitude, longitude, deliveryId);
     }
     
 }
