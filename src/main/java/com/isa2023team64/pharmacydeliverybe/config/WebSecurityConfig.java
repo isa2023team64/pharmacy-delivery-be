@@ -188,8 +188,7 @@ public class WebSecurityConfig {
     			
     			
     			// Ovim smo dozvolili pristup statickim resursima aplikacije
-    			.requestMatchers(HttpMethod.GET, "/", "/swagger-ui/*","/v3/api-docs/*", "/webjars/*", "/*.html", "favicon.ico",
-    			"/*/*.html", "/*/*.css", "/*/*.js", "/ws/**", "/ws");	 
+    			.requestMatchers(HttpMethod.GET, "/", "/swagger-ui/*","/v3/api-docs/*", "/webjars/*", "/*.html", "favicon.ico", "/*/*.html", "/*/*.css", "/*/*.js", "/ws/**", "/ws");
 
     }
 

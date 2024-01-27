@@ -73,7 +73,7 @@ public class ReservationController {
     @PostMapping(value = "/extraordinary", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<RegularReservationResponseDTO> createExtraordinary(@RequestBody ExtraordinaryReservationRequestDTO dto) {
         try {
-            dto.getAppointment().setCompanyAdministratorFullName("Full Name");
+            dto.getAppointment().setCompanyAdministratorId(-1);
             Appointment appointment = AppointmentDTOMapper.fromRequestDTO(dto.getAppointment());
             appointment = appointmentService.makeExtraordinaryAppointment(appointment);
             RegularReservationResponseDTO responseDTO = reservationService.create(dto.getUserId(), appointment.getId(), dto.getEquipmentIds(), dto.getEquipmentQuantities());

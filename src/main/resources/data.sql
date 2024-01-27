@@ -103,12 +103,12 @@ INSERT INTO public.equipment(name, description, type, company_id, stock_count, a
 	('Toplomer', 'Za merenje temperature', 'TypeC', 1, 20, 2.9),
 	('Cetka za zube', 'Za pranje zuba', 'TypeC', 1, 70, 3.5);
 
-INSERT INTO public.appointment (company_id, duration,status,start_date_time, company_administrator_full_name) 
-VALUES  (1, 30,0,'2024-02-01T10:15:00', 'Veljko Nikolic'),
-		(1, 15,0,'2024-02-01T09:00:00', 'Milos Djuric'),
-		(1, 15,0,'2024-02-01T10:00:00', 'Veljko Nikolic'),
-		(1, 10,1,'2024-02-01T10:10:00', 'Veljko Nikolic'),
-		(1, 10,1,'2024-02-01T10:20:00', 'Veljko Nikolic');
+INSERT INTO public.appointment (company_id, duration, status, start_date_time, company_administrator_id) 
+VALUES  (1, 30, 0,'2024-02-01T10:15:00', 3),
+		(1, 15, 0,'2024-02-01T09:00:00', 4),
+		(1, 15, 0,'2024-02-01T10:00:00', 3),
+		(1, 10, 1,'2024-02-01T10:10:00', 3),
+		(1, 10, 1,'2024-02-01T10:20:00', 3);
 
 INSERT INTO public.contract (hospital_id, day)
 VALUES 

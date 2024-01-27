@@ -90,7 +90,7 @@ public class AppointmentServiceImplementation implements AppointmentService {
                 break;
             }
         }
-        appointment.setCompanyAdministratorFullName(admin.getFullName());
+        appointment.setCompanyAdministrator(admin);
 
         if (!isAppointmentInFuture(appointment)) {
             throw new IllegalArgumentException("Appointment must be in future");

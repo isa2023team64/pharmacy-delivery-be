@@ -127,7 +127,7 @@ public class ReservationServiceImplementation implements ReservationService {
         entityManager.merge(appointment);
         Appointment freedAppointment= new Appointment();
         freedAppointment.setCompany(appointment.getCompany());
-        freedAppointment.setCompanyAdministratorFullName(appointment.getCompanyAdministratorFullName());
+        freedAppointment.setCompanyAdministrator(appointment.getCompanyAdministrator());
         freedAppointment.setDuration(appointment.getDuration());
         freedAppointment.setStartDateTime(appointment.getStartDateTime());
         freedAppointment.setStatus(AppointmentStatus.CANCLED);

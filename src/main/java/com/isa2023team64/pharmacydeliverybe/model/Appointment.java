@@ -9,6 +9,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -36,8 +37,8 @@ public class Appointment extends GenericEntity {
     @ManyToOne(fetch = FetchType.EAGER)
     private Company company;
 
-    @Column
-    private String companyAdministratorFullName;
+    @ManyToOne(fetch = FetchType.EAGER)
+    private CompanyAdministrator companyAdministrator;
 
     public LocalDateTime getEndTime() {
         return startDateTime.plusMinutes(duration);

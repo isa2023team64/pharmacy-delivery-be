@@ -33,8 +33,6 @@ public class AppointmentDTOMapper {
     }
     
     public static AppointmentResponseDTO toResponseDTO(Appointment appointment) {
-        // var appointmentResponseDTO = new AppointmentResponseDTO(appointment.getId(), appointment.getStartDateTime(), appointment.getDuration(), appointment.getCompanyAdministrator().getFullName());
-        // return appointmentResponseDTO;
         return mapper.map(appointment, AppointmentResponseDTO.class);
     }
 
