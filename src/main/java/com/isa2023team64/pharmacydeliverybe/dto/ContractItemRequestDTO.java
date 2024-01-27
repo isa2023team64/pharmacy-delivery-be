@@ -1,6 +1,6 @@
 package com.isa2023team64.pharmacydeliverybe.dto;
 
-import java.util.List;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -11,10 +11,11 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class RegularReservationRequestDTO {
-    
-    private List<Integer> equipmentIds;
-    private List<Integer> equipmentQuantities;
-    private int appointmentId;
-    private int userId;
+public class ContractItemRequestDTO {
+    @JsonProperty("equipmentId")
+    private int equipmentId;
+
+    @JsonProperty("quantity")
+    private int quantity;
+
 }

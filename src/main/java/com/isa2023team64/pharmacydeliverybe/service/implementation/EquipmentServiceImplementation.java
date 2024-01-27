@@ -7,7 +7,6 @@ import org.springframework.stereotype.Service;
 
 import com.isa2023team64.pharmacydeliverybe.model.Equipment;
 import com.isa2023team64.pharmacydeliverybe.model.Reservation;
-import com.isa2023team64.pharmacydeliverybe.repository.AppointmentRepository;
 import com.isa2023team64.pharmacydeliverybe.repository.EquipmentRepository;
 import com.isa2023team64.pharmacydeliverybe.repository.ReservationRepository;
 import com.isa2023team64.pharmacydeliverybe.service.EquipmentService;

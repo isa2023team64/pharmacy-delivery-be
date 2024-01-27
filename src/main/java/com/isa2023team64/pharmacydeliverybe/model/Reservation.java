@@ -7,6 +7,7 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.validation.constraints.NotEmpty;
 import lombok.Getter;
@@ -37,11 +38,11 @@ public class Reservation extends GenericEntity {
     @ManyToOne(cascade = CascadeType.ALL)
     private RegisteredUser user;
 
-    @ManyToMany(cascade = CascadeType.ALL)
-    private List<Equipment> orderItems;
+    @OneToMany(cascade = CascadeType.ALL)
+    private List<ReservationItem> orderItems;
 
     public Reservation(boolean handovered, boolean expired, boolean equipmentTaken,
-            Appointment appointment, RegisteredUser user, List<Equipment> orderItems) {
+            Appointment appointment, RegisteredUser user, List<ReservationItem> orderItems) {
         this.handovered = handovered;
         this.expired = expired;
         this.equipmentTaken = equipmentTaken;

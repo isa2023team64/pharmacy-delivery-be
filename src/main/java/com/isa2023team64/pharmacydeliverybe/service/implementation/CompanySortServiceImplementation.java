@@ -22,6 +22,10 @@ public class CompanySortServiceImplementation implements CompanySortService {
                 return sortByAttribute(companies, Company::getName, true);
             case "Name(descending)":
                 return sortByAttribute(companies, Company::getName, false);
+            case "City(ascending)":
+                return sortByAttribute(companies, Company::getCity, true);
+            case "City(descending)":
+                return sortByAttribute(companies, Company::getCity, false);
             case "Rating(ascending)":
                 return sortByAttribute(companies, Company::getAverageRating, true);
             case "Rating(descending)":

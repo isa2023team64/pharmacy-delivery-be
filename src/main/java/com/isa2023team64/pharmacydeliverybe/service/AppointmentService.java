@@ -22,4 +22,6 @@ public interface AppointmentService {
 
     public Collection<Appointment> findByCompanyId(Integer companyId);
 
+    public void cancleAppointment(Integer id);
+
 }
