@@ -25,13 +25,19 @@ public class CoordinatesService {
     }
 
     public void sendCoordinatesWebSocket(List<Coordinates> updatedCoordinates) {
+
+
         
-        System.out.println("RADI WEBSOCKET SERVIS" + updatedCoordinates.size());
+        System.out.println("RADI WEBSOCKET SERVIS " + updatedCoordinates.size());
+        System.out.println("COUNTER" + counter);
+        
 
         messagingTemplate.convertAndSend("/ws-publisher", updatedCoordinates);
         counter++;
 
         if (counter == 3) {
+            System.out.println("SALJE BOLNICI APLIKACIJI");
+        
             kafkaTemplate.send("hospital", "Delivery has finished successfully.");
         }
     }
