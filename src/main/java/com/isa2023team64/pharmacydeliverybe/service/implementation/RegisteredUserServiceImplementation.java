@@ -1,15 +1,19 @@
 package com.isa2023team64.pharmacydeliverybe.service.implementation;
 
 import java.sql.Timestamp;
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.EnableScheduling;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.isa2023team64.pharmacydeliverybe.dto.RegisteredUserRequestDTO;
 import com.isa2023team64.pharmacydeliverybe.dto.RegisteredUserUpdateDTO;
+import com.isa2023team64.pharmacydeliverybe.model.Hospital;
 import com.isa2023team64.pharmacydeliverybe.model.RegisteredUser;
 import com.isa2023team64.pharmacydeliverybe.model.Role;
 import com.isa2023team64.pharmacydeliverybe.repository.RegisteredUserRepository;
@@ -19,6 +23,7 @@ import com.isa2023team64.pharmacydeliverybe.service.RoleService;
 import jakarta.persistence.EntityNotFoundException;
 
 @Service
+@EnableScheduling
 public class RegisteredUserServiceImplementation implements RegisteredUserService {
 
     @Autowired
@@ -46,7 +51,10 @@ public class RegisteredUserServiceImplementation implements RegisteredUserServic
         u.setPhoneNumber(user.getPhoneNumber());
         u.setLastPasswordResetDate(new Timestamp(new Date().getTime()));
         u.setWorkplace(user.getWorkplace());
-        u.setCompanyName(user.getCompanyName());
+
+        Hospital hospital = new Hospital(user.getCompanyName(), user.getLongitude(), user.getLatitude());
+        u.setHospital(hospital);
+        u.setPenaltyPoints(0);
         List<Role> roles = roleService.findByName("ROLE_USER");
 		u.setRoles(roles);
 		
@@ -98,10 +106,39 @@ public class RegisteredUserServiceImplementation implements RegisteredUserServic
         user.setCountry(updatedUser.getCountry());
         user.setPhoneNumber(updatedUser.getPhoneNumber());
         user.setWorkplace(updatedUser.getWorkplace());
-        user.setCompanyName(updatedUser.getCompanyName());
+        user.setPenaltyPoints(updatedUser.getPenaltyPoints());
         registeredUserRepository.save(user);
 
         return user;
+    }
+
+    @Override
+    public RegisteredUser addPenaltyPoints(int id, boolean dayBefore) {
+        RegisteredUser user = registeredUserRepository.findById(id);
+        if(user == null) {
+            throw new EntityNotFoundException("User not found.");
+        }
+        if(dayBefore){
+            user.setPenaltyPoints(user.getPenaltyPoints()+2);
+        }
+        else{
+            user.setPenaltyPoints(user.getPenaltyPoints()+1);
+        }
+        registeredUserRepository.save(user);
+        return user;
+    }
+
+    @Override
+    @Scheduled(fixedRate = 1000 * 60 * 60 * 24)
+    public void removePenaltyPoints() {
+        int currentDateDay = LocalDate.now().getDayOfMonth();
+        if(currentDateDay != 1) return;
+
+        List<RegisteredUser> users = registeredUserRepository.findAll();
+        for(var user : users) {
+            user.setPenaltyPoints(0);
+            registeredUserRepository.save(user);
+        }
     }
     
 }

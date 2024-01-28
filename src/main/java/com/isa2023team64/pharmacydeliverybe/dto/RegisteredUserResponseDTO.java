@@ -13,24 +13,55 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
-public class RegisteredUserResponseDTO extends RegisteredUserRequestDTO {
+public class RegisteredUserResponseDTO {
 
     private Integer id;
     private boolean active;
     private Timestamp lastPasswordResetDate;
     private List<Role> roles;
+    private String email;
+    private String password;
+    private String firstName;
+    private String lastName;
+    private String city;
+    private String country;
+    private String phoneNumber;
+    private String workplace;
+    private String companyName;
+    private int penaltyPoints;
 
     public RegisteredUserResponseDTO(RegisteredUser registeredUser) {
-        this(registeredUser.getId(), registeredUser.getEmail(), registeredUser.getPassword(), registeredUser.getFirstName(), registeredUser.getLastName(),registeredUser.isActive(),registeredUser.getLastPasswordResetDate(),registeredUser.getCity(),registeredUser.getCountry(),registeredUser.getPhoneNumber(),registeredUser.getWorkplace(),registeredUser.getCompanyName(), registeredUser.getRoles());
+        this(registeredUser.getId(),
+             registeredUser.getEmail(),
+             registeredUser.getPassword(),
+             registeredUser.getFirstName(),
+             registeredUser.getLastName(),
+             registeredUser.isActive(),
+             registeredUser.getLastPasswordResetDate(),
+             registeredUser.getCity(),
+             registeredUser.getCountry(),
+             registeredUser.getPhoneNumber(),
+             registeredUser.getWorkplace(),
+             registeredUser.getHospital().getName(),
+             registeredUser.getRoles(),
+             registeredUser.getPenaltyPoints());
     }
 
-    public RegisteredUserResponseDTO(Integer id, String email, String password, String firstName, String lastName, Boolean active, Timestamp lastPasswordResetDate, String city, String country,String phoneNumber, String workplace, String company, List<Role> roles) {
-        super(email, password, firstName, lastName, city, country, phoneNumber, workplace, company);
-
+    public RegisteredUserResponseDTO(Integer id, String email, String password, String firstName, String lastName, Boolean active, Timestamp lastPasswordResetDate, String city, String country,String phoneNumber, String workplace, String company, List<Role> roles, int penaltyPoints) {
         this.id = id;
+        this.email = email;
+        this.password = password;
+        this.firstName = firstName;
+        this.lastName = lastName;
         this.active = active;
         this.lastPasswordResetDate = lastPasswordResetDate;
+        this.city = city;
+        this.country = country;
+        this.phoneNumber = phoneNumber;
+        this.workplace = workplace;
+        this.companyName = company;
         this.roles= roles;
+        this.penaltyPoints = penaltyPoints;
     }
 
     public Integer getId() {

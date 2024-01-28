@@ -36,8 +36,8 @@ public class Appointment extends GenericEntity {
     @ManyToOne(fetch = FetchType.EAGER)
     private Company company;
 
-    @Column
-    private String companyAdministratorFullName;
+    @ManyToOne(fetch = FetchType.EAGER)
+    private CompanyAdministrator companyAdministrator;
 
     public LocalDateTime getEndTime() {
         return startDateTime.plusMinutes(duration);

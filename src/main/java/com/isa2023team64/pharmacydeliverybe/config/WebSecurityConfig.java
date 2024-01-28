@@ -95,6 +95,8 @@ public class WebSecurityConfig {
 			.requestMatchers("api/reservations/user-appointments/*").hasAuthority("ROLE_USER")
 			.requestMatchers("api/reservations/regular").hasAuthority("ROLE_USER")
 			.requestMatchers("api/reservations/extraordinary").hasAuthority("ROLE_USER")
+			.requestMatchers("api/reservations/deleteReservation/*").hasAuthority("ROLE_USER")
+			.requestMatchers("api/appointments/cancle/**").permitAll()
 
 			.requestMatchers("/api/companies/{id}").permitAll()
 			.requestMatchers("/api/companies/{companyId}/equipment").permitAll()
@@ -114,7 +116,13 @@ public class WebSecurityConfig {
 
 			// .requestMatchers("/api/system-administrators/*").hasAuthority("ROLE_SYSTEMADMIN")
 
-			
+			// coordinates
+			.requestMatchers("/api/coordinates/*").permitAll()
+
+
+			// .requestMatchers("/ws/*").permitAll()
+			// .requestMatchers("/ws").permitAll()
+
 			// appointments
 			.requestMatchers("/api/appointments/new").permitAll()
 			.requestMatchers("/api/auth/change-password").permitAll()
@@ -126,10 +134,23 @@ public class WebSecurityConfig {
 			
 			// auth change password
 			.requestMatchers("/api/appointments/by-company-id/{id}").permitAll()
+			.requestMatchers("/api/appointments/by-company-id-not-free/{id}").permitAll()
+			.requestMatchers("/api/appointments/mark-as-taken/{id}").permitAll()
+
+			// reservations
+			.requestMatchers("/api/reservations/mark-as-taken/{id}").permitAll()
+			.requestMatchers("/api/reservations/users-that-reserved-by-company/{id}").permitAll()
 			
 			// company administrators
 			.requestMatchers("api/company-administrators").permitAll()
 			.requestMatchers("api/company-administrators/{id}").permitAll()
+			.requestMatchers("api/hospital").permitAll()
+
+			//registered users
+			.requestMatchers("api/registered-users/penaltyPoints/{id}").permitAll()
+			
+			//deliveries
+			.requestMatchers("api/deliveries/**").permitAll()
 
 			.requestMatchers("/api/registration").permitAll()
 			.requestMatchers("/api/registration/activate/*").permitAll()
@@ -167,11 +188,14 @@ public class WebSecurityConfig {
     	return (web) -> web.ignoring().requestMatchers(HttpMethod.POST, "/auth/*")
 				.requestMatchers(HttpMethod.PUT, "/api/registration/**")
 				.requestMatchers(HttpMethod.POST, "/api/appointments/**")
+				.requestMatchers(HttpMethod.GET, "/api/reservations/**")
+				.requestMatchers(HttpMethod.POST, "/api/reservations/**")
+				.requestMatchers(HttpMethod.DELETE, "/api/reservations/**")
+    			
 				.requestMatchers("/api/system-administrators/**")
     			
     			// Ovim smo dozvolili pristup statickim resursima aplikacije
-    			.requestMatchers(HttpMethod.GET, "/", "/swagger-ui/*","/v3/api-docs/*", "/webjars/*", "/*.html", "favicon.ico",
-    			"/*/*.html", "/*/*.css", "/*/*.js", "/api/**");	 
+    			.requestMatchers(HttpMethod.GET, "/", "/swagger-ui/*","/v3/api-docs/*", "/webjars/*", "/*.html", "favicon.ico", "/*/*.html", "/*/*.css", "/*/*.js", "/ws/**", "/ws", "/api/**");
 
     }
 

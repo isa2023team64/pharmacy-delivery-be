@@ -90,7 +90,7 @@ public class AppointmentServiceImplementation implements AppointmentService {
                 break;
             }
         }
-        appointment.setCompanyAdministratorFullName(admin.getFullName());
+        appointment.setCompanyAdministrator(admin);
 
         if (!isAppointmentInFuture(appointment)) {
             throw new IllegalArgumentException("Appointment must be in future");
@@ -151,6 +151,14 @@ public class AppointmentServiceImplementation implements AppointmentService {
         var company = companyRepository.findById(companyId).orElseThrow();
         var appointments = appointmentRepository.findByCompany(company);
         return appointments;
-    }    
+    }
+
+    @Override
+    public void cancleAppointment(Integer id) {
+        var appointment = appointmentRepository.findById(id).orElseThrow();
+        if (appointment.getStatus() == AppointmentStatus.FREE) throw new IllegalArgumentException("Appointment already reserved.");
+        appointment.setStatus(AppointmentStatus.FREE);
+        appointmentRepository.save(appointment);
+    }  
     
 }

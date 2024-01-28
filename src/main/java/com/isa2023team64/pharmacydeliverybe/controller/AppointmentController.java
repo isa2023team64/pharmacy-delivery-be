@@ -23,6 +23,7 @@ import com.isa2023team64.pharmacydeliverybe.dto.AppointmentResponseDTO;
 import com.isa2023team64.pharmacydeliverybe.mapper.AppointmentDTOMapper;
 import com.isa2023team64.pharmacydeliverybe.model.Appointment;
 import com.isa2023team64.pharmacydeliverybe.service.AppointmentService;
+import com.isa2023team64.pharmacydeliverybe.util.enums.AppointmentStatus;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
@@ -101,6 +102,36 @@ public class AppointmentController {
             return new ResponseEntity<>(dtos, HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+
+    @GetMapping("/by-company-id-not-free/{id}")
+    public ResponseEntity<Collection<AppointmentResponseDTO>> findNotFreeByCompanyId(@PathVariable Integer id) {
+        try {
+            var appointments = appointmentService.findByCompanyId(id).stream().filter(a -> a.getStatus().equals(AppointmentStatus.RESERVED)).toList();
+            var dtos = appointments.stream().map(AppointmentDTOMapper::toResponseDTO).collect(Collectors.toList());
+            return new ResponseEntity<>(dtos, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+
+    @Operation(summary = "Cancles an appointment", description = "Cancles an appointment.", method = "PATCH")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "Appointment cancled successfully.",
+                     content = @Content(mediaType = "application/json"))
+    })
+    @PatchMapping("/cancle/{id}")
+    public ResponseEntity<Void> cancle(@PathVariable Integer id) {
+        try {
+            appointmentService.cancleAppointment(id);
+            return new ResponseEntity<>(HttpStatus.OK);
+        }
+        catch (NoSuchElementException e) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        catch (IllegalArgumentException e) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
     

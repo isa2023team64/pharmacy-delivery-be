@@ -145,6 +145,31 @@
 			<version>3.4.1</version>
 		</dependency>
 
+		<dependency>
+			<groupId>org.springframework.kafka</groupId>
+			<artifactId>spring-kafka</artifactId>
+		</dependency>
+
+		<!-- WebFlux for WebClient Communication -->
+		<dependency>
+        <groupId>org.springframework.boot</groupId>
+    	    <artifactId>spring-boot-starter-webflux</artifactId>
+	    </dependency>
+
+		<dependency>
+        <groupId>org.springframework.boot</groupId>
+    	    <artifactId>spring-boot-starter-websocket</artifactId>
+	    </dependency>
+		
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-messaging</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-messaging</artifactId>
+		</dependency>
 
 	</dependencies>
 

@@ -20,5 +20,5 @@ public class RegisteredUserUpdateDTO {
     private String phoneNumber;
     private String workplace;
     private String companyName;
-    
+    private int penaltyPoints;    
 }
