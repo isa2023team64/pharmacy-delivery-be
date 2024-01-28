@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.isa2023team64.pharmacydeliverybe.dto.AppointmentResponseDTO;
 import com.isa2023team64.pharmacydeliverybe.dto.ExtraordinaryReservationRequestDTO;
+import com.isa2023team64.pharmacydeliverybe.dto.RegisteredUserResponseDTO;
 import com.isa2023team64.pharmacydeliverybe.dto.RegularReservationRequestDTO;
 import com.isa2023team64.pharmacydeliverybe.dto.RegularReservationResponseDTO;
 import com.isa2023team64.pharmacydeliverybe.dto.ReservationResponseDTO;
@@ -135,6 +136,24 @@ public class ReservationController {
         Collection<ReservationResponseDTO> dtos = new ArrayList<>();
         for (var reservation : reservations) {
             dtos.add(new ReservationResponseDTO(reservation));
+        }
+
+        return new ResponseEntity<>(dtos, HttpStatus.OK);
+    }
+    
+    @Operation(summary = "Retrive all users that reserved in company.", description = "Retrives all users that reserved in company.", method = "Get")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "201", description = "Users retrived successfully.",
+                     content = @Content(mediaType = "application/json",
+                     array = @ArraySchema(schema = @Schema(implementation = RegisteredUserResponseDTO.class))))
+    })
+    @GetMapping(value = "/users-that-reserved-by-company/{id}",produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Collection<RegisteredUserResponseDTO>> getUsersThatReserved(@PathVariable Integer id) {
+        var users = reservationService.getUsersThanReserved();
+
+        Collection<RegisteredUserResponseDTO> dtos = new ArrayList<>();
+        for (var user : users) {
+            dtos.add(new RegisteredUserResponseDTO(user));
         }
 
         return new ResponseEntity<>(dtos, HttpStatus.OK);

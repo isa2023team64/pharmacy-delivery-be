@@ -13,5 +13,6 @@ public interface ReservationService {
     public List<AppointmentResponseDTO> findAllUserAppointments(int userId);
     public void deleteReservation(int reservationId);
     public Collection<Reservation> getPendingByCompanyId(int companyId);
+    public Collection<RegisteredUser> getUsersThanReserved();
     public void markReservationAsTaken(int reservationId);
 }

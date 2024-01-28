@@ -107,8 +107,8 @@ INSERT INTO public.appointment (company_id, duration, status, start_date_time, c
 VALUES  (1, 30, 2,'2024-02-01T10:15:00', 3),
 		(1, 15, 2,'2024-02-01T09:00:00', 4),
 		(1, 15, 2,'2024-02-01T10:00:00', 3),
-		(1, 10, 1,'2024-02-01T10:10:00', 3),
-		(1, 10, 2,'2024-03-01T10:10:00', 4),
+		(1, 10, 1,'2024-01-01T10:10:00', 3),
+		(1, 10, 1,'2024-03-01T10:10:00', 4),
 		(1, 10, 1,'2024-02-01T10:20:00', 3);
 
 INSERT INTO public.contract (hospital_id, day)
@@ -135,7 +135,7 @@ VALUES
 
 INSERT INTO public.reservation (appointment_id, status, user_id, qr_code) 
 VALUES  (4, 0, 1, ''),
-		(5, 0, 1, '');
+		(5, 0, 2, '');
 
 INSERT INTO public.reservation_item(equipment_id, reservation_id, quantity)
 VALUES

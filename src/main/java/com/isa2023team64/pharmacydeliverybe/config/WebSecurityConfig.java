@@ -139,6 +139,7 @@ public class WebSecurityConfig {
 
 			// reservations
 			.requestMatchers("/api/reservations/mark-as-taken/{id}").permitAll()
+			.requestMatchers("/api/reservations/users-that-reserved-by-company/{id}").permitAll()
 			
 			// company administrators
 			.requestMatchers("api/company-administrators").permitAll()

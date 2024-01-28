@@ -220,4 +220,15 @@ public class ReservationServiceImplementation implements ReservationService {
             System.out.println("Puklo kod slanja mejlova.");
         }
     }
+
+    @Override
+    public Collection<RegisteredUser> getUsersThanReserved() {
+        Collection<RegisteredUser> users = new ArrayList<>();
+        var reservations = reservationRepository.findAll();
+        for (var reservation : reservations) {
+            var user = reservation.getUser();
+            if (!users.contains(user)) users.add(user);
+        }
+        return users;
+    }
 }
