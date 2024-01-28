@@ -7,6 +7,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
 
 import com.isa2023team64.pharmacydeliverybe.model.Appointment;
 import com.isa2023team64.pharmacydeliverybe.model.Company;
@@ -18,6 +19,8 @@ import com.isa2023team64.pharmacydeliverybe.service.AppointmentService;
 import com.isa2023team64.pharmacydeliverybe.util.TimeSpan;
 import com.isa2023team64.pharmacydeliverybe.util.WorkingHours;
 import com.isa2023team64.pharmacydeliverybe.util.enums.AppointmentStatus;
+
+import jakarta.transaction.Transactional;
 
 @Service
 public class AppointmentServiceImplementation implements AppointmentService {
@@ -139,6 +142,7 @@ public class AppointmentServiceImplementation implements AppointmentService {
     }
 
     @Override
+    @Transactional
     public void reserveAppointment(Integer id) {
         var appointment = appointmentRepository.findById(id).orElseThrow();
         if (appointment.getStatus() == AppointmentStatus.RESERVED) throw new IllegalArgumentException("Appointment already reserved.");
