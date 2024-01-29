@@ -7,7 +7,9 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.isa2023team64.pharmacydeliverybe.model.Appointment;
 import com.isa2023team64.pharmacydeliverybe.model.Company;
@@ -20,7 +22,6 @@ import com.isa2023team64.pharmacydeliverybe.util.TimeSpan;
 import com.isa2023team64.pharmacydeliverybe.util.WorkingHours;
 import com.isa2023team64.pharmacydeliverybe.util.enums.AppointmentStatus;
 
-import jakarta.transaction.Transactional;
 
 @Service
 public class AppointmentServiceImplementation implements AppointmentService {
@@ -56,10 +57,16 @@ public class AppointmentServiceImplementation implements AppointmentService {
     public Appointment update(Appointment appointment) {
         return appointmentRepository.save(appointment);
     }
-
+    
     @Override
     public Appointment makeAppointment(Appointment appointment) {
-
+        return makeAppointment(appointment, AppointmentStatus.FREE);
+    }
+    
+    @Override
+	@Transactional(readOnly = false, propagation = Propagation.REQUIRES_NEW, isolation = Isolation.REPEATABLE_READ)
+    public Appointment makeAppointment(Appointment appointment, AppointmentStatus status) {
+        
         if (!isAppointmentInFuture(appointment)) {
             throw new IllegalArgumentException("Appointment must be in future");
         }
@@ -69,20 +76,22 @@ public class AppointmentServiceImplementation implements AppointmentService {
         if (!isAppointmentInWorkingHours(appointment, company)) {
             throw new IllegalArgumentException("Appointment must be in company working hours");
         }
-
+        
         Collection<Appointment> appointments = findByCompany(company);
         for (Appointment a : appointments) {
             if (appointmentsOverlap(appointment, a)) {
                 throw new IllegalArgumentException("Appointments overlap");
             }
         }
-
+        
         appointment.setStatus(AppointmentStatus.FREE);
         Appointment savedAppointment = this.save(appointment);
         return savedAppointment;
     }
-
     
+    
+    @Override
+	@Transactional(readOnly = false, propagation = Propagation.REQUIRES_NEW, isolation = Isolation.REPEATABLE_READ)
     public Appointment makeExtraordinaryAppointment(Appointment appointment)  {
         Company company = companyRepository.findById(appointment.getCompany().getId()).orElseThrow();
         List<CompanyAdministrator> admins = companyAdministratorRepository.findAll();
@@ -95,24 +104,7 @@ public class AppointmentServiceImplementation implements AppointmentService {
         }
         appointment.setCompanyAdministrator(admin);
 
-        if (!isAppointmentInFuture(appointment)) {
-            throw new IllegalArgumentException("Appointment must be in future");
-        }
-        
-        if (!isAppointmentInWorkingHours(appointment, company)) {
-            throw new IllegalArgumentException("Appointment must be in company working hours");
-        }
-
-        Collection<Appointment> appointments = findByCompany(company);
-        for (Appointment a : appointments) {
-            if (appointmentsOverlap(appointment, a)) {
-                throw new IllegalArgumentException("Appointments overlap");
-            }
-        }
-
-        appointment.setStatus(AppointmentStatus.RESERVED);
-        Appointment savedAppointment = this.save(appointment);
-        return savedAppointment;
+        return makeAppointment(appointment, AppointmentStatus.RESERVED);
     }
 
     private Collection<Appointment> findByCompany(Company company) {
@@ -129,6 +121,10 @@ public class AppointmentServiceImplementation implements AppointmentService {
     private boolean appointmentsOverlap(Appointment a1, Appointment a2) {
         TimeSpan ts1 = TimeSpan.of(a1.getStartDateTime(), a1.getDuration());
         TimeSpan ts2 = TimeSpan.of(a2.getStartDateTime(), a2.getDuration());
+        boolean overlap = ts1.overlaps(ts2);
+        if (overlap) {
+            System.out.println("Overlaping appointments.");
+        }
         return ts1.overlaps(ts2);
     }
     
@@ -142,7 +138,7 @@ public class AppointmentServiceImplementation implements AppointmentService {
     }
 
     @Override
-    @Transactional
+    @jakarta.transaction.Transactional
     public void reserveAppointment(Integer id) {
         var appointment = appointmentRepository.findById(id).orElseThrow();
         if (appointment.getStatus() == AppointmentStatus.RESERVED) throw new IllegalArgumentException("Appointment already reserved.");

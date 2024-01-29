@@ -138,8 +138,8 @@ VALUES
 
 
 INSERT INTO public.reservation (appointment_id, status, user_id, qr_code) 
-VALUES  (4, 0, 1, ''),
-		(5, 0, 2, '');
+VALUES  (4, 0, 1, 'najjaca firmetina'),
+		(5, 0, 2, 'najjaca firmetina');
 
 INSERT INTO public.reservation_item(equipment_id, reservation_id, quantity)
 VALUES
