@@ -15,4 +15,7 @@ public interface ReservationService {
     public Collection<Reservation> getPendingByCompanyId(int companyId);
     public Collection<RegisteredUser> getUsersThanReserved();
     public void markReservationAsTaken(int reservationId);
+    public Reservation findById(int id);
+    
+
 }

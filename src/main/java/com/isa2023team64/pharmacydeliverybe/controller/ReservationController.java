@@ -23,11 +23,13 @@ import com.isa2023team64.pharmacydeliverybe.dto.ExtraordinaryReservationRequestD
 import com.isa2023team64.pharmacydeliverybe.dto.RegisteredUserResponseDTO;
 import com.isa2023team64.pharmacydeliverybe.dto.RegularReservationRequestDTO;
 import com.isa2023team64.pharmacydeliverybe.dto.RegularReservationResponseDTO;
+import com.isa2023team64.pharmacydeliverybe.dto.ReservationItemNoReservationResponseDTO;
 import com.isa2023team64.pharmacydeliverybe.dto.ReservationResponseDTO;
 import com.isa2023team64.pharmacydeliverybe.mapper.AppointmentDTOMapper;
 import com.isa2023team64.pharmacydeliverybe.model.Appointment;
 import com.isa2023team64.pharmacydeliverybe.model.Reservation;
 import com.isa2023team64.pharmacydeliverybe.service.AppointmentService;
+import com.isa2023team64.pharmacydeliverybe.service.ReservationItemQRService;
 import com.isa2023team64.pharmacydeliverybe.service.ReservationService;
 
 import io.swagger.v3.oas.annotations.Operation;
@@ -48,6 +50,9 @@ public class ReservationController {
 
     @Autowired
     private AppointmentService appointmentService;
+
+    @Autowired
+    private ReservationItemQRService reservationItemQRService;
 
     @Operation(summary = "Create a new reservation.", description = "Create a new reservation.", method = "Post")
     @ApiResponses(value = {
@@ -176,6 +181,43 @@ public class ReservationController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         } catch (IllegalArgumentException e) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @Operation(summary = "Retrive reservation items by reservation id.", description = "Retrives reservation items by reservation id.", method = "Get")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "201", description = "Reservation items retrived successfully.",
+                     content = @Content(mediaType = "application/json",
+                     array = @ArraySchema(schema = @Schema(implementation = RegisteredUserResponseDTO.class))))
+    })
+    @GetMapping(value = "/reservation-items-by-reservation-id/{id}",produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Collection<ReservationItemNoReservationResponseDTO>> getReservationItemsByReservationId(@PathVariable Integer id) {
+        var reservationItems = reservationItemQRService.findByReservationId(id);
+
+        Collection<ReservationItemNoReservationResponseDTO> reservationItemsDtos = new ArrayList<>();
+        for (var reservationItem : reservationItems) {
+            reservationItemsDtos.add(new ReservationItemNoReservationResponseDTO(reservationItem));
+        }
+
+        return new ResponseEntity<>(reservationItemsDtos, HttpStatus.OK);
+    }
+
+    @Operation(summary = "Retrieve a reservation by ID", description = "Retrieve a reservation by its ID.", method = "Get")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "Reservation retrieved successfully.",
+                     content = @Content(mediaType = "application/json",
+                     array = @ArraySchema(schema = @Schema(implementation = ReservationResponseDTO.class)))),
+        @ApiResponse(responseCode = "404", description = "Reservation not found.")
+    })
+    @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<ReservationResponseDTO> getReservationById(@PathVariable Integer id) {
+        try {
+            Reservation reservation = reservationService.findById(id);
+            AppointmentResponseDTO appointmentDTO = new AppointmentResponseDTO();
+            ReservationResponseDTO dto = new ReservationResponseDTO(reservation);
+            return new ResponseEntity<>(dto, HttpStatus.OK);
+        } catch (NoSuchElementException e) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
 

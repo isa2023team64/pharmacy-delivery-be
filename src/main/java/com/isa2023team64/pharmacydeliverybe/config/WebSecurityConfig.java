@@ -114,7 +114,7 @@ public class WebSecurityConfig {
 			.requestMatchers("/api/equipment/{id}").permitAll()
 			.requestMatchers("/api/equipment/not-owned-by-company/{companyId}").permitAll()
 
-			.requestMatchers("/api/system-administrators/*").permitAll()
+
 			// .requestMatchers("/api/system-administrators/*").hasAuthority("ROLE_SYSTEMADMIN")
 
 			// coordinates
@@ -191,9 +191,10 @@ public class WebSecurityConfig {
 				.requestMatchers(HttpMethod.POST, "/api/reservations/**")
 				.requestMatchers(HttpMethod.DELETE, "/api/reservations/**")
     			
+				.requestMatchers("/api/system-administrators/**")
     			
     			// Ovim smo dozvolili pristup statickim resursima aplikacije
-    			.requestMatchers(HttpMethod.GET, "/", "/swagger-ui/*","/v3/api-docs/*", "/webjars/*", "/*.html", "favicon.ico", "/*/*.html", "/*/*.css", "/*/*.js", "/ws/**", "/ws");
+    			.requestMatchers(HttpMethod.GET, "/", "/swagger-ui/*","/v3/api-docs/*", "/webjars/*", "/*.html", "favicon.ico", "/*/*.html", "/*/*.css", "/*/*.js", "/ws/**", "/ws", "/api/**");
 
     }
 
