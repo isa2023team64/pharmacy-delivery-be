@@ -11,6 +11,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.isa2023team64.pharmacydeliverybe.controller.RegisteredUserController;
 import com.isa2023team64.pharmacydeliverybe.dto.AppointmentResponseDTO;
@@ -36,7 +39,6 @@ import com.isa2023team64.pharmacydeliverybe.util.enums.ReservationStatus;
 
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
-import jakarta.transaction.Transactional;
 
 @Service
 public class ReservationServiceImplementation implements ReservationService {
@@ -70,7 +72,7 @@ public class ReservationServiceImplementation implements ReservationService {
 
     private Logger logger = LoggerFactory.getLogger(RegisteredUserController.class);
 
-    @Transactional
+    @jakarta.transaction.Transactional
     public RegularReservationResponseDTO create(int userId, int appointmentId, List<Integer> equipmentIds, List<Integer> quantities) {
         RegisteredUser user = userRepository.findById(userId);
         if(user.getPenaltyPoints() >= 3) throw new IllegalArgumentException();
@@ -121,7 +123,7 @@ public class ReservationServiceImplementation implements ReservationService {
         return reservationDTO;
     }
 
-    @Transactional
+    @jakarta.transaction.Transactional
     public void deleteReservation(int appointmentId) {
         
         Reservation reservation = reservationRepository.findByAppointmentId(appointmentId).orElseThrow(() -> new NoSuchElementException("Reservation not found"));
@@ -199,14 +201,15 @@ public class ReservationServiceImplementation implements ReservationService {
     }
 
     @Override
+	@Transactional(readOnly = false, propagation = Propagation.REQUIRES_NEW, isolation = Isolation.REPEATABLE_READ)
     public void markReservationAsTaken(int reservationId) {
         var reservation = reservationRepository.findById(reservationId).orElseThrow();
         var reservationItems = reservationItemRepository.findAll().stream().filter(ri -> ri.getReservation().equals(reservation)).toList();
-        if (reservation.getStatus() != ReservationStatus.PENDING) throw new IllegalArgumentException("Resrvation expired or taken.");
+        if (reservation.getStatus() != ReservationStatus.PENDING) throw new IllegalArgumentException("Reservation expired or taken.");
         reservation.setStatus(ReservationStatus.TAKEN);
         // update lagera
         for (var orderItem : reservationItems) {
-            var equipment = orderItem.getEquipment();
+            var equipment = equipmentRepository.findById(orderItem.getEquipment().getId()).orElseThrow();
             equipment.setStockCount(equipment.getStockCount() - orderItem.getQuantity());
             equipmentRepository.save(equipment);
         }

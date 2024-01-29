@@ -96,7 +96,8 @@ public class WebSecurityConfig {
 			.requestMatchers("api/reservations/regular").hasAuthority("ROLE_USER")
 			.requestMatchers("api/reservations/extraordinary").hasAuthority("ROLE_USER")
 			.requestMatchers("api/reservations/deleteReservation/*").hasAuthority("ROLE_USER")
-			.requestMatchers("api/appointments/cancle/**").permitAll()
+			.requestMatchers("/api/reservations/mark-as-taken/{id}").permitAll()
+			.requestMatchers("/api/reservations/users-that-reserved-by-company/{id}").permitAll()
 
 			.requestMatchers("/api/companies/{id}").permitAll()
 			.requestMatchers("/api/companies/{companyId}/equipment").permitAll()
@@ -125,7 +126,10 @@ public class WebSecurityConfig {
 
 			// appointments
 			.requestMatchers("/api/appointments/new").permitAll()
-			.requestMatchers("/api/auth/change-password").permitAll()
+			.requestMatchers("/api/appointments/by-company-id/{id}").permitAll()
+			.requestMatchers("/api/appointments/by-company-id-not-free/{id}").permitAll()
+			.requestMatchers("/api/appointments/mark-as-taken/{id}").permitAll()
+			.requestMatchers("api/appointments/cancle/**").permitAll()
 			
 			// equipment
 			.requestMatchers("/api/equipment/delete/{id}").permitAll()
@@ -133,13 +137,8 @@ public class WebSecurityConfig {
 			// .requestMatchers("/api/companies/{companyId}/equipment}").permitAll()
 			
 			// auth change password
-			.requestMatchers("/api/appointments/by-company-id/{id}").permitAll()
-			.requestMatchers("/api/appointments/by-company-id-not-free/{id}").permitAll()
-			.requestMatchers("/api/appointments/mark-as-taken/{id}").permitAll()
+			.requestMatchers("/api/auth/change-password").permitAll()
 
-			// reservations
-			.requestMatchers("/api/reservations/mark-as-taken/{id}").permitAll()
-			.requestMatchers("/api/reservations/users-that-reserved-by-company/{id}").permitAll()
 			
 			// company administrators
 			.requestMatchers("api/company-administrators").permitAll()

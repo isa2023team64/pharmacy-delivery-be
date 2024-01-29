@@ -4,6 +4,7 @@ import java.util.Collection;
 import java.util.List;
 
 import com.isa2023team64.pharmacydeliverybe.model.Appointment;
+import com.isa2023team64.pharmacydeliverybe.util.enums.AppointmentStatus;
 
 public interface AppointmentService {
     
@@ -17,6 +18,7 @@ public interface AppointmentService {
 
     public Appointment makeAppointment(Appointment appointment);
     public Appointment makeExtraordinaryAppointment(Appointment appointment);
+    public Appointment makeAppointment(Appointment appointment, AppointmentStatus status);
 
     public void reserveAppointment(Integer id);
 
