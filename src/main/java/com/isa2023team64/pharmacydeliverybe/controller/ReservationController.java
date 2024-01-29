@@ -202,4 +202,23 @@ public class ReservationController {
         return new ResponseEntity<>(reservationItemsDtos, HttpStatus.OK);
     }
 
+    @Operation(summary = "Retrieve a reservation by ID", description = "Retrieve a reservation by its ID.", method = "Get")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "Reservation retrieved successfully.",
+                     content = @Content(mediaType = "application/json",
+                     array = @ArraySchema(schema = @Schema(implementation = ReservationResponseDTO.class)))),
+        @ApiResponse(responseCode = "404", description = "Reservation not found.")
+    })
+    @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<ReservationResponseDTO> getReservationById(@PathVariable Integer id) {
+        try {
+            Reservation reservation = reservationService.findById(id);
+            AppointmentResponseDTO appointmentDTO = new AppointmentResponseDTO();
+            ReservationResponseDTO dto = new ReservationResponseDTO(reservation);
+            return new ResponseEntity<>(dto, HttpStatus.OK);
+        } catch (NoSuchElementException e) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+
 }

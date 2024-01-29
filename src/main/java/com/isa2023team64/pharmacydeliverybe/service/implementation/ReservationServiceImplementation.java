@@ -231,4 +231,9 @@ public class ReservationServiceImplementation implements ReservationService {
         }
         return users;
     }
+
+    @Override
+    public Reservation findById(int id){
+        return reservationRepository.findById(id).orElseThrow();
+    }
 }
