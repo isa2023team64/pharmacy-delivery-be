@@ -16,7 +16,7 @@ public interface ReservationRepository extends JpaRepository<Reservation, Intege
     @Lock(LockModeType.PESSIMISTIC_WRITE)
     <S extends Reservation> S save(S entity);
     
-    @Lock(LockModeType.PESSIMISTIC_WRITE)
+    // @Lock(LockModeType.PESSIMISTIC_WRITE)
     public Optional<Reservation> findById(Integer id);
 
 }

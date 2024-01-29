@@ -236,6 +236,7 @@ public class ReservationServiceImplementation implements ReservationService {
     }
 
     @Override
+    @Transactional(readOnly = false, propagation = Propagation.REQUIRES_NEW, isolation = Isolation.REPEATABLE_READ)
     public Reservation findById(int id){
         return reservationRepository.findById(id).orElseThrow();
     }
