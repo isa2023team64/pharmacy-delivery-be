@@ -59,9 +59,6 @@ public class ReservationServiceImplementation implements ReservationService {
     private EquipmentRepository equipmentRepository;
 
     @Autowired
-    private RegisteredUserRepository registeredUserRepository;
-
-    @Autowired
     private ModelMapper modelMapper;
 
 	@Autowired
