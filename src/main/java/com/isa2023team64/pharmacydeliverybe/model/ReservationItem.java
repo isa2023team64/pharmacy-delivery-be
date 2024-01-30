@@ -1,12 +1,8 @@
 package com.isa2023team64.pharmacydeliverybe.model;
 
-import java.util.List;
-
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToMany;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.ManyToOne;
 import jakarta.validation.constraints.NotEmpty;
 import lombok.AllArgsConstructor;
@@ -20,7 +16,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ReservationItem extends GenericEntity {
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     private Reservation reservation;
 
     @ManyToOne

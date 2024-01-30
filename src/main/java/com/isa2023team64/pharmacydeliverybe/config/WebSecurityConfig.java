@@ -96,7 +96,8 @@ public class WebSecurityConfig {
 			.requestMatchers("api/reservations/regular").hasAuthority("ROLE_USER")
 			.requestMatchers("api/reservations/extraordinary").hasAuthority("ROLE_USER")
 			.requestMatchers("api/reservations/deleteReservation/*").hasAuthority("ROLE_USER")
-			.requestMatchers("api/appointments/cancle/**").permitAll()
+			.requestMatchers("/api/reservations/mark-as-taken/{id}").permitAll()
+			.requestMatchers("/api/reservations/users-that-reserved-by-company/{id}").permitAll()
 
 			.requestMatchers("/api/companies/{id}").permitAll()
 			.requestMatchers("/api/companies/{companyId}/equipment").permitAll()
@@ -113,7 +114,7 @@ public class WebSecurityConfig {
 			.requestMatchers("/api/equipment/{id}").permitAll()
 			.requestMatchers("/api/equipment/not-owned-by-company/{companyId}").permitAll()
 
-			.requestMatchers("/api/system-administrators/*").permitAll()
+
 			// .requestMatchers("/api/system-administrators/*").hasAuthority("ROLE_SYSTEMADMIN")
 
 			// coordinates
@@ -125,7 +126,10 @@ public class WebSecurityConfig {
 
 			// appointments
 			.requestMatchers("/api/appointments/new").permitAll()
-			.requestMatchers("/api/auth/change-password").permitAll()
+			.requestMatchers("/api/appointments/by-company-id/{id}").permitAll()
+			.requestMatchers("/api/appointments/by-company-id-not-free/{id}").permitAll()
+			.requestMatchers("/api/appointments/mark-as-taken/{id}").permitAll()
+			.requestMatchers("api/appointments/cancle/**").permitAll()
 			
 			// equipment
 			.requestMatchers("/api/equipment/delete/{id}").permitAll()
@@ -133,7 +137,8 @@ public class WebSecurityConfig {
 			// .requestMatchers("/api/companies/{companyId}/equipment}").permitAll()
 			
 			// auth change password
-			.requestMatchers("/api/appointments/by-company-id/{id}").permitAll()
+			.requestMatchers("/api/auth/change-password").permitAll()
+
 			
 			// company administrators
 			.requestMatchers("api/company-administrators").permitAll()
@@ -186,10 +191,10 @@ public class WebSecurityConfig {
 				.requestMatchers(HttpMethod.POST, "/api/reservations/**")
 				.requestMatchers(HttpMethod.DELETE, "/api/reservations/**")
     			
+				.requestMatchers("/api/system-administrators/**")
     			
     			// Ovim smo dozvolili pristup statickim resursima aplikacije
-    			.requestMatchers(HttpMethod.GET, "/", "/swagger-ui/*","/v3/api-docs/*", "/webjars/*", "/*.html", "favicon.ico",
-    			"/*/*.html", "/*/*.css", "/*/*.js", "/ws/**", "/ws");	 
+    			.requestMatchers(HttpMethod.GET, "/", "/swagger-ui/*","/v3/api-docs/*", "/webjars/*", "/*.html", "favicon.ico", "/*/*.html", "/*/*.css", "/*/*.js", "/ws/**", "/ws", "/api/**");
 
     }
 

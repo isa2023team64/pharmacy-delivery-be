@@ -2,14 +2,16 @@ package com.isa2023team64.pharmacydeliverybe.model;
 
 import java.util.List;
 
+import com.isa2023team64.pharmacydeliverybe.util.enums.ReservationStatus;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.ManyToMany;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
-import jakarta.validation.constraints.NotEmpty;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -20,17 +22,8 @@ import lombok.Setter;
 @NoArgsConstructor
 public class Reservation extends GenericEntity {
 
-    @Column
-    @NotEmpty
-    private boolean handovered;
-
-    @Column
-    @NotEmpty
-    private boolean expired;
-
-    @Column
-    @NotEmpty
-    private boolean equipmentTaken;
+    @Enumerated
+    private ReservationStatus status;
 
     @OneToOne(cascade = CascadeType.ALL)
     private Appointment appointment;
@@ -38,18 +31,17 @@ public class Reservation extends GenericEntity {
     @ManyToOne(cascade = CascadeType.ALL)
     private RegisteredUser user;
 
-    @OneToMany(cascade = CascadeType.ALL)
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<ReservationItem> orderItems;
 
-    public Reservation(boolean handovered, boolean expired, boolean equipmentTaken,
-            Appointment appointment, RegisteredUser user, List<ReservationItem> orderItems) {
-        this.handovered = handovered;
-        this.expired = expired;
-        this.equipmentTaken = equipmentTaken;
+    @Column
+    private String qrCode;
+
+    public Reservation(ReservationStatus status, Appointment appointment, RegisteredUser user, List<ReservationItem> orderItems) {
+        this.status = status;
         this.appointment = appointment;
         this.user = user;
         this.orderItems = orderItems;
     }
 
-    
 }

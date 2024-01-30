@@ -51,6 +51,19 @@ public class EmailService {
 	}
 
 	@Async
+	public void sendAppointmentTakenEmail(RegisteredUser user) throws MailException, InterruptedException {
+		Thread.sleep(5000);
+		System.out.println("Slanje emaila...");
+
+		SimpleMailMessage mail = new SimpleMailMessage();
+		mail.setTo(user.getEmail());
+		mail.setFrom(env.getProperty("spring.mail.username"));
+		mail.setSubject("Equipment taken successfully.");
+		mail.setText("Hello " + user.getFirstName() + "\n\nYou have taken you equipment successfully!\n\nBest regards,\nMedspress");
+		javaMailSender.send(mail);
+	}
+
+	@Async
 	public void sendReservationInfoAsync(RegisteredUser user, byte[] qrCodeBytes) throws MailException, InterruptedException {
 		// Simulate a longer activity to highlight the difference
 		Thread.sleep(10000);

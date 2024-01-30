@@ -23,6 +23,7 @@ import com.isa2023team64.pharmacydeliverybe.dto.AppointmentResponseDTO;
 import com.isa2023team64.pharmacydeliverybe.mapper.AppointmentDTOMapper;
 import com.isa2023team64.pharmacydeliverybe.model.Appointment;
 import com.isa2023team64.pharmacydeliverybe.service.AppointmentService;
+import com.isa2023team64.pharmacydeliverybe.util.enums.AppointmentStatus;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
@@ -97,6 +98,17 @@ public class AppointmentController {
     public ResponseEntity<Collection<AppointmentResponseDTO>> findByCompanyId(@PathVariable Integer id) {
         try {
             var appointments = appointmentService.findByCompanyId(id);
+            var dtos = appointments.stream().map(AppointmentDTOMapper::toResponseDTO).collect(Collectors.toList());
+            return new ResponseEntity<>(dtos, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+
+    @GetMapping("/by-company-id-not-free/{id}")
+    public ResponseEntity<Collection<AppointmentResponseDTO>> findNotFreeByCompanyId(@PathVariable Integer id) {
+        try {
+            var appointments = appointmentService.findByCompanyId(id).stream().filter(a -> a.getStatus().equals(AppointmentStatus.RESERVED)).toList();
             var dtos = appointments.stream().map(AppointmentDTOMapper::toResponseDTO).collect(Collectors.toList());
             return new ResponseEntity<>(dtos, HttpStatus.OK);
         } catch (Exception e) {

@@ -10,24 +10,30 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class RegularReservationResponseDTO {
+public class RegularReservationNoRegisteredUserDTO {
+    
     private Integer id;
     private ReservationStatus status;
     private AppointmentResponseDTO appointment;
-    private RegisteredUserResponseDTO user;
-    private List<EquipmentResponseDTO> orderItems;
+    private Integer userId;
     private String qrCode;
 
-    public RegularReservationResponseDTO(Reservation reservation, AppointmentResponseDTO appointment, RegisteredUserResponseDTO user, List<EquipmentResponseDTO> orderItems, String qrCode) {
+        public RegularReservationNoRegisteredUserDTO(Reservation reservation, AppointmentResponseDTO appointment) {
         this.id = reservation.getId();
         this.status = reservation.getStatus();
         this.appointment = appointment;
-        this.user = user;
-        this.orderItems = orderItems;
-        this.qrCode = qrCode;
+        this.userId = reservation.getUser().getId();
+        this.qrCode = reservation.getQrCode();
     }
+
+
 }
