@@ -74,7 +74,8 @@ public class ReservationServiceImplementation implements ReservationService {
 
     private Logger logger = LoggerFactory.getLogger(RegisteredUserController.class);
 
-	@Transactional(readOnly = true, propagation = Propagation.REQUIRES_NEW, isolation = Isolation.READ_COMMITTED)
+	// @Transactional(readOnly = true, propagation = Propagation.REQUIRED, isolation = Isolation.READ_COMMITTED)
+    @jakarta.transaction.Transactional
     public RegularReservationResponseDTO create(int userId, int appointmentId, List<Integer> equipmentIds, List<Integer> quantities) {
         RegisteredUser user = userRepository.findById(userId);
         if(user.getPenaltyPoints() >= 5) throw new IllegalArgumentException();
@@ -92,7 +93,7 @@ public class ReservationServiceImplementation implements ReservationService {
             Equipment equipment = equipmentRepository.findById(id).orElseThrow();
             if (equipment.getStockCount() - quantities.get(i) < 0)
                 throw new IllegalArgumentException("Equipment out of stock.");
-            equipment.setStockCount(equipment.getStockCount() - quantities.get(i));
+            // equipment.setStockCount(equipment.getStockCount() - quantities.get(i));
             equipmentList.add(equipment);
             reservationItems.add(new ReservationItem(reservation, equipment, quantities.get(i)));
             // equipmentRepository.save(equipment);
@@ -205,7 +206,7 @@ public class ReservationServiceImplementation implements ReservationService {
     }
 
     @Override
-	@Transactional(readOnly = false, propagation = Propagation.REQUIRES_NEW, isolation = Isolation.REPEATABLE_READ)
+	@Transactional(readOnly = false, propagation = Propagation.REQUIRES_NEW, isolation = Isolation.READ_UNCOMMITTED)
     public void markReservationAsTaken(int reservationId) {
         var reservation = reservationRepository.findById(reservationId).orElseThrow();
         var reservationItems = reservationItemRepository.findAll().stream().filter(ri -> ri.getReservation().equals(reservation)).toList();
