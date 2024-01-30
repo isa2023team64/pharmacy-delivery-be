@@ -30,7 +30,7 @@ public class JwtService {
 	private static final String AUDIENCE_WEB = "web";
 
     private static final String SECRET_KEY = "1E9C4A0D68F73B8C21A6D05B8C9F2E7A8B2D1C4A9F3C6A7F0B2E5D8C1A4F7E2B5D8C1A9F3E6A7F0B2E5D8C1A4F7E2";
-    private static final Double hoursValid = 0.5;
+    private static final Double hoursValid = 1.0;
     private static final Integer millisecondsValid = (int)(1000 * 60 * 60 * hoursValid);
 
     public String extractUsername(String token) {

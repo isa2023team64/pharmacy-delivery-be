@@ -101,18 +101,24 @@ INSERT INTO public.equipment(name, description, type, company_id, stock_count, a
 	('Injekcija', 'Za vakcinisanje', 'TypeA', 1, 50, 4.5),
 	('Stetoskop', 'Za slusanje srca', 'TypeB', 1, 30, 3.8),
 	('Toplomer', 'Za merenje temperature', 'TypeC', 1, 20, 2.9),
-	('Cetka za zube', 'Za pranje zuba', 'TypeC', 1, 70, 3.5);
+	('Cetka za zube', 'Za pranje zuba', 'TypeC', 1, 70, 3.5),
+	('Rukavice', 'Za ruke', 'TypeC', 1, 40, 2.9),
+	('Stomatološka stolica', 'Za sedenje', 'TypeC', 1, 0, 3.5),
+	('Stomatološka stolica', 'Za sedenje', 'TypeC', 2, 40, 3.5),
+	('Stomatološka stolica', 'Za sedenje', 'TypeC', 3, 40, 3.5),
+	('Stomatološka stolica', 'Za sedenje', 'TypeC', 4, 40, 3.5),
+	('Zavoj', 'Za rane', 'TypeC', 1, 40, 3.0);
 
 INSERT INTO public.appointment (company_id, duration, status, start_date_time, company_administrator_id) 
-VALUES  (1, 30, 2,'2024-02-01T10:15:00', 3),
+VALUES  (1, 30, 2,'2024-02-05T10:15:00', 3),
 		(1, 15, 2,'2024-02-01T09:00:00', 4),
-		(1, 15, 2,'2024-02-01T10:00:00', 3),
+		(1, 15, 2,'2024-02-04T10:00:00', 3),
 		(1, 10, 1,'2024-01-01T10:10:00', 3),
 		(1, 10, 1,'2024-03-01T10:10:00', 4),
 		(1, 10, 1,'2024-02-01T10:20:00', 3),
-		(1, 10, 1,'2024-02-01T10:10:00', 3),
-		(1, 10, 2,'2024-03-01T10:10:00', 4),
-		(1, 10, 1,'2024-02-01T10:20:00', 3),
+		(1, 10, 1,'2024-02-02T10:10:00', 3),
+		(1, 10, 2,'2024-03-02T10:10:00', 4),
+		(1, 10, 1,'2024-02-03T10:20:00', 3),
 		(1, 15, 0,'2024-02-01T13:00:00', 3),
 		(1, 10, 0,'2024-02-01T13:15:00', 3),
 		(1, 10, 0,'2024-03-01T14:10:00', 4),
@@ -138,8 +144,8 @@ INSERT INTO public.delivery(delivery_date, hospital_id, latitude, longitude, sta
 VALUES
 	('2024-01-25', 1, 10.0, 10.0, 0),
 	('2024-01-25', 1, 10.0, 10.0, 2),
-	('2024-01-28', 1, 10.0, 10.0, 2),
-	('2024-01-28', 1, 10.0, 10.0, 0);
+	('2024-01-30', 1, 10.0, 10.0, 0),
+	('2024-01-30', 1, 10.0, 10.0, 0);
 
 
 INSERT INTO public.reservation (appointment_id, status, user_id, qr_code) 

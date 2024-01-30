@@ -98,7 +98,11 @@ public class RegisteredUserServiceImplementation implements RegisteredUserServic
         if(!updatedUser.getPassword().equals(updatedUser.getPasswordConfirmation())) {
             throw new IllegalArgumentException("Password and confirmation don't match.");
         }
-        user.setPassword(updatedUser.getPassword());
+
+        if (!updatedUser.getPassword().equals(user.getPassword())) {
+            user.setPassword(passwordEncoder.encode(updatedUser.getPassword()));
+        }
+
         user.setLastPasswordResetDate(new Timestamp(new Date().getTime()));
         user.setFirstName(updatedUser.getFirstName());
         user.setLastName(updatedUser.getLastName());
@@ -107,6 +111,7 @@ public class RegisteredUserServiceImplementation implements RegisteredUserServic
         user.setPhoneNumber(updatedUser.getPhoneNumber());
         user.setWorkplace(updatedUser.getWorkplace());
         user.setPenaltyPoints(updatedUser.getPenaltyPoints());
+        user.getHospital().setName(updatedUser.getCompanyName());
         registeredUserRepository.save(user);
 
         return user;

@@ -37,6 +37,13 @@ public class WebSecurityConfig {
     "/*/*.css",
     "/*/*.js",
     "/ws/**", "/ws",
+    "/api/registration/**",
+    "/api/companies",
+    "/api/equipment",
+    "/api/equipment/{id}",
+    "/api/companies/search",
+    "/api/equipment/search",
+    "/api/equipment/{search}/equipment",
     "/swagger-ui.html"};
 
     private final AuthenticationProvider authenticationProvider;

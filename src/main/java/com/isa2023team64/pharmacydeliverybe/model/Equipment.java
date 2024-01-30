@@ -18,7 +18,7 @@ import lombok.Setter;
 @AllArgsConstructor
 public class Equipment extends GenericEntity {
     
-    @Column(unique = true, nullable = false)
+    @Column(unique = false, nullable = false)
     @NotEmpty
     private String name;
 
