@@ -65,7 +65,7 @@ VALUES
 	('Bolnica 7', 10.0, 10.0);
 
 INSERT INTO app_user (email, password, first_name, last_name, active, last_password_reset_date)
-VALUES ('nikolicveljko01@gmail.com', '$2a$10$SQpuv4vt5DrH6KMm//V9oeRYzDU5lK02Esfcs9Xmd7RT8sL5.G/QK', 'John', 'Doe', true, CURRENT_TIMESTAMP), -- obican
+VALUES ('milossdjuric@yahoo.com', '$2a$10$SQpuv4vt5DrH6KMm//V9oeRYzDU5lK02Esfcs9Xmd7RT8sL5.G/QK', 'John', 'Doe', true, CURRENT_TIMESTAMP), -- obican
        ('veljko@example.com', '$2a$10$SQpuv4vt5DrH6KMm//V9oeRYzDU5lK02Esfcs9Xmd7RT8sL5.G/QK', 'Veljko', 'Nikolic', true, CURRENT_TIMESTAMP), -- obican
        ('nikolic@example.com', '$2a$10$SQpuv4vt5DrH6KMm//V9oeRYzDU5lK02Esfcs9Xmd7RT8sL5.G/QK', 'Veljko', 'Nikolic', true, CURRENT_TIMESTAMP), -- comapny admin
        ('milos@example.com', '$2a$10$SQpuv4vt5DrH6KMm//V9oeRYzDU5lK02Esfcs9Xmd7RT8sL5.G/QK', 'Milos', 'Djuric', true, CURRENT_TIMESTAMP), -- comapny admin
@@ -101,7 +101,7 @@ INSERT INTO public.equipment(name, description, type, company_id, stock_count, a
 	('Injekcija', 'Za vakcinisanje', 'TypeA', 1, 50, 4.5),
 	('Stetoskop', 'Za slusanje srca', 'TypeB', 1, 30, 3.8),
 	('Toplomer', 'Za merenje temperature', 'TypeC', 1, 20, 2.9),
-	('Cetka za zube', 'Za pranje zuba', 'TypeC', 1, 70, 3.5);
+	('Cetka za zube', 'Za pranje zuba', 'TypeC', 1, 10, 3.5);
 
 INSERT INTO public.appointment (company_id, duration, status, start_date_time, company_administrator_id) 
 VALUES  (1, 30, 2,'2024-02-01T10:15:00', 3),
@@ -118,7 +118,8 @@ VALUES  (1, 30, 2,'2024-02-01T10:15:00', 3),
 		(1, 10, 0,'2024-03-01T14:10:00', 4),
 		(1, 10, 0,'2024-02-01T14:20:00', 3),
 		(1, 10, 1,'2024-01-05T10:10:00', 4),
-		(1, 10, 0,'2024-03-05T10:10:00', 4);
+		(1, 10, 0,'2024-03-05T10:10:00', 4),
+		(1, 20, 0,'2024-03-03T10:10:00', 4);;
 
 INSERT INTO public.contract (hospital_id, day)
 VALUES 
@@ -146,7 +147,8 @@ INSERT INTO public.reservation (appointment_id, status, user_id, qr_code)
 VALUES  (4, 0, 1, 'najjaca firmetina'),
 		(5, 0, 2, 'najjaca firmetina'),
     	(14, 0, 1, ''),
-		(15, 0, 2, '');
+		(15, 0, 2, ''),
+		(16, 0, 2, '');
 
 INSERT INTO public.reservation_item(equipment_id, reservation_id, quantity)
 VALUES
@@ -156,5 +158,6 @@ VALUES
 	(4, 2, 4),
 	(2, 3, 7),
 	(4, 3, 7),
-	(2, 4, 8),
-	(4, 4, 8);
+	(2, 3, 8),
+	(4, 4, 8),
+	(4, 5, 8);

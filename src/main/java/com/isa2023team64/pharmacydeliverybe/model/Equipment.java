@@ -42,4 +42,8 @@ public class Equipment extends GenericEntity {
     @NotNull
     private double averageRating;
 
+    // @org.springframework.data.annotation.Version
+    // @Column(name = "optlock", columnDefinition = "integer DEFAULT 0", nullable = false)
+    // private Integer version;
+
 }
