@@ -204,12 +204,14 @@ public class ReservationServiceImplementation implements ReservationService {
         var reservationItems = reservationItemRepository.findAll().stream().filter(ri -> ri.getReservation().equals(reservation)).toList();
         if (reservation.getStatus() != ReservationStatus.PENDING) throw new IllegalArgumentException("Reservation expired or taken.");
         reservation.setStatus(ReservationStatus.TAKEN);
+        reservation.getAppointment().setStatus(AppointmentStatus.TAKEN);
         // update lagera
         for (var orderItem : reservationItems) {
             var equipment = equipmentRepository.findById(orderItem.getEquipment().getId()).orElseThrow();
             equipment.setStockCount(equipment.getStockCount() - orderItem.getQuantity());
             equipmentRepository.save(equipment);
         }
+        appointmentRepository.save(reservation.getAppointment());
         reservationRepository.save(reservation);
 
         var registeredUser = reservation.getUser();
