@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -43,6 +44,7 @@ public class CompanyAdministratorController {
                      array = @ArraySchema(schema = @Schema(implementation = CompanyAdministrator.class))))
     })
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+    @PreAuthorize("hasRole('SYSTEMADMIN')")
     public ResponseEntity<List<CompanyAdministratorResponseDTO>> getAll() {
         List<CompanyAdministrator> companyAdministrators = CompanyAdministratorService.findAll();
 
@@ -62,6 +64,7 @@ public class CompanyAdministratorController {
         @ApiResponse(responseCode = "404", description = "Registered user not found.", content = @Content)
     })
     @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PreAuthorize("hasAnyRole('SYSTEMADMIN', 'COMPANYADMIN')")
     public ResponseEntity<CompanyAdministratorResponseDTO> getCompanyAdministratorById(@PathVariable Integer id) {
         CompanyAdministrator companyAdministrator = CompanyAdministratorService.findById(id);
 
@@ -78,6 +81,7 @@ public class CompanyAdministratorController {
 				     content = { @Content(mediaType = "application/json", schema = @Schema(implementation = CompanyAdministrator.class)) })
 	})
 	@PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @PreAuthorize("hasRole('SYSTEMADMIN')")
     public ResponseEntity<CompanyAdministratorResponseDTO> registerCompanyAdministrator(@RequestBody CompanyAdministratorRequestDTO companyAdministratorRequestDTO) {
         CompanyAdministrator companyAdministrator = new CompanyAdministrator();
 
@@ -102,6 +106,7 @@ public class CompanyAdministratorController {
         @ApiResponse(responseCode = "404", description = "Company administrator not found.", content = @Content)
 	})
 	@PutMapping(value = "/{id}",consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @PreAuthorize("hasRole('COMPANYADMIN')")
     public ResponseEntity<CompanyAdministratorResponseDTO> updateCompanyAdministratorProfile(@PathVariable Integer id, @RequestBody CompanyAdministratorRequestDTO companyAdministratorRequestDTO) {
         CompanyAdministrator companyAdministrator = CompanyAdministratorService.findById(id);
 

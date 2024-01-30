@@ -1,9 +1,7 @@
 package com.isa2023team64.pharmacydeliverybe.listener;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
@@ -15,7 +13,6 @@ import com.isa2023team64.pharmacydeliverybe.dto.ContractRequestDTO;
 import com.isa2023team64.pharmacydeliverybe.model.Contract;
 import com.isa2023team64.pharmacydeliverybe.service.ContractService;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.isa2023team64.pharmacydeliverybe.model.Coordinates;
 import com.isa2023team64.pharmacydeliverybe.service.CoordinatesService;
 

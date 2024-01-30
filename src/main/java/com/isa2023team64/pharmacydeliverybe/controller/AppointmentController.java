@@ -10,6 +10,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.orm.jpa.JpaObjectRetrievalFailureException;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -48,6 +49,7 @@ public class AppointmentController {
                      array = @ArraySchema(schema = @Schema(implementation = AppointmentResponseDTO.class))))
     })
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+    @PreAuthorize("hasAnyRole('USER', 'COMPANYADMIN')")
     public ResponseEntity<List<AppointmentResponseDTO>> getAll() {
         List<Appointment> appointments = appointmentService.findAll();
         List<AppointmentResponseDTO> dtos = appointments.stream().map(AppointmentDTOMapper::toResponseDTO).collect(Collectors.toList());
@@ -62,6 +64,7 @@ public class AppointmentController {
                      content = @Content(mediaType = "application/json", schema = @Schema(implementation = AppointmentResponseDTO.class)))
     })
     @PostMapping(path = "/new",consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @PreAuthorize("hasRole('COMPANYADMIN')")
     public ResponseEntity<AppointmentResponseDTO> create(@RequestBody AppointmentRequestDTO requestDTO) {
         try {
             Appointment appointment = AppointmentDTOMapper.fromRequestDTO(requestDTO);
@@ -81,6 +84,7 @@ public class AppointmentController {
                      content = @Content(mediaType = "application/json"))
     })
     @PatchMapping("/reserve/{id}")
+    @PreAuthorize("hasRole('USER')")
     public ResponseEntity<Void> reserve(@PathVariable Integer id) {
         try {
             appointmentService.reserveAppointment(id);
@@ -95,6 +99,7 @@ public class AppointmentController {
     }
 
     @GetMapping("/by-company-id/{id}")
+    @PreAuthorize("hasAnyRole('USER', 'COMPANYADMIN')")
     public ResponseEntity<Collection<AppointmentResponseDTO>> findByCompanyId(@PathVariable Integer id) {
         try {
             var appointments = appointmentService.findByCompanyId(id);
@@ -106,6 +111,7 @@ public class AppointmentController {
     }
 
     @GetMapping("/by-company-id-not-free/{id}")
+    @PreAuthorize("hasAnyRole('USER', 'COMPANYADMIN')")
     public ResponseEntity<Collection<AppointmentResponseDTO>> findNotFreeByCompanyId(@PathVariable Integer id) {
         try {
             var appointments = appointmentService.findByCompanyId(id).stream().filter(a -> a.getStatus().equals(AppointmentStatus.RESERVED)).toList();
@@ -122,6 +128,7 @@ public class AppointmentController {
                      content = @Content(mediaType = "application/json"))
     })
     @PatchMapping("/cancle/{id}")
+    @PreAuthorize("hasRole('USER')")
     public ResponseEntity<Void> cancle(@PathVariable Integer id) {
         try {
             appointmentService.cancleAppointment(id);

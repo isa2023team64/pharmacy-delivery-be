@@ -1,14 +1,7 @@
 package com.isa2023team64.pharmacydeliverybe.dto;
 
-import java.util.List;
-
 import com.isa2023team64.pharmacydeliverybe.model.Reservation;
 import com.isa2023team64.pharmacydeliverybe.util.enums.ReservationStatus;
-
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

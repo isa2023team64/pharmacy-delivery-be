@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -49,6 +50,7 @@ public class EquipmentController {
     @Autowired
     private EquipmentSearchService searchService;
 
+    
     @Operation(summary = "Get all equipment", description = "Gets all equipment.", method = "GET")
     @ApiResponses(value = {
         @ApiResponse(responseCode = "200", description = "All equipment fetched successfully.",
@@ -88,36 +90,11 @@ public class EquipmentController {
                     schema = @Schema(implementation = PagedResult.class, subTypes = {EquipmentRequestDTO.class})))
     })
     @GetMapping(value = "/search/company-administrator/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PreAuthorize("hasRole('COMPANYADMIN')")
     public ResponseEntity<PagedResult<EquipmentResponseDTO>> searchWithCompanyAdministrator(@PathVariable Integer id, @ModelAttribute EquipmentSearchFilterDTO filter) {
         PagedResult<EquipmentResponseDTO> equipment = searchService.searchWithCompanyAdministrator(id, filter);
 
         return new ResponseEntity<>(equipment, HttpStatus.OK);
-    }
-
-    @Operation(summary = "Get equipment not owned by company", description = "Get equipment not owned by company", method = "GET")
-    @ApiResponses(value = {
-        @ApiResponse(responseCode = "200", description = "All equipment fetched successfully.",
-                     content = @Content(mediaType = "application/json",
-                     array = @ArraySchema(schema = @Schema(implementation = Equipment.class))))
-    })
-    @GetMapping(value = "/not-owned-by-company/{companyId}",produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<List<EquipmentResponseDTO>> getNotOwnedByCompany(@PathVariable Integer companyId) {
-        List<Equipment> equipment = companyService.findOneWithEquipment(companyId).getEquipment();
-        List<Equipment> allEquipment = equipmentService.findAll();
-        List<Equipment> notOwned = equipmentService.findAll();
-
-        for (Equipment eq : allEquipment) {
-            if (equipment.contains(eq)) {
-                notOwned.remove(eq);
-            }
-        }
-
-        List<EquipmentResponseDTO> equipmentDTOs = new ArrayList<>();
-        for(Equipment e : notOwned) {
-            equipmentDTOs.add(new EquipmentResponseDTO(e));
-        }
-
-        return new ResponseEntity<>(equipmentDTOs, HttpStatus.OK);
     }
 
     @Operation(summary = "Register new equipment", description = "Registers new equipment", method = "POST")
@@ -126,6 +103,7 @@ public class EquipmentController {
 					     content = { @Content(mediaType = "application/json", schema = @Schema(implementation = Company.class)) })
 	})
 	@PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @PreAuthorize("hasRole('COMPANYADMIN')")
     public ResponseEntity<EquipmentResponseDTO> registerEquipment(@RequestBody EquipmentRequestDTO dto) {
         Equipment equipment = EquipmentDTOMapper.fromRequestDTO(dto);
         equipment.setId(null);
@@ -139,6 +117,7 @@ public class EquipmentController {
 					     content = { @Content(mediaType = "application/json", schema = @Schema(implementation = Company.class)) })
 	})
 	@PutMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @PreAuthorize("hasRole('COMPANYADMIN')")
     public ResponseEntity<EquipmentResponseDTO> updateEquipment(@PathVariable Integer id, @RequestBody EquipmentRequestDTO dto) {
         Equipment equipment = equipmentService.findById(id);
 
@@ -176,6 +155,7 @@ public class EquipmentController {
 	@ApiResponses(value = {
 			@ApiResponse(responseCode = "200", description = "OK")})
 	@DeleteMapping(value = "/delete/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PreAuthorize("hasRole('COMPANYADMIN')")
     public ResponseEntity<Void> deleteById(@PathVariable int id) {
         try {
             Equipment equipment = equipmentService.findById(id);
