@@ -213,7 +213,6 @@ public class ReservationController {
     public ResponseEntity<ReservationResponseDTO> getReservationById(@PathVariable Integer id) {
         try {
             Reservation reservation = reservationService.findById(id);
-            AppointmentResponseDTO appointmentDTO = new AppointmentResponseDTO();
             ReservationResponseDTO dto = new ReservationResponseDTO(reservation);
             return new ResponseEntity<>(dto, HttpStatus.OK);
         } catch (NoSuchElementException e) {

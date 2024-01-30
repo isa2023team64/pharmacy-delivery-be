@@ -5,7 +5,6 @@ import jakarta.servlet.http.HttpServletResponse;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -19,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.isa2023team64.pharmacydeliverybe.config.jwt.JwtService;
 import com.isa2023team64.pharmacydeliverybe.dto.JwtAuthenticationRequest;
 import com.isa2023team64.pharmacydeliverybe.dto.JwtChangePasswordRequest;
 import com.isa2023team64.pharmacydeliverybe.dto.UserChangedPassword;
@@ -31,7 +31,6 @@ import com.isa2023team64.pharmacydeliverybe.service.CompanyAdministratorService;
 import com.isa2023team64.pharmacydeliverybe.service.RoleService;
 import com.isa2023team64.pharmacydeliverybe.service.SystemAdministratorService;
 import com.isa2023team64.pharmacydeliverybe.service.UserService;
-import com.isa2023team64.pharmacydeliverybe.util.TokenUtils;
 
 
 
@@ -42,7 +41,7 @@ import com.isa2023team64.pharmacydeliverybe.util.TokenUtils;
 public class AuthenticationController {
 
 	@Autowired
-	private TokenUtils tokenUtils;
+	private JwtService jwtService;
 
 	@Autowired
 	private AuthenticationManager authenticationManager;
@@ -65,8 +64,7 @@ public class AuthenticationController {
 	// Prvi endpoint koji pogadja korisnik kada se loguje.
 	// Tada zna samo svoje korisnicko ime i lozinku i to prosledjuje na backend.
 	@PostMapping("/login")
-	public ResponseEntity<UserTokenState> createAuthenticationToken(
-			@RequestBody JwtAuthenticationRequest authenticationRequest, HttpServletResponse response) {
+	public ResponseEntity<UserTokenState> createAuthenticationToken(@RequestBody JwtAuthenticationRequest authenticationRequest, HttpServletResponse response) {
 		// Ukoliko kredencijali nisu ispravni, logovanje nece biti uspesno, desice se
 		// AuthenticationException
 		System.out.println("Hello, World!");
@@ -80,8 +78,10 @@ public class AuthenticationController {
 
 		// Kreiraj token za tog korisnika
 		User user = (User) authentication.getPrincipal();
-		String jwt = tokenUtils.generateToken(user);
-		int expiresIn = tokenUtils.getExpiredIn();
+		// User user = userService.findByUsername(authenticationRequest.getUsername());
+		// String jwt = tokenUtils.generateToken(user);
+		String jwt = jwtService.generateToken(user);
+		int expiresIn = jwtService.getExpirationDuration();
 
 		// Vrati token kao odgovor na uspesnu autentifikaciju
 		return ResponseEntity.ok(new UserTokenState(jwt, expiresIn));

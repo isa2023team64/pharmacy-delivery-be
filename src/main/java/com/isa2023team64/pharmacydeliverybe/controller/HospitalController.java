@@ -7,16 +7,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.isa2023team64.pharmacydeliverybe.dto.EquipmentResponseDTO;
 import com.isa2023team64.pharmacydeliverybe.dto.HospitalResponseDTO;
-import com.isa2023team64.pharmacydeliverybe.model.Equipment;
 import com.isa2023team64.pharmacydeliverybe.model.Hospital;
-import com.isa2023team64.pharmacydeliverybe.service.CompanyService;
-import com.isa2023team64.pharmacydeliverybe.service.EquipmentSearchService;
 import com.isa2023team64.pharmacydeliverybe.service.HospitalService;
 
 import io.swagger.v3.oas.annotations.Operation;
@@ -30,6 +27,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 @Tag(name = "Hospital controller", description = "Hospital API")
 @RestController
 @RequestMapping(value = "api/hospital")
+@PreAuthorize("hasAnyRole('SYSTEMADMIN', 'COMPANYADMIN')")
 public class HospitalController {
     @Autowired
     private HospitalService hospitalService;

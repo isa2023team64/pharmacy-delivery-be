@@ -8,7 +8,6 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import com.isa2023team64.pharmacydeliverybe.model.SystemAdministrator;
 import com.isa2023team64.pharmacydeliverybe.model.User;
 import com.isa2023team64.pharmacydeliverybe.repository.UserRepository;
 import com.isa2023team64.pharmacydeliverybe.service.UserService;
@@ -25,7 +24,7 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public User findByUsername(String username) throws UsernameNotFoundException {
-		return userRepository.findUserByEmail(username);
+		return userRepository.findByEmail(username).orElse(null);
 	}
 
 	public User findById(Long id) throws AccessDeniedException {

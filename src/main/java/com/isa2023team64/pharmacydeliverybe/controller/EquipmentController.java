@@ -49,6 +49,7 @@ public class EquipmentController {
     @Autowired
     private EquipmentSearchService searchService;
 
+    
     @Operation(summary = "Get all equipment", description = "Gets all equipment.", method = "GET")
     @ApiResponses(value = {
         @ApiResponse(responseCode = "200", description = "All equipment fetched successfully.",
