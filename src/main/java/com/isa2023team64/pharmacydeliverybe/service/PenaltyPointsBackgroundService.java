@@ -7,8 +7,10 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
+import com.isa2023team64.pharmacydeliverybe.repository.AppointmentRepository;
 import com.isa2023team64.pharmacydeliverybe.repository.RegisteredUserRepository;
 import com.isa2023team64.pharmacydeliverybe.repository.ReservationRepository;
+import com.isa2023team64.pharmacydeliverybe.util.enums.AppointmentStatus;
 import com.isa2023team64.pharmacydeliverybe.util.enums.ReservationStatus;
 
 @Service
@@ -18,6 +20,9 @@ public class PenaltyPointsBackgroundService {
     @Autowired
     private ReservationRepository reservationRepository;
     
+    @Autowired
+    private AppointmentRepository appointmentRepository;
+
     @Autowired
     private RegisteredUserRepository registeredUserRepository;
     
@@ -29,9 +34,11 @@ public class PenaltyPointsBackgroundService {
 
         for (var reservation : reservations) {
             reservation.setStatus(ReservationStatus.EXPIRED);
+            reservation.getAppointment().setStatus(AppointmentStatus.CANCELED);
             var user = reservation.getUser();
             int penaltyPoints = user.getPenaltyPoints() + 2;
             user.setPenaltyPoints(penaltyPoints);
+            appointmentRepository.save(reservation.getAppointment());
             reservationRepository.save(reservation);
             registeredUserRepository.save(user);
         }
