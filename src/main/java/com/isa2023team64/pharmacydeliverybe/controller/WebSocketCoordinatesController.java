@@ -29,7 +29,7 @@ public class WebSocketCoordinatesController {
 
     
     @MessageMapping("/delivery")
-    @PreAuthorize("hasRole('SYSTEMADMIN')")
+    //@PreAuthorize("hasRole('SYSTEMADMIN')")
     public List<Coordinates> handleDelivery(String message){
 
         System.out.println("RADI WEBSOCKET " + message);
