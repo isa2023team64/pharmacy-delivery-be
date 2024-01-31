@@ -31,7 +31,7 @@ public class CoordinatesService {
         messagingTemplate.convertAndSend("/ws-publisher", updatedCoordinates);
         counter++;
 
-        if (counter == 3) {
+        if (counter == 12) {
             kafkaTemplate.send("hospital", "Delivery has finished successfully.");
         }
     }

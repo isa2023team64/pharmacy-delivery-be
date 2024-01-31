@@ -151,6 +151,7 @@ public class ReservationServiceImplementation implements ReservationService {
         freedAppointment.setStartDateTime(appointment.getStartDateTime());
         freedAppointment.setStatus(AppointmentStatus.CANCELED);
         reservation.setAppointment(freedAppointment);
+        reservation.setStatus(ReservationStatus.CANCELED);
         reservationRepository.save(reservation);
     }
 

@@ -124,12 +124,12 @@ VALUES  (1, 30, 2,'2024-02-05T10:15:00', 3),
 		(1, 10, 0,'2024-03-01T14:10:00', 4),
 		(1, 10, 0,'2024-02-01T14:20:00', 3),
 		(1, 10, 1,'2024-01-05T10:10:00', 4),
-		(1, 10, 0,'2024-03-05T10:10:00', 4),
-		(1, 20, 0,'2024-03-03T10:10:00', 4);;
+		(1, 10, 1,'2024-03-05T10:10:00', 4),
+		(1, 20, 1,'2024-03-03T10:10:00', 4);;
 
 INSERT INTO public.contract (hospital_id, day)
 VALUES 
-	(1, 25),
+	(1, 3),
 	(2, 15),
 	(3, 28);
 
@@ -145,16 +145,16 @@ INSERT INTO public.delivery(delivery_date, hospital_id, latitude, longitude, sta
 VALUES
 	('2024-01-25', 1, 10.0, 10.0, 0),
 	('2024-01-25', 1, 10.0, 10.0, 2),
-	('2024-01-30', 1, 10.0, 10.0, 0),
-	('2024-01-30', 1, 10.0, 10.0, 0);
+	('2024-01-31', 1, 10.0, 10.0, 0),
+	('2024-01-31', 1, 10.0, 10.0, 0);
 
 
 INSERT INTO public.reservation (appointment_id, status, user_id, qr_code) 
 VALUES  (4, 0, 1, 'najjaca firmetina'),
 		(5, 0, 2, 'najjaca firmetina'),
-    	(14, 0, 1, ''),
-		(15, 0, 2, ''),
-		(16, 0, 2, '');
+    	(14, 0, 1, 'rez iz baze'),
+		(15, 0, 2, 'rez iz baze'),
+		(16, 0, 2, 'rez iz baze');
 
 INSERT INTO public.reservation_item(equipment_id, reservation_id, quantity)
 VALUES

@@ -27,7 +27,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 @Tag(name = "Hospital controller", description = "Hospital API")
 @RestController
 @RequestMapping(value = "api/hospital")
-@PreAuthorize("hasAnyRole('SYSTEMADMIN', 'COMPANYADMIN')")
+//@PreAuthorize("hasAnyRole('SYSTEMADMIN', 'COMPANYADMIN')")
 public class HospitalController {
     @Autowired
     private HospitalService hospitalService;

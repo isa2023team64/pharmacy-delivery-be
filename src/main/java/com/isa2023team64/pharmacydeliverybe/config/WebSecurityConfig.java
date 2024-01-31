@@ -45,7 +45,9 @@ public class WebSecurityConfig {
     "/api/companies/search",
     "/api/equipment/search",
     "/api/equipment/{search}/equipment",
-    "/swagger-ui.html"};
+    "/swagger-ui.html",
+    "/api/hospital"
+};
 
     private final AuthenticationProvider authenticationProvider;
     private final JwtAuthenticationFilter jwtAuthFilter;
