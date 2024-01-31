@@ -16,11 +16,6 @@ import com.isa2023team64.pharmacydeliverybe.service.ContractService;
 import com.isa2023team64.pharmacydeliverybe.model.Coordinates;
 import com.isa2023team64.pharmacydeliverybe.service.CoordinatesService;
 
-/**
- * @author Febin Malik
- * @Mobile +91 9656668856
- * @Email codewithfebinmalik@gmail.com
- */
 
 @Configuration
 public class KafkaConsumer {
