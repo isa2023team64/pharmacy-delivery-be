@@ -2,11 +2,11 @@ package com.isa2023team64.pharmacydeliverybe.controller;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -52,7 +52,7 @@ import java.time.LocalTime;
 @Tag(name = "Company controller", description = "Company API")
 @RestController
 @RequestMapping(value = "api/companies")
-@CrossOrigin(origins="http://localhost:4200")
+// @CrossOrigin(origins="http://localhost:4200")
 public class CompanyController {
 
     @Autowired
@@ -96,17 +96,18 @@ public class CompanyController {
     })
     @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     @PreAuthorize("hasAnyRole('USER', 'COMPANYADMIN')")
-    public ResponseEntity<CompanyResponseDTO> getCompanyById(@PathVariable Integer id) {
+    @Cacheable(value = "CompanyResponseDTO", key = "#id")
+    public CompanyResponseDTO getCompanyById(@PathVariable Integer id) {
         Company company = companyService.findById(id);
                  
         if (company == null) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            return null;
         }
 
         List<CompanyAdministrator> companyAdministrators = companyService.findCompanyAdministratorsByCompanyId(company.getId());
         company.setCompanyAdministrators(companyAdministrators);
 
-        return new ResponseEntity<>(new CompanyResponseDTO(company), HttpStatus.OK);
+        return new CompanyResponseDTO(company);
     }
 
     @Operation(summary = "Register new company", description = "Registers new company", method = "POST")

@@ -1,5 +1,6 @@
 package com.isa2023team64.pharmacydeliverybe.dto;
 
+import java.io.Serializable;
 import java.time.LocalTime;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -15,7 +16,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
-public class CompanyResponseDTO {
+public class CompanyResponseDTO implements Serializable {
 
     private Integer id;
     private String name;
