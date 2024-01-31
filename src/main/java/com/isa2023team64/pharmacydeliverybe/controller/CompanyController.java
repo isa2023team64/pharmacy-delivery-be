@@ -98,6 +98,9 @@ public class CompanyController {
     @PreAuthorize("hasAnyRole('USER', 'COMPANYADMIN')")
     @Cacheable(value = "CompanyResponseDTO", key = "#id")
     public CompanyResponseDTO getCompanyById(@PathVariable Integer id) {
+        System.out.println("//////////////////////////////////////////////////////////");
+        System.out.println("called DB");
+        System.out.println("//////////////////////////////////////////////////////////");
         Company company = companyService.findById(id);
                  
         if (company == null) {
