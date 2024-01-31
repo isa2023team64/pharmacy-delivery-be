@@ -11,6 +11,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
+@AllArgsConstructor
 public class ReservationItemNoReservationResponseDTO {
  
     private int id;
@@ -19,12 +20,6 @@ public class ReservationItemNoReservationResponseDTO {
 
     public ReservationItemNoReservationResponseDTO(ReservationItem reservationItem){
         this(reservationItem.getId() ,reservationItem.getQuantity(), EquipmentDTOMapper.toResponseDTO(reservationItem.getEquipment()));
-    }
-    
-    public ReservationItemNoReservationResponseDTO(int id, int quantity, EquipmentResponseDTO equipment){
-        this.id = id;
-        this.quantity = quantity;
-        this.equipment = equipment;
     }
 
 

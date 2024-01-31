@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -44,6 +45,7 @@ public class RegisteredUserController {
                      array = @ArraySchema(schema = @Schema(implementation = RegisteredUser.class))))
     })
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+    @PreAuthorize("hasRole('SYSTEMADMIN')")
     public ResponseEntity<List<RegisteredUserResponseDTO>> getAll() {
         List<RegisteredUser> registeredUsers = registeredUserService.findAll();
 
@@ -62,6 +64,7 @@ public class RegisteredUserController {
                      schema = @Schema(implementation = RegisteredUser.class))),
         @ApiResponse(responseCode = "404", description = "Registered user not found.", content = @Content)
     })
+    @PreAuthorize("hasAnyRole('USER', 'SYSTEMADMIN', 'COMPANYADMIN')")
     @GetMapping(value = "/by-id/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<RegisteredUserResponseDTO> getRegisteredUserById(@PathVariable int id) {
         RegisteredUser registeredUser = registeredUserService.findById(id);
@@ -80,6 +83,7 @@ public class RegisteredUserController {
         @ApiResponse(responseCode = "404", description = "Registered user not found.", content = @Content)
     })
     @GetMapping(value = "/by-email/{email}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PreAuthorize("hasAnyRole('USER', 'SYSTEMADMIN', 'COMPANYADMIN')")
     public ResponseEntity<RegisteredUserResponseDTO> getRegisteredUserByEmail(@PathVariable String email) {
         RegisteredUser registeredUser = registeredUserService.findByEmail(email);
         if (registeredUser == null) {
@@ -102,10 +106,11 @@ public class RegisteredUserController {
                      schema = @Schema(implementation = String.class)))
     })
     @PutMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @PreAuthorize("hasRole('USER')")
     public ResponseEntity<?> update(@PathVariable int id, @RequestBody RegisteredUserUpdateDTO updatedUser) {
         try {
             RegisteredUser user = registeredUserService.update(id, updatedUser);
-            return new ResponseEntity<>(user, HttpStatus.OK);
+            return new ResponseEntity<>(new RegisteredUserResponseDTO(user), HttpStatus.OK);
         } catch (IllegalArgumentException exception) {
             return new ResponseEntity<>("Password and confirmation don't match.", HttpStatus.BAD_REQUEST);
         } catch (EntityNotFoundException exception) {
@@ -123,6 +128,7 @@ public class RegisteredUserController {
                      schema = @Schema(implementation = String.class)))
     })
     @PutMapping(value = "/penaltyPoints/{id}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @PreAuthorize("hasAnyRole('USER', 'SYSTEMADMIN')")
     public ResponseEntity<?> addPenaltyPoints(@PathVariable int id, @RequestBody boolean dayBefore) {
         try {
             RegisteredUser user = registeredUserService.addPenaltyPoints(id, dayBefore);

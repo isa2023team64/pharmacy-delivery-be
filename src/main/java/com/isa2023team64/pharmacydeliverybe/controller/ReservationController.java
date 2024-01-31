@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -61,6 +62,7 @@ public class ReservationController {
                      array = @ArraySchema(schema = @Schema(implementation = AppointmentResponseDTO.class))))
     })
     @PostMapping(value = "/regular", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PreAuthorize("hasRole('USER')")
     public ResponseEntity<RegularReservationResponseDTO> createRegular(@RequestBody RegularReservationRequestDTO dto) {
         try {
             RegularReservationResponseDTO responseDTO = reservationService.create(dto.getUserId(), dto.getAppointmentId(), dto.getEquipmentIds(), dto.getEquipmentQuantities());
@@ -81,6 +83,7 @@ public class ReservationController {
                      array = @ArraySchema(schema = @Schema(implementation = AppointmentResponseDTO.class))))
     })
     @PostMapping(value = "/extraordinary", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PreAuthorize("hasRole('USER')")
     public ResponseEntity<RegularReservationResponseDTO> createExtraordinary(@RequestBody ExtraordinaryReservationRequestDTO dto) {
         try {
             dto.getAppointment().setCompanyAdministratorId(-1);
@@ -104,6 +107,7 @@ public class ReservationController {
                      array = @ArraySchema(schema = @Schema(implementation = AppointmentResponseDTO.class))))
     })
     @GetMapping(value = "/user-appointments/{id}",produces = MediaType.APPLICATION_JSON_VALUE)
+    @PreAuthorize("hasRole('USER')")
     public ResponseEntity<List<AppointmentResponseDTO>> getUserAppointments(@PathVariable Integer id) {
         List<AppointmentResponseDTO> appointments = reservationService.findAllUserAppointments(id);
         return new ResponseEntity<>(appointments, HttpStatus.OK);
@@ -115,6 +119,7 @@ public class ReservationController {
                      content = @Content(mediaType = "application/json"))
     })
     @PatchMapping("/mark-as-taken/{id}")
+    @PreAuthorize("hasRole('COMPANYADMIN')")
     public ResponseEntity<Void> markAsTaken(@PathVariable Integer id) {
         try {
             reservationService.markReservationAsTaken(id);
@@ -135,6 +140,7 @@ public class ReservationController {
                      array = @ArraySchema(schema = @Schema(implementation = AppointmentResponseDTO.class))))
     })
     @GetMapping(value = "/by-company/{id}",produces = MediaType.APPLICATION_JSON_VALUE)
+    @PreAuthorize("hasRole('COMPANYADMIN')")
     public ResponseEntity<Collection<ReservationResponseDTO>> getReservationsByCompany(@PathVariable Integer id) {
         Collection<Reservation> reservations = reservationService.getPendingByCompanyId(id);
 
@@ -153,6 +159,7 @@ public class ReservationController {
                      array = @ArraySchema(schema = @Schema(implementation = RegisteredUserResponseDTO.class))))
     })
     @GetMapping(value = "/users-that-reserved-by-company/{id}",produces = MediaType.APPLICATION_JSON_VALUE)
+    @PreAuthorize("hasRole('COMPANYADMIN')")
     public ResponseEntity<Collection<RegisteredUserResponseDTO>> getUsersThatReserved(@PathVariable Integer id) {
         var users = reservationService.getUsersThanReserved();
 
@@ -171,6 +178,7 @@ public class ReservationController {
         @ApiResponse(responseCode = "400", description = "Invalid request.")
     })
     @DeleteMapping(value = "/deleteReservation/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PreAuthorize("hasRole('USER')")
     public ResponseEntity<Void> cancelExtraordinary(@PathVariable int id) {
         try {
             // Call the delete function to cancel the appointment and associated reservation
@@ -191,6 +199,7 @@ public class ReservationController {
                      array = @ArraySchema(schema = @Schema(implementation = RegisteredUserResponseDTO.class))))
     })
     @GetMapping(value = "/reservation-items-by-reservation-id/{id}",produces = MediaType.APPLICATION_JSON_VALUE)
+    @PreAuthorize("hasRole('COMPANYADMIN')")
     public ResponseEntity<Collection<ReservationItemNoReservationResponseDTO>> getReservationItemsByReservationId(@PathVariable Integer id) {
         var reservationItems = reservationItemQRService.findByReservationId(id);
 
@@ -210,10 +219,10 @@ public class ReservationController {
         @ApiResponse(responseCode = "404", description = "Reservation not found.")
     })
     @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PreAuthorize("hasAnyRole('USER', 'COMPANYADMIN')")
     public ResponseEntity<ReservationResponseDTO> getReservationById(@PathVariable Integer id) {
         try {
             Reservation reservation = reservationService.findById(id);
-            AppointmentResponseDTO appointmentDTO = new AppointmentResponseDTO();
             ReservationResponseDTO dto = new ReservationResponseDTO(reservation);
             return new ResponseEntity<>(dto, HttpStatus.OK);
         } catch (NoSuchElementException e) {

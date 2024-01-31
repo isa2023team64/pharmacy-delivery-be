@@ -1,5 +1,6 @@
 package com.isa2023team64.pharmacydeliverybe.dto;
 
+import java.io.Serializable;
 import java.sql.Timestamp;
 
 import com.isa2023team64.pharmacydeliverybe.model.CompanyAdministrator;
@@ -11,7 +12,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
-public class CompanyAdministratorResponseDTO extends CompanyAdministratorRequestDTO{
+public class CompanyAdministratorResponseDTO extends CompanyAdministratorRequestDTO implements Serializable {
     
     private Integer id;
     private String fullName;

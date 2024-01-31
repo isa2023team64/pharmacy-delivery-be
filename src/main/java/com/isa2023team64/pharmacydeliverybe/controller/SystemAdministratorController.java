@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -43,6 +44,7 @@ public class SystemAdministratorController {
                      array = @ArraySchema(schema = @Schema(implementation = SystemAdministrator.class))))
     })
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+    @PreAuthorize("hasRole('SYSTEMADMIN')")
     public ResponseEntity<List<SystemAdministratorResponseDTO>> getAll() {
         List<SystemAdministrator> systemAdministrators = systemAdministratorService.findAll();
 
@@ -62,6 +64,7 @@ public class SystemAdministratorController {
         @ApiResponse(responseCode = "404", description = "Registered user not found.", content = @Content)
     })
     @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PreAuthorize("hasRole('SYSTEMADMIN')")
     public ResponseEntity<SystemAdministratorResponseDTO> getCompanyAdministratorById(@PathVariable Integer id) {
         SystemAdministrator systemAdministrator = systemAdministratorService.findById(id);
 
@@ -80,6 +83,7 @@ public class SystemAdministratorController {
         @ApiResponse(responseCode = "404", description = "Registered user not found.", content = @Content)
     })
     @PutMapping(value = "/by-email", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PreAuthorize("hasRole('SYSTEMADMIN')")
     public ResponseEntity<SystemAdministratorResponseDTO> getCompanyAdministratorByEmail(@RequestBody String email) {
         SystemAdministrator systemAdministrator = systemAdministratorService.findByEmail(email);
 
@@ -96,6 +100,7 @@ public class SystemAdministratorController {
 				     content = { @Content(mediaType = "application/json", schema = @Schema(implementation = SystemAdministrator.class)) })
 	})
 	@PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @PreAuthorize("hasRole('SYSTEMADMIN')")
     public ResponseEntity<SystemAdministratorResponseDTO> registerSystemAdministrator(@RequestBody SystemAdministratorRequestDTO systemAdministratorRequestDTO) {
         SystemAdministrator systemAdministrator = new SystemAdministrator();
 

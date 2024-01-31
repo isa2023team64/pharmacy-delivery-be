@@ -5,7 +5,6 @@ import java.util.Collection;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.isa2023team64.pharmacydeliverybe.model.Coordinates;
 import com.isa2023team64.pharmacydeliverybe.model.Delivery;
 import com.isa2023team64.pharmacydeliverybe.repository.DeliveryRepository;
 import com.isa2023team64.pharmacydeliverybe.service.DeliveryService;

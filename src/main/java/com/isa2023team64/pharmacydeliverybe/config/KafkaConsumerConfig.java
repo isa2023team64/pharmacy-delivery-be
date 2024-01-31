@@ -14,11 +14,6 @@ import org.springframework.kafka.listener.ContainerProperties;
 import java.util.HashMap;
 import java.util.Map;
 
-/**
- * @author Febin Malik
- * @Mobile +91 9656668856
- * @Email codewithfebinmalik@gmail.com
- */
 
 @EnableKafka
 @Configuration

@@ -16,6 +16,7 @@ import com.isa2023team64.pharmacydeliverybe.dto.RegisteredUserUpdateDTO;
 import com.isa2023team64.pharmacydeliverybe.model.Hospital;
 import com.isa2023team64.pharmacydeliverybe.model.RegisteredUser;
 import com.isa2023team64.pharmacydeliverybe.model.Role;
+import com.isa2023team64.pharmacydeliverybe.repository.HospitalRepository;
 import com.isa2023team64.pharmacydeliverybe.repository.RegisteredUserRepository;
 import com.isa2023team64.pharmacydeliverybe.service.RegisteredUserService;
 import com.isa2023team64.pharmacydeliverybe.service.RoleService;
@@ -28,6 +29,9 @@ public class RegisteredUserServiceImplementation implements RegisteredUserServic
 
     @Autowired
     private RegisteredUserRepository registeredUserRepository;
+
+    @Autowired
+    private HospitalRepository hospitalRepository;
 
     @Autowired
 	private PasswordEncoder passwordEncoder;
@@ -98,7 +102,11 @@ public class RegisteredUserServiceImplementation implements RegisteredUserServic
         if(!updatedUser.getPassword().equals(updatedUser.getPasswordConfirmation())) {
             throw new IllegalArgumentException("Password and confirmation don't match.");
         }
-        user.setPassword(updatedUser.getPassword());
+
+        if (!updatedUser.getPassword().equals(user.getPassword())) {
+            user.setPassword(passwordEncoder.encode(updatedUser.getPassword()));
+        }
+
         user.setLastPasswordResetDate(new Timestamp(new Date().getTime()));
         user.setFirstName(updatedUser.getFirstName());
         user.setLastName(updatedUser.getLastName());
@@ -107,7 +115,9 @@ public class RegisteredUserServiceImplementation implements RegisteredUserServic
         user.setPhoneNumber(updatedUser.getPhoneNumber());
         user.setWorkplace(updatedUser.getWorkplace());
         user.setPenaltyPoints(updatedUser.getPenaltyPoints());
+        user.getHospital().setName(updatedUser.getCompanyName());
         registeredUserRepository.save(user);
+        hospitalRepository.save(user.getHospital());
 
         return user;
     }

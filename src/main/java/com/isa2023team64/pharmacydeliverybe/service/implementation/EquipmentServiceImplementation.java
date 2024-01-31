@@ -4,6 +4,9 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.isa2023team64.pharmacydeliverybe.model.Equipment;
 import com.isa2023team64.pharmacydeliverybe.model.Reservation;
@@ -11,7 +14,10 @@ import com.isa2023team64.pharmacydeliverybe.repository.EquipmentRepository;
 import com.isa2023team64.pharmacydeliverybe.repository.ReservationRepository;
 import com.isa2023team64.pharmacydeliverybe.service.EquipmentService;
 
+
+
 @Service
+// @Transactional(readOnly = true)
 public class EquipmentServiceImplementation implements EquipmentService {
 
     @Autowired
@@ -31,11 +37,13 @@ public class EquipmentServiceImplementation implements EquipmentService {
     }
 
     @Override
+	@Transactional(readOnly = false, propagation = Propagation.REQUIRES_NEW)
     public Equipment save(Equipment equipment) {
         return equipmentRepository.save(equipment);
     }
     
     @Override
+	@Transactional(readOnly = false, propagation = Propagation.REQUIRES_NEW)
     public Equipment update(Equipment equipment) {
         return equipmentRepository.save(equipment);
     }
@@ -46,6 +54,7 @@ public class EquipmentServiceImplementation implements EquipmentService {
     }
 
     @Override
+    // @Transactional(readOnly = false, propagation = Propagation.REQUIRES_NEW)
     public void delete(Equipment equipment) {
         var reservations = reservationRepository.findAll();
         for (Reservation reservation : reservations) {

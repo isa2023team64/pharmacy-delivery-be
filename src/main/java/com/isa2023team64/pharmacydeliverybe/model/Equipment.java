@@ -18,7 +18,7 @@ import lombok.Setter;
 @AllArgsConstructor
 public class Equipment extends GenericEntity {
     
-    @Column(unique = true, nullable = false)
+    @Column(unique = false, nullable = false)
     @NotEmpty
     private String name;
 
@@ -41,5 +41,9 @@ public class Equipment extends GenericEntity {
     @Column
     @NotNull
     private double averageRating;
+
+    // @org.springframework.data.annotation.Version
+    // @Column(name = "optlock", columnDefinition = "integer DEFAULT 0", nullable = false)
+    // private Integer version;
 
 }

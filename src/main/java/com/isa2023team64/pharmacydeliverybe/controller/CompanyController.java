@@ -2,9 +2,11 @@ package com.isa2023team64.pharmacydeliverybe.controller;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -50,6 +52,7 @@ import java.time.LocalTime;
 @Tag(name = "Company controller", description = "Company API")
 @RestController
 @RequestMapping(value = "api/companies")
+// @CrossOrigin(origins="http://localhost:4200")
 public class CompanyController {
 
     @Autowired
@@ -87,22 +90,24 @@ public class CompanyController {
     @Operation(summary = "Get company by id", description = "Gets company by id", method = "GET")
     @ApiResponses(value = {
         @ApiResponse(responseCode = "200", description = "Company fetched successfully.",
-                content = @Content(mediaType = "application/json",
-                schema = @Schema(implementation = Company.class))),
+        content = @Content(mediaType = "application/json",
+        schema = @Schema(implementation = Company.class))),
         @ApiResponse(responseCode = "404", description = "Company not found.", content = @Content)
     })
-    @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)   
-    public ResponseEntity<CompanyResponseDTO> getCompanyById(@PathVariable Integer id) {
+    @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PreAuthorize("hasAnyRole('USER', 'COMPANYADMIN')")
+    @Cacheable(value = "CompanyResponseDTO", key = "#id")
+    public CompanyResponseDTO getCompanyById(@PathVariable Integer id) {
         Company company = companyService.findById(id);
                  
         if (company == null) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            return null;
         }
 
         List<CompanyAdministrator> companyAdministrators = companyService.findCompanyAdministratorsByCompanyId(company.getId());
         company.setCompanyAdministrators(companyAdministrators);
 
-        return new ResponseEntity<>(new CompanyResponseDTO(company), HttpStatus.OK);
+        return new CompanyResponseDTO(company);
     }
 
     @Operation(summary = "Register new company", description = "Registers new company", method = "POST")
@@ -111,6 +116,7 @@ public class CompanyController {
 					     content = { @Content(mediaType = "application/json", schema = @Schema(implementation = Company.class)) })
 	})
 	@PostMapping(value = "/register", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @PreAuthorize("hasRole('SYSTEMADMIN')")
     public ResponseEntity<CompanyResponseDTO> registerCompany(@RequestBody CompanyRequestDTO companyRequestDTO) {
         Company company = new Company();
 
@@ -180,6 +186,7 @@ public class CompanyController {
 					     content = { @Content(mediaType = "application/json", schema = @Schema(implementation = Company.class)) })
 	})
     @PostMapping(value = "/admin/{id}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @PreAuthorize("hasRole('SYSTEMADMIN')")
     public ResponseEntity<CompanyResponseDTO> registerCompanyAdministrator(@PathVariable Integer id, @RequestBody CompanyAdministratorRequestDTO companyAdministratorRequestDTO) {
         
         Company company = companyService.findById(id);
@@ -214,6 +221,7 @@ public class CompanyController {
         @ApiResponse(responseCode = "404", description = "Company not found.", content = @Content)
 	})
 	@PutMapping(value = "update/{id}",consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @PreAuthorize("hasRole('COMPANYADMIN')")
     public ResponseEntity<CompanyInfoResponseDTO> updateCompanyInfo(@PathVariable Integer id, @RequestBody CompanyInfoRequestDTO companyRequestDTO) {
         Company company = companyService.findById(id);
 
@@ -248,6 +256,7 @@ public class CompanyController {
     }
 
     @GetMapping(value = "/{companyId}/equipment", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PreAuthorize("hasAnyRole('USER', 'COMPANYADMIN')")
     public ResponseEntity<List<EquipmentResponseDTO>> getCompanyEquipment(@PathVariable Integer companyId) {
 
         List<EquipmentResponseDTO> equipmentResponseDTOs = new ArrayList<>();
@@ -294,6 +303,7 @@ public class CompanyController {
     }
 
     @GetMapping(value = "/by-equipment/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PreAuthorize("hasRole('USER')")
     public ResponseEntity<PagedResult<CompanyInfoResponseDTO>> searchCompanyByEquipment(@PathVariable Integer id, @ModelAttribute CompanySearchFilterDTO filter) {
 
         PagedResult<CompanyInfoResponseDTO> companyPage = companyService.findCompaniesByEquipmentId(id, filter);
@@ -308,6 +318,7 @@ public class CompanyController {
                      array = @ArraySchema(schema = @Schema(implementation = Company.class))))
     })
     @GetMapping(value = "/no-company-administrators", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PreAuthorize("hasRole('SYSTEMADMIN')")
     public ResponseEntity<List<CompanyInfoResponseDTO>> getAllWithoutCompanyAdministrators() {
         List<Company> companies = companyService.findAll();
 
@@ -346,6 +357,7 @@ public class CompanyController {
         @ApiResponse(responseCode = "404", description = "Company not found.", content = @Content)
     })
     @PutMapping(value = "add-equipment", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @PreAuthorize("hasRole('COMPANYADMIN')")
     public ResponseEntity<AddEquipmentToCompanyDTO> addEquipmentToCompany(@RequestBody AddEquipmentToCompanyDTO dto) {
         Integer companyId = dto.getCompanyId();
         Integer equipmentId = dto.getEquipmentId();
@@ -363,6 +375,7 @@ public class CompanyController {
         @ApiResponse(responseCode = "404", description = "Company not found.", content = @Content)
     })
     @PutMapping(value = "remove-equipment", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @PreAuthorize("hasRole('COMPANYADMIN')")
     public ResponseEntity<AddEquipmentToCompanyDTO> deleteEquipmentFromCompany(@RequestBody AddEquipmentToCompanyDTO dto) {
         Integer companyId = dto.getCompanyId();
         Integer equipmentId = dto.getEquipmentId();
@@ -372,7 +385,4 @@ public class CompanyController {
         return new ResponseEntity<>(new AddEquipmentToCompanyDTO(companyId, equipmentId), HttpStatus.OK);
     }
 
-    // public ResponseEntity<AppointmentResponseDTO> scheduleAppointment(@RequestBody AppointmentRequestDTO appointmentRequestDTO) {
-        
-    // }
 }

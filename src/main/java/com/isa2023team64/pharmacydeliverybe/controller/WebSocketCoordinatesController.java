@@ -2,14 +2,12 @@ package com.isa2023team64.pharmacydeliverybe.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpMethod;
-import org.springframework.http.ResponseEntity;
 import org.springframework.messaging.handler.annotation.MessageMapping;
-import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.reactive.function.client.WebClient;
-import org.springframework.web.reactive.socket.WebSocketMessage;
 
 import java.util.List;
 import java.io.IOException;
@@ -31,6 +29,7 @@ public class WebSocketCoordinatesController {
 
     
     @MessageMapping("/delivery")
+    //@PreAuthorize("hasRole('SYSTEMADMIN')")
     public List<Coordinates> handleDelivery(String message){
 
         System.out.println("RADI WEBSOCKET " + message);

@@ -1,7 +1,9 @@
 package com.isa2023team64.pharmacydeliverybe.service.implementation;
 
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.Collection;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 
@@ -94,14 +96,29 @@ public class AppointmentServiceImplementation implements AppointmentService {
 	@Transactional(readOnly = false, propagation = Propagation.REQUIRES_NEW, isolation = Isolation.REPEATABLE_READ)
     public Appointment makeExtraordinaryAppointment(Appointment appointment)  {
         Company company = companyRepository.findById(appointment.getCompany().getId()).orElseThrow();
-        List<CompanyAdministrator> admins = companyAdministratorRepository.findAll();
-        CompanyAdministrator admin = admins.get(0);
-        for (var a : admins) {
-            if(a.getCompany().getId() == company.getId()) {
-                admin = a;
-                break;
-            }
+        // List<CompanyAdministrator> admins = companyAdministratorRepository.findAll();
+        // CompanyAdministrator admin = admins.get(0);
+        // for (var a : admins) {
+        //     if(a.getCompany().getId() == company.getId()) {
+        //         admin = a;
+        //         break;
+        //     }
+        // }
+
+        //Calls Repo Method with Lock
+
+        List<CompanyAdministrator> admins = companyAdministratorRepository
+                .findAvailableAdministratorsForCompany(company.getId());
+    
+        if (admins.isEmpty()) {
+            throw new IllegalStateException("No available company administrators found.");
         }
+    
+        // For simplicity, you can choose the first available administrator.
+        CompanyAdministrator admin = admins.get(0);
+
+
+
         appointment.setCompanyAdministrator(admin);
 
         return makeAppointment(appointment, AppointmentStatus.RESERVED);
@@ -160,5 +177,9 @@ public class AppointmentServiceImplementation implements AppointmentService {
         appointment.setStatus(AppointmentStatus.FREE);
         appointmentRepository.save(appointment);
     }  
-    
+
+    public static Date convertLocalDateTimeToDate(LocalDateTime localDateTime) {
+        ZoneId parisZone = ZoneId.of("Europe/Paris");
+        return Date.from(localDateTime.atZone(parisZone).toInstant());
+    }
 }
