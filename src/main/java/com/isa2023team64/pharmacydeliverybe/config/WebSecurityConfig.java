@@ -37,6 +37,7 @@ public class WebSecurityConfig {
     "/*/*.css",
     "/*/*.js",
     "/ws/**", "/ws",
+    "/actuator","/actuator/*",                                                    
     "/api/registration/**",
     "/api/companies",
     "/api/equipment",
@@ -64,6 +65,7 @@ public class WebSecurityConfig {
             .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
 
         return httpSecurity.build();
+
     }
     
 }

@@ -117,5 +117,26 @@ public class SystemAdministratorController {
         return new ResponseEntity<>(new SystemAdministratorResponseDTO(systemAdministrator), HttpStatus.CREATED);
     }
 
+    
+    @Operation(summary = "CPU Performance Test Monitoring", description = "Tests Use Case for CPU Performance Monitoring", method = "GET")
+	@ApiResponses(value = {
+		@ApiResponse(responseCode = "201", description = "Created",
+				     content = { @Content(mediaType = "application/json", schema = @Schema(implementation = SystemAdministrator.class)) })
+	})
+	@GetMapping(value = "/test/cpu", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Void> testCPUPerformance() {
+
+            try{
+                boolean condition = true;
+                while(condition){
+                    Integer a = 1;
+                    a += a;
+                }
+                return new ResponseEntity<>(HttpStatus.OK);
+            }catch(Exception e){
+                return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            }
+    }
+
 
 }
