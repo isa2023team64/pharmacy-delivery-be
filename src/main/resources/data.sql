@@ -145,8 +145,8 @@ INSERT INTO public.delivery(delivery_date, hospital_id, latitude, longitude, sta
 VALUES
 	('2024-01-25', 1, 10.0, 10.0, 0),
 	('2024-01-25', 1, 10.0, 10.0, 2),
-	('2024-01-31', 1, 10.0, 10.0, 0),
-	('2024-01-31', 1, 10.0, 10.0, 0);
+	('2024-02-02', 1, 10.0, 10.0, 0),
+	('2024-02-02', 1, 10.0, 10.0, 0);
 
 
 INSERT INTO public.reservation (appointment_id, status, user_id, qr_code) 
