@@ -16,6 +16,7 @@ import com.isa2023team64.pharmacydeliverybe.dto.RegisteredUserUpdateDTO;
 import com.isa2023team64.pharmacydeliverybe.model.Hospital;
 import com.isa2023team64.pharmacydeliverybe.model.RegisteredUser;
 import com.isa2023team64.pharmacydeliverybe.model.Role;
+import com.isa2023team64.pharmacydeliverybe.repository.HospitalRepository;
 import com.isa2023team64.pharmacydeliverybe.repository.RegisteredUserRepository;
 import com.isa2023team64.pharmacydeliverybe.service.RegisteredUserService;
 import com.isa2023team64.pharmacydeliverybe.service.RoleService;
@@ -28,6 +29,9 @@ public class RegisteredUserServiceImplementation implements RegisteredUserServic
 
     @Autowired
     private RegisteredUserRepository registeredUserRepository;
+
+    @Autowired
+    private HospitalRepository hospitalRepository;
 
     @Autowired
 	private PasswordEncoder passwordEncoder;
@@ -113,6 +117,7 @@ public class RegisteredUserServiceImplementation implements RegisteredUserServic
         user.setPenaltyPoints(updatedUser.getPenaltyPoints());
         user.getHospital().setName(updatedUser.getCompanyName());
         registeredUserRepository.save(user);
+        hospitalRepository.save(user.getHospital());
 
         return user;
     }

@@ -110,7 +110,7 @@ public class RegisteredUserController {
     public ResponseEntity<?> update(@PathVariable int id, @RequestBody RegisteredUserUpdateDTO updatedUser) {
         try {
             RegisteredUser user = registeredUserService.update(id, updatedUser);
-            return new ResponseEntity<>(user, HttpStatus.OK);
+            return new ResponseEntity<>(new RegisteredUserResponseDTO(user), HttpStatus.OK);
         } catch (IllegalArgumentException exception) {
             return new ResponseEntity<>("Password and confirmation don't match.", HttpStatus.BAD_REQUEST);
         } catch (EntityNotFoundException exception) {
